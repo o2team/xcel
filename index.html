@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <title>XCel - Excel 可视化过滤工具</title>
+  <meta name="keywords" content="xcel excel data-cleaning 数据清洗 过滤 aotu.io" />
+  <meta name="description" content="凹凸实验室出品-Excel 可视化过滤工具" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="ie-stand">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="x-dns-prefetch-control" content="on" />
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_lro3w4wshmcs1yvi.css">
+
+  <!-- global:css -->
+  
+<style>
+/*filename=gb.css*/
+@charset "UTF-8";
+
+
+/*===================
+  样式重置
+===================*/
+*{-webkit-tap-highlight-color:transparent;outline:0;margin:0;padding:0;vertical-align:baseline}body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;vertical-align:baseline}img{border:0 none;vertical-align:top}i,em{font-style:normal}ol,ul{list-style:none}input,select,button,h1,h2,h3,h4,h5,h6{font-size:100%;font-family:inherit}table{border-collapse:collapse;border-spacing:0}a{text-decoration:none}body{margin:0 auto;min-width:320px;height:100%;color:#000;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%!important;-ms-text-size-adjust:100%!important;text-size-adjust:100%!important}input[type="text"],textarea{-webkit-appearance:none;-moz-appearance:none;appearance:none}
+
+/*===================
+  公共样式区域
+===================*/
+</style>
+  <!-- endglobal -->
+  
+<style>
+/*filename=index.css*/
+@charset "UTF-8";
+.landing_page_header{position:fixed;top:0;left:0;right:0;height:80px;overflow:hidden;z-index:10;background-color:transparent;-webkit-transition:background-color .3s ease,height .6s ease;-moz-transition:background-color .3s ease,height .6s ease;transition:background-color .3s ease,height .6s ease}.landing_page_header.active{background-color:black}.landing_page_header.active .logo{border-color:#fff;color:#fff}.landing_page_header .container{position:relative;height:100%}.landing_page_header .logo{width:50px;height:50px;line-height:50px;text-align:center;font-size:1.6em;color:#666;border:1px solid;-moz-border-radius:50%;border-radius:50%;margin-top:14px;float:left;-webkit-transition:color,border-color .3s ease;-moz-transition:color,border-color .3s ease;transition:color,border-color .3s ease}.landing_page_header .menu{float:right;font-size:0}.landing_page_header .menu>a{display:inline-block;line-height:80px;margin-right:35px;font-size:13px;font-weight:700;color:#fff;opacity:.4;text-transform:uppercase;-webkit-transition:opacity .3s ease;-moz-transition:opacity .3s ease;transition:opacity .3s ease}.landing_page_header .menu>a.active,.landing_page_header .menu>a:hover{opacity:1}.landing_page_header .menu>a:last-child{margin-right:0}.landing_page_header .toggle_menu_btn{display:none;float:right;line-height:80px;opacity:.5;font-size:0;white-space:nowrap;cursor:pointer;-webkit-transition:opacity .3s ease;-moz-transition:opacity .3s ease;transition:opacity .3s ease}.landing_page_header .toggle_menu_btn:hover{opacity:1}.landing_page_header .toggle_menu_btn span{font-size:18px;margin-right:12px;color:#fff}.landing_page_header .toggle_menu_icon{display:inline-block;width:18px}.landing_page_header .toggle_menu_icon>div{height:2px;margin-bottom:3px;background-color:#fff}.landing_page_header .toggle_menu_icon>div:last-child{margin-bottom:0}@media only screen and (max-width:768px){.landing_page_header{background-color:black}.landing_page_header .container{max-width:420px}.landing_page_header .menu{visibility:hidden;width:0}.landing_page_header .toggle_menu_btn{display:block}.landing_page_header .menu>a{margin-right:0}.landing_page_header.show{height:100vh}.landing_page_header.show .logo,.landing_page_header.show .toggle_menu_btn{-webkit-transition:all .3s;-moz-transition:all .3s;transition:all .3s;position:absolute;bottom:0}.csscalc.cssvhunit .landing_page_header.show .logo,.csscalc.cssvhunit .landing_page_header.show .toggle_menu_btn{top:-webkit-calc(100vh - 80px);top:-moz-calc(100vh - 80px);top:calc(100vh - 80px)}.landing_page_header.show .toggle_menu_btn{display:block;right:0}.landing_page_header.show .menu{-webkit-transition:visibility 0s .3s;-moz-transition:visibility 0s .3s;transition:visibility 0s .3s;visibility:visible;width:auto;float:none;position:fixed;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}.landing_page_header.show .menu>a{display:block;line-height:1;padding:8px 5px;font-size:18px;text-align:center}}@media only screen and (max-width:480px){.landing_page_header .container{width:300px}}.home_sec{position:relative;height:100vh;min-height:668px;max-height:770px;background:#222 url(./images/banner-bg_776ab083.jpg) 0 0 no-repeat;-moz-background-size:cover;background-size:cover}.home_sec::before{content:"\20";position:absolute;top:0;bottom:0;left:0;right:0;background:-webkit-linear-gradient(top,rgba(0,0,0,0.5) 0,#000 100%);background:-moz-linear-gradient(top,rgba(0,0,0,0.5) 0,#000 100%);background:linear-gradient(to bottom,rgba(0,0,0,0.5) 0,#000 100%)}.home_sec .container{height:100%}.home_sec .app{position:absolute;bottom:0;width:400px;height:100%;padding-left:560px;background:url(./images/imac_5fb7cd50.png) 0 50% no-repeat;-moz-background-size:500px auto;background-size:500px auto}@media only screen and (max-width:768px){.home_sec .app{width:100%;padding-left:0;background:0;text-align:center}}.home_sec .app .intro{margin-top:250px}.home_sec .app .info h1{font-size:50px;line-height:40px;text-transform:uppercase;color:#fff}.home_sec .app .info p{font-size:20px;font-weight:400;line-height:48px;margin:10px 0 50px;color:#fff}.home_sec .app .link a{display:inline-block;-moz-border-radius:50%;border-radius:50%;width:60px;height:60px;margin-right:25px;vertical-align:top;text-align:center;background-color:rgba(255,255,255,0.1);-webkit-transition:background-color .3s ease;-moz-transition:background-color .3s ease;transition:background-color .3s ease}.home_sec .app .link a:first-child i{top:2px}.home_sec .app .link a:nth-child(2) i{top:-1px;left:1px}.home_sec .app .link a i{position:relative}.home_sec .app .link a .iconfont{line-height:60px;font-size:32px;color:#fff}@media only screen and (max-width:768px){.home_sec .app .link a{margin:0}.home_sec .app .link a:nth-child(2){margin:0 15px}}.home_sec .app .link a:hover{background-color:rgba(75,186,166,0.87)}.about_sec{padding:147px 0 80px;background-color:#f8f8f8}
+.about_text{padding:0 100px}@media only screen and (max-width:768px){.about_text{padding:0}}.download_sec{padding:98px 0 75px;background-color:#fff}.download_list{font-size:0}.download_list .d_item{display:inline-block;width:33.33333%;text-align:center;vertical-align:top}.download_list .d_item:first-child .d_icon{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAF0UExURQAAACeu2wkqND+7pjkWEzgWE+xbUA8sKLaGQx18nf+8XT+8pQ0kJQwqLf+8XTodEwtCTieu2xx+nvFcUP+9XRQiJkC7pRVBNy2FdTojFP++Xh18nBuFoy2GdrpHPreHQhYqK0HAqbqJRC+Kdyiw3u1bTzgWEz0tFqlBOe1bT/+8XUC9po8zLv+9XP/GYTmwmim25QksNjsXFP+9XCo1KJtvNf/AXrOEQf+8XexbUK9DO7xHP5uDIexbUK9DO6lBOSafyx+b0sqPTD6smxeAm4w5LcqaQraGQ7+SSP/GVr6LR/+7Xg8vKSaBdULHqySgzfdfUx2CpDkWEx18nTsXFCiw3vdfUzyynuxbT6pBOa9DO/SzWfS0WcqWSve3WjyynsCNRkC4oz2znh9ZTxQ7NT61oDimkyyAcY9pNP+8XcqUSL2LRD2znvS0WeJXTCam0T+7pf+8XSiu2+1bUCet2+paTz21oP26XCep0/SzWSao1Py5XZU7TowAAABsdFJOUwDwJcg+JfA+vL7IyAkgxiw165rLyRzrNXYUx3VRnLOEBdViUdT5GCiJ4vTRRMXRwPsnJt8RQcuL+PRjqj7fZ42+u6u8T0Snv0vGkNwwTqbA+bM/fjrX7d7nkWvx2q7Fqq125U0wz7qbQ+OxZqgRCq4AAAGASURBVFjDY2AgG5ikJCfGh5Ojk4dXXFkiPS01KQcISNcpq68oVgAEZTk5xBuATWcOUQYoiIr7Ssg6a2PRScAABVF+HiDlh1snTgPU+HWiIuWEI8KMgBztHEIARaernb2csKZqcXFxaV4eGytQjJsoAyT5daw0EDqhgFgDNKyFbS1RdCIbwEzYAEydJBqQlzfMDeAe+gaMRuNoShw5KbEYFwgAFeuKBYQAAwsOEBQCqlh82AkBhmEAOHGBQFGgrJc7BwHAUIQLGBgCDdArJAQY8nEBRiagAbq5hAABA/gG3ACKvSA14AYMfCBS7AWuAfcC16gBg8AAEcIGCJYAi68KClzAKyAjLeSoIlgCNKiKHBdAezi8Ai7SQg4qgkVw95BmALx3BnKPfyjIX+BSmVQDkMwJFhIFF+vVlWQYgAAe8m6e3lrA4r+cTAPAfWR1GyV5Jz5jsDmVZBgABZLqpkrysWbGFqjuIbkuleQ3zTbPMsuEmUNunSzJn6FknhAXEw0AaN/Y30BmCqkAAAAASUVORK5CYII=)}.download_list .d_item:nth-child(2) .d_icon{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAEgUExURQAAAKOjo5WVlejo6Pn5+f////7+/v///6urq93d3bm5udfX18bGxufn5/f3993d3f7+/ry8vPf398vLy6ampvb29qysrMjIyK+vr+vr65ubm8rKysDAwLe3t6ysrLq6up2dnfz8/JWVldPT056envj4+JOTk/Dw8NDQ0L29vZ6enpycnLa2tt7e3pmZmampqfT09LGxsdjY2LS0tNbW1re3t/z8/MHBwe/v766urunp6ePj4/Pz87CwsN3d3ampqby8vKioqKenp/b29vDw8JiYmKKiopycnJubm9zc3JOTk+fn56SkpOvr67u7u+rq6s3NzcfHx8XFxaenp+Li4r+/v6GhoeHh4ZeXl5SUlI2NjZCQkI+Pj5KSkpOTk5aWllqMEuIAAABZdFJOUwDi/DYRAwYEyl2qZZJDGlcJqBd+1h3Pjco98YqotMaw7w74d+kV/TKAyvL+yFr1ziO/cMBruxG1L9E2VSjDauC70NsgK/3t7fl090znOKU2jZyd8Euf+UvubLVHygAAAm5JREFUWMPFV9d2GjEQpTs00zHVNBsbcIBQktiOE3en97Yzkvz/f5FdwD7AamEkHjJvq6N7NTO6O3vX5aLGdfF3wefSjmj5juOdNkEywoEbvKpLsN8DYRgG/niuib8AwwqobOnl35viDQjqJTCe4Xl1Wwv/GsUsgR0tfPwNTvHY1ksg2pwmIFhYrwPnDx0s6V2BKzupQEBCE+96YhEglvy6Ku4BArif6r9Fz/7ejgeKEj448Xq/BGYPNd8U7fN6G40T76v16FS2g4g8XQ4mHxf7o6EbkTHEt2ej/ir4y88eQD7RDWOFUDBjnf1n3AU2kxNn0C1lnOBb3zww0+1kM2B1J3zkRuCGMb+859BTf2hx52Tz49lzgSwlPT8EBjEEHNrxgQQZbzG8sxF8VcIP88v4TAHJeN5s2JTtP6cnIN7HJAK4F2QCKEquoEhPgB0H7PjaLbkDov5JksBpk1wBVGQiCitUIP06vCAT8L1t58lHCdx1nny0CnKbEhz9bwLctISNm+hwjcdsUyHRCTaWsqhfr7IhlBrKkg91v8vpExHCK4wM6SLqp3aGiMJMNtBjH4p5hRIshuJyH+KXqMLAIRsMbFCD1cn7JauQF0KJgJ3ZvIxaCjBYJhgwpTa2r2yfho8qbZQZ55iKlgoym6PQBblzj3LqRWA6KZ1LZC2Ag8vaT9NuAhIBB5/3wUN5JdAddzSaMcJg4SK6wqqut2pSi7dgNuc3m4bXcsgL+NRqs23azYcqEEQ612q1cnNmF9fhzRxK5n+y4ObZ7kh+2m3fz19V0/IKRLg5JP2pd27au5VgbW7tajS87Fzsfj9Y3vwPhW/V0oQNLK8AAAAASUVORK5CYII=)}.download_list .d_item:last-child .d_icon{background-image:url(data:image/png;base64,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)}@media only screen and (max-width:768px){.download_list .d_item{width:100%;margin-bottom:50px}}.download_list .d_itop .d_icon{width:88px;height:88px;margin:0 auto 50px;background-color:#f4f4f4;background-repeat:no-repeat;background-position:center center;-moz-background-size:32px auto;background-size:32px auto;-moz-border-radius:50%;border-radius:50%}.download_list .d_ibtm a{cursor:pointer}.download_list .d_ibtm .download_64{display:inline-block;font-size:14px;color:#000;border:1px solid #818181;-moz-border-radius:4px;border-radius:4px;line-height:34px;padding:0 14px}.download_list .d_ibtm .download_32{display:inline-block;font-size:14px;margin-top:10px}.download_list .d_ibtm .download_32 a{border-bottom:1px dotted}.features_sec .main{padding:98px 0 75px;background-color:#fff}.features_sec .more{background-color:#f8f8f8;padding:98px 0 5px}.features_sec .more .sec_title{font-size:20px}.main_feature_list{font-size:0}.main_feature_list .mainf_item{display:inline-block;width:33.33333%;text-align:center;vertical-align:top}.main_feature_list .mainf_item:first-child .mainf_icon{background-image:url(https://athena.aotu.io/dist/images/1.png)}.main_feature_list .mainf_item:nth-child(2) .mainf_icon{background-image:url(https://athena.aotu.io/dist/images/2.png)}.main_feature_list .mainf_item:last-child .mainf_icon{background-image:url(https://athena.aotu.io/dist/images/3.png)}@media only screen and (max-width:768px){.main_feature_list .mainf_item{width:100%;margin-bottom:50px}}.main_feature_list .mainf_itop .mainf_icon{width:88px;height:88px;margin:0 auto 50px;background-color:#f4f4f4;background-repeat:no-repeat;background-position:center center;-moz-background-size:32px auto;background-size:32px auto;-moz-border-radius:50%;border-radius:50%}.main_feature_list .mainf_ibtm{padding:0 10px}.main_feature_list .mainf_ibtm .mainf_title h4{font-size:18px;margin-bottom:20px}.main_feature_list .mainf_ibtm .mainf_content p{font-size:13px;line-height:24px;padding:0 15px}.more .sec_title::after{margin-bottom:95px!important}.more_feature_list{font-size:0}.more_feature_list .moref_item{display:inline-block;-moz-box-sizing:border-box;box-sizing:border-box;padding:0 10px 70px 62px;width:50%;position:relative;vertical-align:top}@media only screen and (max-width:768px){.more_feature_list .moref_item{width:100%;padding:0 10px 70px;text-align:center}}.more_feature_list .moref_icon{position:absolute;left:20px;top:0;font-size:24px}.more_feature_list .moref_icon img{width:100%}@media only screen and (max-width:768px){.more_feature_list .moref_icon{position:static;display:block;width:24px;margin:0 auto 15px}}.more_feature_list .moref_title{font-size:18px;margin:2px 0 20px}.more_feature_list .moref_content{font-size:14px}@media only screen and (max-width:768px){.more_feature_list .moref_content{font-size:16px}}.subscribe_sec{background-color:#46a694}.subscribe_sec .container{text-align:center;min-height:400px;padding:4.5em 0 8.1em}.subscribe_sec h3.sec_title{font-size:18px;color:#fff;font-weight:300;line-height:40px;margin-bottom:10px}.subscribe_sec h3.sec_title:after{content:none}.subscribe_sec .qr_code{margin-bottom:25.6px;text-align:center}.subscribe_sec .slogan{color:#fff;margin-bottom:1.6em}.subscribe_sec .wechat{color:#fff}.subscribe_sec .wechat span{line-height:24px}.subscribe_sec .wechat img{width:24px}.landing_page_main .sec_title{font-size:24px;text-align:center;letter-spacing:1px;text-transform:uppercase}.landing_page_main .sec_title::after{content:'\20';display:block;width:100px;height:1px;margin:20px auto 45px;background-color:#25292c}@media only screen and (max-width:768px){.landing_page_main .sec_title{line-height:30px}}.landing_page_main .sec_text{padding:0 100px;margin:0 0 20px;color:#777}.landing_page_main .about_sec a,.landing_page_main .features_sec a{border-bottom:1px dotted}.landing_page_footer{background-color:#25292c}.landing_page_footer .container{text-align:center}.landing_page_footer .to_top{padding-top:40px;color:#fff;cursor:pointer;font-size:14px;position:relative;opacity:.5;-webkit-transition:opacity .3s ease;-moz-transition:opacity .3s ease;transition:opacity .3s ease}.landing_page_footer .to_top .iconfont{font-size:24px}.landing_page_footer .to_top p{font-size:inherit}.landing_page_footer .to_top:hover{opacity:1}.landing_page_footer .copyright_container{padding:4.5em 0 3.6em}.landing_page_footer .copyright{color:#c8c8c8;font-size:14px;font-weight:700;margin-top:6px;margin-bottom:0}
+.landing_page_footer .copyright a{color:#fff}.landing_page_footer .quotes{color:#777;margin-bottom:0}body,button,input,select,textarea{font:300 1em/1.8 "PingFang SC","Lantinghei SC","Microsoft Yahei","Hiragino Sans GB","Microsoft Sans Serif","WenQuanYi Micro Hei",sans}h1,h2,h3,h4,h5{font-weight:100}.container{max-width:960px;margin:0 auto;position:relative}a{color:#6180e9}p{margin-bottom:20px;line-height:26px}@media only screen and (max-width:768px){p{font-size:16px;line-height:22px}}@media only screen and (max-width:959px){.container{width:768px}}@media only screen and (max-width:768px){.container{width:420px}}@media only screen and (max-width:480px){.container{width:300px}}
+</style>
+  <script>
+    /*! modernizr 3.3.1 (Custom Build) | MIT *
+     * https://modernizr.com/download/?-csscalc-cssvhunit-setclasses !*/
+    !function(e,n,t){function s(e,n){return typeof e===n}function o(){var e,n,t,o,a,i,r;for(var l in d){if(d.hasOwnProperty(l)){if(e=[],n=d[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length)){for(t=0;t<n.options.aliases.length;t++){e.push(n.options.aliases[t].toLowerCase())}}for(o=s(n.fn,"function")?n.fn():n.fn,a=0;a<e.length;a++){i=e[a],r=i.split("."),1===r.length?Modernizr[r[0]]=o:(!Modernizr[r[0]]||Modernizr[r[0]] instanceof Boolean||(Modernizr[r[0]]=new Boolean(Modernizr[r[0]])),Modernizr[r[0]][r[1]]=o),f.push((o?"":"no-")+r.join("-"))}}}}function a(e){var n=p.className,t=Modernizr._config.classPrefix||"";if(u&&(n=n.baseVal),Modernizr._config.enableJSClass){var s=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(s,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),u?p.className.baseVal=n:p.className=n)}function i(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):u?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function r(){var e=n.body;return e||(e=i(u?"svg":"body"),e.fake=!0),e}function l(e,t,s,o){var a,l,f,d,c="modernizr",u=i("div"),h=r();if(parseInt(s,10)){for(;s--;){f=i("div"),f.id=o?o[s]:c+(s+1),u.appendChild(f)}}return a=i("style"),a.type="text/css",a.id="s"+c,(h.fake?h:u).appendChild(a),h.appendChild(u),a.styleSheet?a.styleSheet.cssText=e:a.appendChild(n.createTextNode(e)),u.id=c,h.fake&&(h.style.background="",h.style.overflow="hidden",d=p.style.overflow,p.style.overflow="hidden",p.appendChild(h)),l=t(u,e),h.fake?(h.parentNode.removeChild(h),p.style.overflow=d,p.offsetHeight):u.parentNode.removeChild(u),!!l}var f=[],d=[],c={_version:"3.3.1",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){d.push({name:e,fn:n,options:t})},addAsyncTest:function(e){d.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=c,Modernizr=new Modernizr;var p=n.documentElement,u="svg"===p.nodeName.toLowerCase(),h=c._config.usePrefixes?" -webkit- -moz- -o- -ms- ".split(" "):["",""];c._prefixes=h,Modernizr.addTest("csscalc",function(){var e="width:",n="calc(10px);",t=i("a");return t.style.cssText=e+h.join(n+e),!!t.style.length});var m=c.testStyles=l;m("#modernizr { height: 50vh; }",function(n){var t=parseInt(e.innerHeight/2,10),s=parseInt((e.getComputedStyle?getComputedStyle(n,null):n.currentStyle).height,10);Modernizr.addTest("cssvhunit",s==t)}),o(),a(f),delete c.addTest,delete c.addAsyncTest;for(var v=0;v<Modernizr._q.length;v++){Modernizr._q[v]()}e.Modernizr=Modernizr}(window,document);
+  </script>
+</head>
+<!-- 注：加ontouchstart使css：active生效 -->
+
+<body ontouchstart>
+
+  <!-- lp:landing_page -->
+
+  <div class="landing_page_header">
+    <div class="container">
+      <div class="logo">筛</div>
+      <div class="menu">
+        <a data-target="home" data-toggle="navigation" href="javascript:;" class="active">XCel首页</a>
+        <a data-target="about" data-toggle="navigation" href="javascript:;">关于</a>
+        <a data-target="download" data-toggle="navigation" href="javascript:;">下载试用</a>
+        <a data-target="features" data-toggle="navigation" href="javascript:;">特性</a>
+        <a data-target="subscribe" data-toggle="navigation" href="javascript:;">关于我们</a>
+      </div>
+      <div class="toggle_menu_btn">
+        <span>MENU</span>
+        <div class="toggle_menu_icon">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="landing_page_main">
+
+    <div class="home_sec" id="home">
+      <div class="container">
+        <div class="app">
+          <div class="intro">
+            <div class="info">
+              <h1>XCEL</h1>
+              <p>终极Excel数据筛选处理工具</p>
+            </div>
+            <div class="link">
+              <a href="https://github.com/JChehe/XCel" target="_blank" class="github">
+                <i class="iconfont icon-github"></i>
+              </a>
+              <a href="https://github.com/JChehe/XCel/issues" target="_blank" class="issue">
+                <i class="iconfont icon-icon"></i>
+              </a>
+              <a href="javascript:;" class="download" data-target="download" data-toggle="navigation">
+                <i class="iconfont icon-1501xiazai"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about_sec" id="about">
+      <div class="container">
+        <h2 class="sec_title">关于 XCEL</h2>
+        <p class="about_text">XCEL 是由京东用户体验设计部 <a href="https://aotu.io/" target="_blank">凹凸实验室</a> 推出的一个 Excel 数据清洗工具，其通过可视化的方式让用户轻松地对 Excel 数据进行筛选。整个数据筛选处理过程利用NodeJS强大的异步处理功能，让你彻底告别在Excel里面自己写宏函数的卡顿、没响应的原始方式！</p>
+      </div>
+    </div>
+
+    <div class="download_sec" id="download">
+      <div class="container">
+        <h2 class="sec_title">下载试用</h2>
+        <div class="download_list">
+
+          <div class="d_item">
+            <div class="d_itop">
+              <div class="d_icon"></div>
+            </div>
+            <div class="d_ibtm">
+              <div>
+                <a href="//jdc.jd.com/lab/xcel/xcel/XCel-win32-x64.zip" class="download_64" title="64 位 Windows Vista/7/8/10">立即下载</a>
+              </div>
+
+              <div class="download_32">
+                <a href='//jdc.jd.com/lab/xcel/xcel/XCel-win32-ia32.zip'>下载32bit版本</a>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="d_item">
+            <div class="d_itop">
+              <div class="d_icon"></div>
+            </div>
+            <div class="d_ibtm">
+              <div>
+                <a href="//jdc.jd.com/lab/xcel/xcel/XCel-darwin-x64.zip" class="download_64" title="OS X 10.10 或更高版本">立即下载</a>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="d_item">
+            <div class="d_itop">
+              <div class="d_icon"></div>
+            </div>
+            <div class="d_ibtm">
+              <div>
+                <a href="//jdc.jd.com/lab/xcel/xcel/XCel-linux-x64.zip" class="download_64" title="64位 Linux">立即下载</a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="features_sec" id="features">
+      <div class="main">
+        <div class="container">
+          <h2 class="sec_title">核心特性</h2>
+          <div class="main_feature_list">
+
+            <div class="mainf_item">
+              <div class="mainf_itop">
+                <div class="mainf_icon"></div>
+              </div>
+              <div class="mainf_ibtm">
+                <div class="mainf_title">
+                  <h4>原生应用</h4>
+                </div>
+                <div class="mainf_content">
+                  <p>基于 Electron 研发并打包成为原生应用，用户体验良好。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mainf_item">
+              <div class="mainf_itop">
+                <div class="mainf_icon"></div>
+              </div>
+              <div class="mainf_ibtm">
+                <div class="mainf_title">
+                  <h4>可视化</h4>
+                </div>
+                <div class="mainf_content">
+                  <p>可视化操作你的Excel数据，支持文件的导入导出。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mainf_item">
+              <div class="mainf_itop">
+                <div class="mainf_icon"></div>
+              </div>
+              <div class="mainf_ibtm">
+                <div class="mainf_title">
+                  <h4>强大的筛选逻辑</h4>
+                </div>
+                <div class="mainf_content">
+                  <p>提供了单列运算逻辑、多列运算逻辑和双列范围逻辑三种筛选方式，并且可通过“且”、“或”和“编组”的方式任意组合。</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="more">
+        <div class="container">
+          <h3 class="sec_title">更多特性</h3>
+          <div class="more_feature_list">
+
+            <div class="moref_item">
+              <i class="moref_icon iconfont icon-update"></i>
+              <h5 class="moref_title">自动更新</h5>
+              <p class="moref_content">提供应用的自动更新功能。「正在开发中..」</p>
+            </div>
+
+            <div class="moref_item">
+              <i class="moref_icon iconfont icon-4"></i>
+              <h5 class="moref_title">免费开源</h5>
+              <p class="moref_content">免费开源，欢迎提供 <a href="https://github.com/JChehe/XCel/issues/new" target="_blank">问题反馈</a> 和 <a href="https://github.com/JChehe/XCel/pulls" target="_blank">代码贡献</a></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subscribe_sec" id="subscribe">
+      <div class="container">
+        <h3 class="sec_title">关注我们</h3>
+        <p class="qr_code"><img src="https://aotu.io/img/qrcode.png" alt=""></p>
+        <p class="slogan">无折腾不为乐 - 我们爱生活，爱设计，爱技术，爱创作，喜欢闹腾。</p>
+        <div class="wechat">
+          <img src="https://aotu.io/img/logo-circle-120.png" alt="">
+          <span>微信号：AOTULabs</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="landing_page_footer">
+    <div class="container">
+      <div class="to_top">
+        <i class="iconfont icon-totop"></i>
+        <p>To the top</p>
+      </div>
+      <div class="copyright_container">
+        <p class="copyright">© <span class="date_year">2016</span> <a href="//aotu.io/" target="_blank">凹凸实验室</a></p>
+        <p class="quotes">" All roads lead to rome. "</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/jquery-2.2.4.min_b354cc9d.js"></script>
+
+  <!-- global:js -->
+  <!-- endglobal -->
+<script>
+"use strict";$(function(){var SCROLL_OFFSET=100,$window=$(window),$html=$(document.documentElement),$body=$(document.body),$lpHeader=$(".landing_page_header"),$lpHeader=$(".landing_page_header"),$toggleMenuBtn=$(".toggle_menu_btn"),lpHeaderHeight=$lpHeader.height(),scrollHandler=debounce(function(){if($body.scrollTop()>SCROLL_OFFSET){$lpHeader.addClass("active")}else{$lpHeader.removeClass("active")}},DEBOUNCE_WAIT),clickToggleBtnHandler=function(){if($html.hasClass("no-cssvhunit")){if($lpHeader.hasClass("show")){$lpHeader.removeClass("show");$lpHeader.height(lpHeaderHeight)}else{$lpHeader.addClass("show");$lpHeader.height(window.viewHeight)}}else{$lpHeader.toggleClass("show")}};$window.on("scroll",scrollHandler).trigger("scroll");$toggleMenuBtn.on("click",clickToggleBtnHandler)});$(function(){var $toTop=$(".to_top"),$body=$(document.body),$dateYear=$(".date_year"),initYear=function(){var curYear=new Date().getFullYear();$dateYear.text(curYear)},clickToTopHandler=function(event){$body.animate({scrollTop:0})};initYear();$toTop.on("click",clickToTopHandler)});window.secScrollTop={};window.viewWidth;window.viewHeight;window.MOBILE_WIDTH=768;window.DEBOUNCE_WAIT=100;$(function(){var navSelectorStr=".landing_page_header [data-toggle=navigation]",$window=$(window),$html=$(document.documentElement),$body=$(document.body),$targetNavSec=$(navSelectorStr),targetNavSecLength=$targetNavSec.length,$lpHeader=$(".landing_page_header"),$toggleMenuBtn=$(".toggle_menu_btn"),$homeSec=$(".home_sec"),headerHeight=$lpHeader.height(),getTarSecScrollTop=function(){for(var i=0,len=$targetNavSec.length;i<len;i++){var targetSecId=$targetNavSec.eq(i).data("target"),$targetSec=$("#"+targetSecId);window.secScrollTop[targetSecId]=$targetSec.offset().top}},getViewSize=function(){window.viewHeight=$window.height();window.viewWidth=$window.width()},setActiveNav=function(tagrtObj){$(tagrtObj).siblings().removeClass("active").end().addClass("active")},navClickHandler=function(){var targetId=$(this).data("target");setActiveNav(this);if(viewWidth<MOBILE_WIDTH){if($lpHeader.hasClass("show")){$toggleMenuBtn.trigger("click")}}$body.animate({scrollTop:window.secScrollTop[targetId]-headerHeight},300)},windowResizeHandler=debounce(function(){getViewSize();getTarSecScrollTop();compatibleHandler()},DEBOUNCE_WAIT),scrollHandler=debounce(function(){var bodyScrollTop=$body.scrollTop(),visibleOffset=viewHeight/3;if(bodyScrollTop<visibleOffset){setActiveNav($("[data-target=home]"))}else{for(var i=targetNavSecLength-1;i>0;i--){var targetSecId=$targetNavSec.eq(i).data("target"),targetSecScrollTop=window.secScrollTop[targetSecId];if(bodyScrollTop>targetSecScrollTop-visibleOffset){setActiveNav($("[data-target="+targetSecId+"]"));break}}}},DEBOUNCE_WAIT),compatibleHandler=function(){if($html.hasClass("no-cssvhunit")){$homeSec.height(viewHeight)}};$window.on("resize",windowResizeHandler).trigger("resize");$window.on("scroll",scrollHandler);$body.on("click",'[data-toggle="navigation"]',navClickHandler)});function debounce(func,wait,immediate){var timeout;return function(){var context=this,args=arguments;var later=function(){timeout=null;if(!immediate){func.apply(context,args)}};var callNow=immediate&&!timeout;clearTimeout(timeout);timeout=setTimeout(later,wait);if(callNow){func.apply(context,args)}}};
+</script>
+</body>
+
+</html>
