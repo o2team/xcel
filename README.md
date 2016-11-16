@@ -2,6 +2,10 @@
 
 > An ultimate excel data filter
 
+
+**落地页**：https://xcel.aotu.io/ （内含客户端下载链接）✨✨✨   
+**项目总结**：https://aotu.io/notes/2016/11/15/xcel/ ✨✨✨
+
 ## Build Setup
 
 ``` bash
