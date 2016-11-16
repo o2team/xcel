@@ -1,0 +1,221 @@
+@charset "UTF-8";
+.tabs {
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  line-height: 24px;
+  overflow: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.tabs a {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid #d3d6db;
+  color: #69707a;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: -1px;
+  padding: 6px 12px;
+  vertical-align: top;
+}
+
+.tabs a:hover {
+  border-bottom-color: #222324;
+  color: #222324;
+}
+
+.tabs li {
+  display: block;
+}
+
+.tabs li.is_active a {
+  border-bottom-color: #1fc8db;
+  color: #1fc8db;
+}
+
+.tabs ul {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-bottom: 1px solid #d3d6db;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.tabs ul.is_left {
+  padding-right: 10px;
+}
+
+.tabs ul.is_center {
+  -webkit-box-flex: 0;
+  -webkit-flex: none;
+      -ms-flex: none;
+          flex: none;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.tabs ul.is_right {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-left: 10px;
+}
+
+.tabs .icon:first-child {
+  margin-right: 8px;
+}
+
+.tabs .icon:last-child {
+  margin-left: 8px;
+}
+
+.tabs.is_centered ul {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.tabs.is_right ul {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.tabs.is_boxed a {
+  border: 1px solid transparent;
+  border-radius: 3px 3px 0 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+.tabs.is_boxed a:hover {
+  background-color: #f5f7fa;
+  border-bottom-color: #d3d6db;
+}
+
+.tabs.is_boxed li.is_active a {
+  background-color: #fff;
+  border-color: #d3d6db;
+  border-bottom-color: transparent !important;
+}
+
+.tabs.is_fullwidth li {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.tabs.is_toggle a {
+  border: 1px solid #d3d6db;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  position: relative;
+}
+
+.tabs.is_toggle a:hover {
+  background-color: #f5f7fa;
+  border-color: #aeb1b5;
+  z-index: 2;
+}
+
+.tabs.is_toggle li + li {
+  margin-left: -1px;
+}
+
+.tabs.is_toggle li:first-child a {
+  border-radius: 3px 0 0 3px;
+}
+
+.tabs.is_toggle li:last-child a {
+  border-radius: 0 3px 3px 0;
+}
+
+.tabs.is_toggle li.is_active a {
+  background-color: #1fc8db;
+  border-color: #1fc8db;
+  color: white;
+  z-index: 1;
+}
+
+.tabs.is_toggle ul {
+  border-bottom: none;
+}
+
+.tabs.is_small {
+  font-size: 11px;
+}
+
+.tabs.is_small a {
+  padding: 2px 8px;
+}
+
+.tabs.is_small.is_boxed a, .tabs.is_small.is_toggle a {
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
+
+.tabs.is_medium {
+  font-size: 18px;
+}
+
+.tabs.is_medium a {
+  padding: 10px 16px;
+}
+
+.tabs.is_medium.is_boxed a, .tabs.is_medium.is_toggle a {
+  padding-bottom: 9px;
+  padding-top: 9px;
+}
+
+.tabs.is_large {
+  font-size: 28px;
+}
+
+.tabs.is_large a {
+  padding: 14px 20px;
+}
+
+.tabs.is_large.is_boxed a, .tabs.is_large.is_toggle a {
+  padding-bottom: 13px;
+  padding-top: 13px;
+}

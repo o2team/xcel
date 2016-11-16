@@ -1,0 +1,47 @@
+@charset "UTF-8";
+.select{
+  position: relative;
+  display: inline-block;
+  width: 62px;
+
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid #D8D8D8;
+    width: 100%;
+    height: 26px;
+    line-height: 24px;
+    outline: none;
+    border-radius: 0;
+    background-color: transparent;
+    display: block;
+    text-align: center;
+    font-size: 0px;
+    option {
+      font-size: 12px;
+    }
+  }
+  &:after {
+    content: "\20";
+    position: absolute;
+    border: 5px solid transparent;
+    border-top-color: #000;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-2px);
+    pointer-events: none;
+  }
+  p{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size:12px;
+    line-height: 26px;
+    text-align: center;
+    pointer-events: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
