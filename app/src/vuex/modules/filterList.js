@@ -1,11 +1,13 @@
 import * as types from '../mutation-types'
 import * as ExcelSet from '../../utils/ExcelSet'
+import { getLocal, setLocal } from '../../utils/localStorageSet'
+import _ from 'lodash'
 import { ipcRenderer } from 'electron'
 
 const SUFFIX_COLKEYS = '_headers'
 
-let filterWay = JSON.parse(window.localStorage.filterWay)
-              ? JSON.parse(window.localStorage.filterWay) : 0
+let filterWay = getLocal('filterWay')
+                ? getLocal('filterWay') : 0
 
 const state = {
   filterTagList: {}, // 筛选条件列表
@@ -148,11 +150,11 @@ const mutations = {
 
   [types.SET_FILTER_WAY] (state, val) {
     state.filterWay = val
-    window.localStorage.setItem('filterWay', JSON.stringify(val))
+    setLocal('filterWay', val)
   },
 
   [types.TOGGLE_FILTER_PANEL_STATUS] (state, val) {
-    if(isBoolean(val)) {
+    if(_.isBoolean(val)) {
       state.isShowFillterPanel = val
     }else{
       state.isShowFillterPanel = !state.isShowFillterPanel
@@ -177,7 +179,4 @@ export default {
   mutations
 }
 
-function isBoolean(val) {
-  return val === true || val === false
-}
 

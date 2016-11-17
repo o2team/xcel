@@ -1,7 +1,20 @@
 import * as types from '../mutation-types'
+import { getLocal, setLocal } from '../../utils/localStorageSet'
+import _ from 'lodash'
 import { ipcRenderer } from 'electron'
 
-let uploadFiles = JSON.parse(window.localStorage.uploadFiles).length > 0 ? JSON.parse(window.localStorage.uploadFiles) : []
+
+
+let uploadFiles = (function initUploadFiles() {
+  let localUploadFiles = getLocal('uploadFiles')
+  if(_.isArray(localUploadFiles)) {
+    return localUploadFiles
+  } else {
+    return []
+  }
+})();
+console.log('uploadFiles', uploadFiles)
+
 const state = {
   fileList: uploadFiles, // 最近的excel文件列表（sidebar）
   allFileType: ['all', 'xls', 'xlsx'], 
@@ -12,7 +25,7 @@ const state = {
 
 const mutations = {
   [types.TOGGLE_SIDEBAR] (state, val) {
-    if(isBoolean(val) ){
+    if(_.isBoolean(val) ){
       state.isShowSideBar = val
     }else{
   	  state.isShowSideBar = !state.isShowSideBar
@@ -37,11 +50,11 @@ const mutations = {
     }else{
       state.fileList.unshift(val)
     }
-    window.localStorage.setItem('uploadFiles', JSON.stringify(state.fileList))
+    setLocal('uploadFiles', state.fileList)
   },
   [types.DEL_UPLOAD_FILES] (state, index) {
     state.fileList.splice(index, 1)
-    window.localStorage.setItem('uploadFiles', JSON.stringify(state.fileList))
+    setLocal('uploadFiles', state.fileList)
   },
   [types.SET_UPLOAD_STATUS] (state, val) {
     state.fileStatus = val
@@ -53,6 +66,3 @@ export default {
   mutations
 }
 
-function isBoolean(val) {
-  return val === true || val === false
-}
