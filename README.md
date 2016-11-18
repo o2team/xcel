@@ -61,8 +61,7 @@ npm run pack
 
 ## 初始化项目时可能会遇到的问题
 
-- 安装 electron 包太慢（国内情况）
-解决方法：
+- 安装 electron 包过慢（国内情况）的解决方法：
  - 临时方式：
  `DEBUG=* ELECTRON_MIRROR="https://npm.taobao.org/mirrors/electron/" npm install electron`    
 加入DEBUG=*是为了查看调试信息，确认下载源是否替换成功。
@@ -82,6 +81,8 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 
 如果你还遇到其他构建问题，欢迎反馈，我会及时更新到此处。
 
+## 最后
+欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
 
   [1]: https://aotu.io/
   [2]: https://jdc.jd.com/lab/xcel/xcel/XCel-darwin-x64.zip
