@@ -88,10 +88,10 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
   [3]: https://jdc.jd.com/lab/xcel/xcel/XCel-win32-x64.zip
   [4]: https://jdc.jd.com/lab/xcel/xcel/XCel-win32-ia32.zip
   [5]: https://jdc.jd.com/lab/xcel/xcel/XCel-linux-x64.zip
-  [6]: //misc.aotu.io/JChehe/2016-11-15-xcel/graphic1.png
-  [7]: //misc.aotu.io/JChehe/2016-11-15-xcel/graphic2.png
-  [8]: //misc.aotu.io/JChehe/2016-11-15-xcel/graphic3.png
-  [9]: //misc.aotu.io/JChehe/2016-11-15-xcel/graphic4.png
+  [6]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic1.png
+  [7]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic2.png
+  [8]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic3.png
+  [9]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic4.png
   [10]: https://github.com/SimulatedGREG/electron-vue
   [11]: https://simulatedgreg.gitbooks.io/electron-vue/content/index.html
   [12]: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/npm_scripts.html
