@@ -66,6 +66,30 @@ export function getColSelectType(state) {
 export function getColSelectVal(state) {
 	return state.filterList.colSelectVal
 }
+
+// 程序更新相关
+export function getUpdateDialogStatus(state) {
+	return state.clientUpdate.isShowUpdateDialog
+}
+export function getUpdateUrl(state) {
+	return state.clientUpdate.url
+}
+export function getUpdateVersion(state) {
+	return state.clientUpdate.version
+}
+export function getUpdateNotes(state) {
+	return state.clientUpdate.notes
+}
+export function getUpdatePubDate(state) {
+	return state.clientUpdate.pubDate
+}
+export function getKeepCurVersion(state) {
+	return state.clientUpdate.isKeepCurVersion
+}
+export function getHasNewStatus(state) {
+	return state.clientUpdate.isHasNew
+}
+
 // 其他
 export function getSideBarStatus(state) {
 	return state.fileList.isShowSideBar

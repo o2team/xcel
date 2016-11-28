@@ -2,15 +2,135 @@ const shortid = require('shortid')
 const xlsx = require('xlsx')
 const path = require('path')
 const electron = require('electron')
+const os = require('os')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const dialog = electron.dialog
 const ipcMain = electron.ipcMain
-let savePath = ''
-
+const shell = electron.shell
+let savePath = '',
+		downloadsPath = app.getPath('downloads'),
+		platform = os.platform() + '_' + os.arch(),
+		version = app.getVersion(),
+		updateWindow,
+		updateItem,
+		downloadsFullPath
+console.log(version)
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@')
 
 module.exports = function(mainWindow, backgroundWindow) {
+
+	ipcMain.on('will-download-handler', (ipcEvent, arg) => {
+		if(!updateWindow || updateWindow.isDestroyed()) {
+			updateWindow = createUpdateWindow()
+		}
+		if(!updateWindow.isDestroyed()) {
+			updateWindow.webContents.session.removeAllListeners()
+			updateWindow.webContents.session.on('will-download', (event, item, webContents) => {
+				updateItem = item
+				downloadsFullPath = downloadsPath + item.getFilename()
+				item.setSavePath(downloadsFullPath)
+				console.log('getTotalBytes', item.getTotalBytes())
+				item.on('updated', (event, state) => {
+					if(state === 'interrupted') {
+						console.log('Download is interrupted but can be resumed')
+					} else if (state === 'progressing') {
+						if(item.isPaused()) {
+							console.log('Download is paused')
+						} else {
+							console.log(`Received bytes: ${item.getReceivedBytes()}`)
+						}
+					}
+					if(!updateWindow.isDestroyed()) {
+						updateWindow.webContents.send('will-download-response', {
+							curReceivedBytes: item.getReceivedBytes(),
+							totalBytes: item.getTotalBytes(),
+							downloadStatus: state
+						})
+					}
+				})
+
+				item.once('done', (event, state) => {
+					if(state === 'completed') {
+						console.log('Download successfully')
+						if( !shell.openItem(downloadsFullPath) ){
+							shell.showItemInFolder(downloadsPath)
+						}
+						if(!updateWindow.isDestroyed()) {
+							updateWindow.close()
+						}
+					} else {
+						console.log(`Download failed: ${state}`)
+					}
+					item.removeAllListeners()
+					updateItem.removeAllListeners()
+					updateItem = null
+					item = null
+				})
+			})
+			if(process.env.NODE_ENV === 'development') {
+				updateWindow.webContents.downloadURL(arg.url)
+				console.log(arg.url)
+				// updateWindow.webContents.downloadURL('https://jdc.jd.com/lab/xcel/xcel/XCel-darwin-x64.zip')
+			} else {
+				// updateWindow.webContents.downloadURL()
+			}
+		}
+	})
+	function createUpdateWindow () {
+	  var win = new BrowserWindow({
+	    height: 160,
+	    width: 550,
+	    title: '下载最新版的XCel',
+	    backgroundColor: "#f5f5f5"
+	  })
+	  win.loadURL(`file://${__dirname}/dist/update/index.html`)
+	  win.once('closed', closeUpdateWindow)
+	  return win
+	}
+	function closeUpdateWindow (event) {
+		console.log(updateItem)
+		if(updateItem) {
+			updateItem.removeAllListeners()
+			updateItem.cancel() // cancel 后，DownloadItem 就是 null 了
+			updateItem = null
+		}
+	}
+	ipcMain.on('update-switch', (event, arg) => {
+		if(updateItem) {
+			let status = ''
+			if(updateItem.isPaused()) {
+				if(updateItem.canResume()) {
+					updateItem.resume()
+					status = '暂停'
+				}
+			} else {
+				updateItem.pause()
+					status = '继续'
+			}
+			event.sender.send('update-switch-response', {
+				text: status
+			})
+		}
+	})
+
+	ipcMain.on('update-cancel', (event, arg) => {
+		if(updateItem) {
+			updateItem.removeAllListeners()
+			updateItem.cancel()
+			updateWindow.close()
+			updateItem = null
+		}
+	})
+
+	ipcMain.on('update-checkout', (event, arg) => {
+		if(updateItem) {
+			updateItem.cancel()
+			shell.openExternal('https://xcel.aotu.io/')
+			updateWindow.close()
+			updateItem = null
+		}
+	})
 
 	ipcMain.on("readFile-response", (event, arg) => {
 		console.log("触发readFile-response")

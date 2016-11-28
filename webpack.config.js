@@ -69,6 +69,7 @@ let config = {
     new webpack.NoErrorsPlugin(),
     new CopyWebpackPlugin([
       {from: path.join(__dirname, 'app/src/background'), to: path.join(__dirname, "app/dist/background")},
+      {from: path.join(__dirname, 'app/src/update'), to: path.join(__dirname, "app/dist/update")}
     ])
   ],
   output: {

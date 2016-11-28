@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="./index.js"></script>
+		<link rel="stylesheet" href="./index.css">
+	</head>
+	<body>
+		<div id="download">
+			<!-- <h3>正在下载最新程序</h3> -->
+			<div class="download_container">
+				<div id="download_progress">
+					<div class="dprogress_bar">
+					</div>
+				</div>
+				<p class="download_detail"><span id="cur">0</span>MB/<span id="total">0</span>MB</p>
+			</div>
+			<div class="btn_group">
+				<button type="button" class="pause_btn">暂停</button>
+				<button type="button" class="cancel_btn">取消</button>
+			</div>
+		</div>
+		<script>
+			const electron = require('electron')
+			const ipcRenderer = electron.ipcRenderer
+			const shell = electron.shell
+
+			let $ = document.querySelector.bind(document)
+			let downloadProgress = $('#download_progress'),
+						cur = $('#cur'),
+						total = $('#total'),
+						dprogressBar = $('.dprogress_bar'),
+						checkoutSourceBtn = $('.checkout_source_btn'),
+						pauseBtn = $('.pause_btn'),
+						cancelBtn = $('.cancel_btn'),
+						willDownloadResponse = function(event, arg) {
+							let { curReceivedBytes, totalBytes, downloadStatus } = arg,
+							  	percentage = curReceivedBytes / totalBytes * 100 + '%'
+
+							cur.innerText = (curReceivedBytes / 1024 / 1024).toFixed(2)
+							total.innerText = (totalBytes / 1024 / 1024).toFixed(2)
+							dprogressBar.style.width = percentage
+						},
+						cancelBtnHandler = function() {
+							ipcRenderer.send('update-cancel')
+						},
+						pauseBtnHandler = function() {
+							ipcRenderer.send('update-switch')
+						},
+						togglePauseBtn = function(event, arg) {
+							pauseBtn.innerText = arg.text
+						}
+
+			ipcRenderer.on('will-download-response', willDownloadResponse)
+			ipcRenderer.on('update-switch-response', togglePauseBtn)
+			pauseBtn.addEventListener('click', pauseBtnHandler, false)
+			cancelBtn.addEventListener('click', cancelBtnHandler, false)
+		</script>
+	</body>
+</html>

@@ -63,7 +63,9 @@ export const toggleFilterPanelStatus = ({ dispatch },val) => {
 
 export const setColSelectDialogStatus = ({ dispatch }, val) => {
 	dispatch(types.SET_COL_SELECT_DIALOG_STATUS, val)
-	dispatch(types.TOGGLE_SIDEBAR, false)
+	if(val === true) {
+		dispatch(types.TOGGLE_SIDEBAR, false)
+	}
 }
 export const setColSelectType = ({ dispatch }, val) => {
 	dispatch(types.SET_COL_SELECT_TYPE, val)
@@ -84,4 +86,27 @@ export const toggleWindowMax = ({ dispatch }) => {
 }
 export const toggleWindowMini = ({ dispatch }) => {
 	dispatch(types.TOGGLE_WINDOW_MINI)
+}
+
+// 客户端更新
+export const toggleUpdateDialog = ({ dispatch }, val) => {
+	dispatch(types.TOGGLE_UPDATE_DIALOG, val)
+}
+export const setUpdateUrl = ({ dispatch }, val) => {
+	dispatch(types.SET_UPDATE_URL, val)
+}
+export const setUpdateVersion = ({ dispatch }, val) => {
+	dispatch(types.SET_UPDATE_VERSION, val)
+}
+export const setUpdateNotes = ({ dispatch }, val) => {
+	dispatch(types.SET_UPDATE_NOTES, val)
+}
+export const setUpdatePubDate = ({ dispatch }, val) => {
+	dispatch(types.SET_UPDATE_PUB_DATE, val)
+}
+export const setKeepVersionStatus = ({ dispatch }, val) => {
+	dispatch(types.SET_KEEP_VERSION_STATUS, val)
+}
+export const setHasNewStatus = ({ dispatch }, val) => {
+	dispatch(types.SET_HAS_NEW_STATUS, val)
 }

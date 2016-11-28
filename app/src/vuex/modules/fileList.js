@@ -13,7 +13,6 @@ let uploadFiles = (function initUploadFiles() {
     return []
   }
 })();
-console.log('uploadFiles', uploadFiles)
 
 const state = {
   fileList: uploadFiles, // 最近的excel文件列表（sidebar）
@@ -27,7 +26,7 @@ const mutations = {
   [types.TOGGLE_SIDEBAR] (state, val) {
     if(_.isBoolean(val) ){
       state.isShowSideBar = val
-    }else{
+    } else {
   	  state.isShowSideBar = !state.isShowSideBar
     }
 	},

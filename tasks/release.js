@@ -13,7 +13,7 @@ if (process.env.PLATFORM_TARGET === 'clean') {
  */
 function pack () {
   console.log('\x1b[33mBuilding webpack in production mode...\n\x1b[0m')
-  let pack = exec('npm run pack:electron-packager')
+  let pack = exec('npm run pack_ori:electron-packager')
 
   pack.stdout.on('data', data => console.log(data))
   pack.stderr.on('data', data => console.error(data))

@@ -2,7 +2,6 @@
 
 const path = require('path')
 const pkg = require('./app/package.json')
-
 let config = {
   // Name of electron app
   // Will be used in production builds

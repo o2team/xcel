@@ -1,6 +1,6 @@
 {
   "name": "xcel",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "An ultimate excel data filter",
   "scripts": {
     "build": "node tasks/release.js",
@@ -12,12 +12,13 @@
     "dev": "node tasks/runner.js",
     "postinstall": "cd app && npm install",
     "vue:route": "node tasks/vue/route.js",
-    "pack:electron-packager": "cross-env NODE_ENV=production webpack -p --progress --colors",
+    "pack_ori:electron-packager": "cross-env NODE_ENV=production webpack -p --progress --colors",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build -mwl"
   },
   "build": {
-    "appId": "ljc888",
+    "appId": "com.electron.xcel",
+    "copyright": "Copyright © 2016 AOTULabs",
     "mac": {
       "category": "public.app-category.utilities",
       "dmg": {
@@ -29,15 +30,15 @@
       }
     },
     "win": {
-      "remoteReleases": "https://github.com/JChehe/XCel",
-      "publish": [
-        "github",
-        "bintray"
-      ],
-      "icon": "build/icon.ico"
+      "iconUrl": "https://github.com/JChehe/XCel/blob/master/app/icons/icon.ico"
     },
     "squirrelWindows": {
       "iconUrl": "https://github.com/JChehe/XCel/blob/master/app/icons/icon.ico"
+    },
+    "nsis": {
+      "language": 2052,
+      "installerHeader": "build/installerHeader.bmp",
+      "installerHeaderIcon": "build/installerHeaderIcon.ico"
     }
   },
   "author": "AOTULabs <o2labs@qq.com>",
@@ -58,7 +59,7 @@
     "electron-builder": "^7.18.0",
     "electron-devtools-installer": "^1.1.4",
     "electron-packager": "^7.7.0",
-    "electron-prebuilt": "^1.4.3",
+    "electron-prebuilt": "^1.4.9",
     "electron-rebuild": "^1.1.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",

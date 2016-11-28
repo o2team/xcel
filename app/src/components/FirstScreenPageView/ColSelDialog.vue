@@ -1,5 +1,5 @@
 <template>
-	<div class="col_sel_modal" @keyup :class="{'active': colSelectDialogStatus}">
+	<div class="col_sel_modal" :class="{'active': colSelectDialogStatus}">
 		<div class="col_sel_dialog">
 			<div class="col_sel_dialog_header">
 				<div>
@@ -69,17 +69,6 @@ import { ipcRenderer } from 'electron'
 			actions: {
 				setColSelectDialogStatus
 			}
-		},
-		mounted(){
-			document.body.addEventListener('keyup', (event) => {
-				let keyCode = event.keyCode
-				if(keyCode === 27) {
-					this.closeDialog()
-				}
-				else if(keyCode === 13) {
-					this.submit()
-				}
-			}, false)
 		},
 		computed: {
 			selectedGroupStr() {

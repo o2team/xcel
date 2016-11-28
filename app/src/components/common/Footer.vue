@@ -1,3 +1,4 @@
+
 <template>
 	<footer class="footer">
 		<ul class="btn_group">
@@ -23,36 +24,49 @@
 				@click="toggleView">
 				<i class="fa fa-info"></i>
 			</li>
+			<li class="btn update_btn" title="检查更新"
+				@click="checkForUpdate"
+				:class="{active: isShowUpdateDialog}">
+				<i class="fa fa-cloud-download"></i>
+			</li>
 		</ul>
 		<div>
 			<p class="summary_info" v-show="hasFile">
 				筛选后数据为 <em>{{ curFilterTagListCount !== 0 ? curFilRowCount : curOriRowCount }}</em> 行，原始记录为 <em>{{ curOriRowCount }}</em> 行，共 <em>{{ curFilterTagListCount }}</em> 个{{ filterWay == 0 ? "保留" : "剔除"}}</span>条件
 			</p>
-			<img src="./assets/O2-icon.png" alt="O2_logo" @click="openAOTU">
+			<img src="./assets/O2-icon.png" alt="O2_logo" @click="openExternal('aotu')">
 		</div>
 	</footer>
 </template>
-
 <script>
-	import { shell } from 'electron'
+	import { remote } from 'electron'
+	import os from 'os'
 	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
+	import request from 'request'
+	import compareVersions from 'compare-versions'
+	import { openExternal } from '../../utils/openExternal'
+	import { appInfo } from '../../utils/appInfo'
 	import { 
 		getSideBarStatus,
 		getFilterPanelStatus,
 		getFilterWay,
 		getCurOriRowCount,
 		getCurFilRowCount,
-		getCurFilterTagListCount
+		getCurFilterTagListCount,
+		getKeepCurVersion,
+		getUpdateDialogStatus
 	} from '../../vuex/getters'
 	import { 
 		toggleSideBar,
 		toggleFilterPanelStatus,
 		setExcelData,
-		setUploadFiles
+		setUploadFiles,
+		toggleUpdateDialog, setUpdateUrl, setUpdateVersion, setUpdateNotes, setUpdatePubDate, setHasNewStatus,
+		setKeepVersionStatus
 	} from '../../vuex/actions'
 
-	const AOTU_URL = 'https://aotu.io/'
+	let firstTime = true
 	export default {
 		data(){
 			return {
@@ -66,13 +80,17 @@
 				filterWay: getFilterWay,
 				curOriRowCount: getCurOriRowCount,
 				curFilRowCount: getCurFilRowCount,
-				curFilterTagListCount: getCurFilterTagListCount
+				curFilterTagListCount: getCurFilterTagListCount,
+				isKeepCurVersion: getKeepCurVersion,
+				isShowUpdateDialog: getUpdateDialogStatus
 			},
 			actions: {
 				toggleSideBar,
 				toggleFilterPanelStatus,
 				setExcelData, 
-				setUploadFiles
+				setUploadFiles,
+				toggleUpdateDialog, setUpdateUrl, setUpdateVersion, setUpdateNotes, setUpdatePubDate, setHasNewStatus,
+				setKeepVersionStatus
 			}
 		},
 		computed: {
@@ -88,11 +106,13 @@
 				})
 				this.setUploadFiles(path)
 			})
+			if(!this.isKeepCurVersion && firstTime) {
+        this.checkUpdate(false)
+        firstTime = false
+      }
 		},
 		methods: {
-			openAOTU() {
-				shell.openExternal(AOTU_URL)
-			},
+			openExternal,
 			toggleView(){
 				let curRouteName = this.$route.name
 				if(curRouteName === 'instructions') {
@@ -112,7 +132,53 @@
 			},
 			handleFile(e) {
 				ipcRenderer.send('sync-openFile-dialog')
-			}
+			},
+			checkForUpdate() {
+				this.checkUpdate(true)
+				this.setKeepVersionStatus(false)
+			},
+			checkUpdate(isClick) {
+        let that = this
+        
+        request({
+          url: appInfo.updateUrl,
+          method: 'GET'
+        }, function(err, response, body) {
+          if(err) {
+            console.log(err)
+          }
+          try {
+          	let statusCode = response.statusCode
+          	if(statusCode === 200) {
+	            let res = JSON.parse(response.body)
+	            /**
+	             * -1即小于，表示当前版本比服务器上的版本还要新
+	             *  0即等于，表示已是最新版
+	             *  1即大于，表示有更新版本
+	             */
+	            let compareResult = compareVersions(appInfo.app_version, res.name)
+	            if(compareResult === -1) {
+	              that.toggleUpdateDialog(true)
+	              that.setUpdateUrl(res.url)
+	              that.setUpdateVersion(res.name)
+	              that.setUpdateNotes(res.notes)
+	              that.setUpdatePubDate(res.pub_date)
+	              that.setHasNewStatus(true)
+	            }
+          	} else if(statusCode === 204) {
+          		console.log('无新版本')
+          		if(isClick) {
+          			that.toggleUpdateDialog(true)
+          		} 
+              that.setHasNewStatus(false)
+
+          	}
+          } catch(e) {
+            console.log('version 解析失败')
+            console.log(e)
+          }
+        })
+      }
 		}
 	}
 </script>
@@ -136,7 +202,7 @@
 		height: 56px;
 		background-color: #262626;
 		position: relative;
-		z-index: 101;
+		z-index: 120;
 		>div{
 			flex-wrap: nowrap;
 			white-space: nowrap;
@@ -144,10 +210,7 @@
 		.btn_group{
 			font-size: 0;
 			display: flex;
-			justify-content: space-between;
-			min-width: 120px;
-			max-width: 150px;
-			width: 30%;
+			// justify-content: space-between;
 			margin-right: 20px;
 			li {
 				width: 24px;
@@ -162,11 +225,10 @@
 				text-align: center;
 				line-height: 24px;
 				position: relative;
+				margin-right: 15px;
 				cursor: pointer;
 				transition: color .2s;
-				&:not(:last-child) {
-					margin-right: 2.5%;
-				}
+				
 				&.active {
 					color: #fff;
 				}

@@ -2,18 +2,19 @@
 
 const electron = require('electron')
 const path = require('path')
-const menuTemplate = require("./menuTemplate")
-const ipcMainSets = require("./ipcMainSets")
-// const config = require('../config');
-
+const menuTemplate = require('./menuTemplate')
+const ipcMainSets = require('./ipcMainSets')
+const crashTempate = require('./crashTempate')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const Menu = electron.Menu
-let mainWindow
-let backgroundWindow
-var windowBounds = {}
 
+let mainWindow // 主窗口
+let backgroundWindow // 执行耗时运算的 背后窗口
+let updateWindow // 更新的下载窗口
+var windowBounds = {} // 主窗口的尺寸信息
 let config = {}
+
 if (process.env.NODE_ENV === 'development') {
   config = require('../config')
   config.mainUrl = `http://localhost:${config.port}`
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 config.backUrl = `file://${__dirname}/dist/background/index.html`
 config.isDev = process.env.NODE_ENV === 'development'
-console.log("主进程pid：", process.pid)
+
 
 function createMainWindow () {
   var win = new BrowserWindow({
@@ -74,6 +75,7 @@ function createBackgroundWindow () {
   return win
 }
 
+
 app.on('ready', () => {
   console.log("ready")
   mainWindow = createMainWindow()
@@ -99,3 +101,7 @@ app.on('activate', () => {
     backgroundWindow = createBackgroundWindow()
   }
 })
+
+crashTempate.start()
+
+console.log("主进程pid：", process.pid)
