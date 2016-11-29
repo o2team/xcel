@@ -171,7 +171,6 @@
           			that.toggleUpdateDialog(true)
           		} 
               that.setHasNewStatus(false)
-
           	}
           } catch(e) {
             console.log('version 解析失败')

@@ -4,9 +4,7 @@
 		<main :class="{isShowSideBar: sideBarStatus}">
 			<excel-display></excel-display>
 		</main>
-		<keep-alive>
-			<v-footer class="footer"></v-footer>
-		</keep-alive>
+		<v-footer class="footer"></v-footer>
 		<filter-panel id="filter-panel"></filter-panel>
 		<side-bar class="sibebar"></side-bar>
 		<col-sel-dialog></col-sel-dialog>

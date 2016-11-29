@@ -24,13 +24,9 @@
 <script> 
 	import { toggleSideBar, setFilterWay } from '../../vuex/actions'
 	import { getFilterWay } from '../../vuex/getters'
-	import WindowTop from './WindowTop'
 	import os from 'os'
 
 	export default {
-		components :{
-			WindowTop
-		},
 		data() {
 			return {
 				isShowNav: false,
