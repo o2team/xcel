@@ -15,7 +15,7 @@ let savePath = '',
 		updateWindow,
 		updateItem,
 		downloadsFullPath
-console.log(version)
+		
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@')
 
 module.exports = function(mainWindow, backgroundWindow) {
@@ -63,7 +63,6 @@ module.exports = function(mainWindow, backgroundWindow) {
 						console.log(`Download failed: ${state}`)
 					}
 					item.removeAllListeners()
-					updateItem.removeAllListeners()
 					updateItem = null
 					item = null
 				})
@@ -81,6 +80,8 @@ module.exports = function(mainWindow, backgroundWindow) {
 	  var win = new BrowserWindow({
 	    height: 160,
 	    width: 550,
+	    minWidth: 550,
+			minHeight: 160,
 	    title: '下载最新版的XCel',
 	    backgroundColor: "#f5f5f5"
 	  })

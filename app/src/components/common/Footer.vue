@@ -46,7 +46,7 @@
 	import request from 'request'
 	import compareVersions from 'compare-versions'
 	import { openExternal } from '../../utils/openExternal'
-	import { appInfo } from '../../utils/appInfo'
+	import { appInfo, getDownloadUrl } from '../../utils/appInfo'
 	import { 
 		getSideBarStatus,
 		getFilterPanelStatus,
@@ -139,7 +139,7 @@
 			},
 			checkUpdate(isClick) {
         let that = this
-        
+        console.log(appInfo.updateUrl)
         request({
           url: appInfo.updateUrl,
           method: 'GET'
@@ -158,8 +158,13 @@
 	             */
 	            let compareResult = compareVersions(appInfo.app_version, res.name)
 	            if(compareResult === -1) {
+	            	// 由于 github 对于国内用户下载速度太慢，所以要切换至国内
+	            	let downloadUrl = getDownloadUrl(res.name)
+	            	if(downloadUrl === undefined) {
+	            		downloadUrl = res.url
+	            	}
 	              that.toggleUpdateDialog(true)
-	              that.setUpdateUrl(res.url)
+	              that.setUpdateUrl(downloadUrl)
 	              that.setUpdateVersion(res.name)
 	              that.setUpdateNotes(res.notes)
 	              that.setUpdatePubDate(res.pub_date)

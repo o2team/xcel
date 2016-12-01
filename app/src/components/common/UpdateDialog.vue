@@ -118,7 +118,7 @@
 		left: 50%;
 		transform: translate(-50%, -80%);
 		width: 500px;
-		height: 320px;
+		height: 400px;
 		background-color: #fff;
 		box-shadow: 0 2px 4px rgba(0,0,0,.5);
 		display: flex;
@@ -149,9 +149,9 @@
 		&_content {
 			.has_new & {
 				display: flex;
-				max-height: 210px;
 			}
 			.no_new & {
+				padding: 15px 20px;
 				p {
 					margin-bottom: 10px;
 				}
@@ -159,8 +159,8 @@
 			
 			overflow: auto;
 			flex-grow: 1;
-			flex-shrink: 0;
-			padding: 15px 20px;
+			flex-shrink: 1;
+			padding: 0 20px;
 			position: relative;
 		}
 		&_footer {
