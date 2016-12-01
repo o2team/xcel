@@ -85,10 +85,10 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
 
   [1]: https://aotu.io/
-  [2]: https://jdc.jd.com/lab/xcel/xcel/XCel-darwin-x64.zip
-  [3]: https://jdc.jd.com/lab/xcel/xcel/XCel-win32-x64.zip
-  [4]: https://jdc.jd.com/lab/xcel/xcel/XCel-win32-ia32.zip
-  [5]: https://jdc.jd.com/lab/xcel/xcel/XCel-linux-x64.zip
+  [2]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel-1.3.0.dmg
+  [3]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel%20Setup%201.3.0.exe
+  [4]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel%20Setup%201.3.0-ia32.exe
+  [5]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel-1.3.0-linux-x64.zip
   [6]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic1.png
   [7]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic2.png
   [8]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic3.png
