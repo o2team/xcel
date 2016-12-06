@@ -84,15 +84,33 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 ## 最后
 欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
 
-  [1]: https://aotu.io/
+---
+
+## 一些有助于理解程序的图片
+
+1. Vue 组件结构
+  ![Vue 组件结构][13]
+2. Vuex 数据结构
+  ![Vuex 数据结构][14]
+3. 解析 Excel 后的数据结构（在 background process 中）
+  ![解析 Excel 后的数据结构][15]
+4. 项目的文件结构
+  ![项目的文件结构][16]
+
+
+[1]: https://aotu.io/
   [2]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel-1.3.0.dmg
   [3]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel%20Setup%201.3.0.exe
   [4]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel%20Setup%201.3.0-ia32.exe
   [5]: http://jdc.jd.com/lab/xcel/download/1.3.0/xcel-1.3.0-linux-x64.zip
-  [6]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic1.png
-  [7]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic2.png
-  [8]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic3.png
-  [9]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic4.png
+  [6]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic11.png
+  [7]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic22.png
+  [8]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic33.png
+  [9]: https://misc.aotu.io/JChehe/2016-11-15-xcel/graphic44.png
   [10]: https://github.com/SimulatedGREG/electron-vue
   [11]: https://simulatedgreg.gitbooks.io/electron-vue/content/index.html
   [12]: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/npm_scripts.html
+  [13]: https://misc.aotu.io/JChehe/2016-11-15-xcel/component-structure.jpg
+  [14]: https://misc.aotu.io/JChehe/2016-11-15-xcel/vuex-data-structure.jpg
+  [15]: https://misc.aotu.io/JChehe/2016-11-15-xcel/excel-data-analysis.jpg
+  [16]: https://misc.aotu.io/JChehe/2016-11-15-xcel/file-structure.jpg
