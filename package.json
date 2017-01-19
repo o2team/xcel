@@ -59,7 +59,6 @@
     "electron-builder": "^7.18.0",
     "electron-devtools-installer": "^1.1.4",
     "electron-packager": "^7.7.0",
-    "electron-prebuilt": "^1.4.9",
     "electron-rebuild": "^1.1.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
