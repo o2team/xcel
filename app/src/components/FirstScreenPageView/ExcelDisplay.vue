@@ -41,6 +41,7 @@
 	import fs from 'fs-extra'
 	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
+	import { isExcelFile } from '../../utils/ExcelSet'
 	import { getSheetNameList, getActiveSheet, getSideBarStatus, getFilterTagList, getFilterWay } from '../../vuex/getters'
 	import { setActiveSheet, setExcelData, setUploadFiles } from '../../vuex/actions'
 	import SheetOfExcel from './SheetOfExcel'
@@ -101,11 +102,20 @@
 			},
 			dropHandler(e){
 				let files = e.dataTransfer.files
-				this.setExcelData({
-					path: files[0].path,
-					type: 'node'
-				})
-				this.setUploadFiles(path)
+				let path = files[0].path
+
+				if(!isExcelFile(path)) {
+					this.dragleaveHandler(e)
+					ipcRenderer.send('sync-alert-dialog', {
+		        content: '不支持该文件格式'
+		      })
+				} else {
+					this.setExcelData({
+						path: path,
+						type: 'node'
+					})
+					this.setUploadFiles(path)
+				}
 			}			
 		}
 	}
@@ -176,6 +186,7 @@
 			line-height: 17px;
 			background-color: rgba(0,0,0, .15);
 			text-align: center;
+			pointer-events: none;
 			svg {
 				vertical-align: text-top;
 				margin-right: 10px;

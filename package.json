@@ -1,6 +1,6 @@
 {
   "name": "xcel",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "An ultimate excel data filter",
   "scripts": {
     "build": "node tasks/release.js",

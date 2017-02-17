@@ -1,5 +1,7 @@
 // 该文件存放 Excel 的相关方法
 
+import pathModule from 'path'
+
 // Excel 横向坐标的转换 1 <--> A
 /* 来自 http://www.cnblogs.com/lavezhang/archive/2012/05/14/2499000.html */ 
 
@@ -28,6 +30,14 @@ export function getNumCol(s) {
 
   return n
 }
+
+export function isExcelFile(filePath) {
+  let extname = pathModule.extname(filePath)
+  let regexp = /\.xlsx?$/ig
+
+  return extname.search(regexp) !== -1
+}
+
 
 export const colOperator = [{
     char: '+',

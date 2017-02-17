@@ -43,6 +43,7 @@
 	import os from 'os'
 	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
+	import { isExcelFile } from '../../utils/ExcelSet'
 	import request from 'request'
 	import compareVersions from 'compare-versions'
 	import { openExternal } from '../../utils/openExternal'
@@ -100,11 +101,17 @@
 		},
 		created() {
 			ipcRenderer.on('open-file-response', (event, path) => {
-				this.setExcelData({
-					path: path,
-					type: 'node'
-				})
-				this.setUploadFiles(path)
+				if(isExcelFile(path)) {
+					this.setExcelData({
+						path: path,
+						type: 'node'
+					})
+					this.setUploadFiles(path)
+				} else {
+					ipcRenderer.send('sync-alert-dialog', {
+		        content: '不支持该文件格式'
+		      })
+				}
 			})
 			if(!this.isKeepCurVersion && firstTime) {
         this.checkUpdate(false)

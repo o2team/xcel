@@ -19,6 +19,7 @@
 <script>
 	import xlsx from 'xlsx'
 	import fs from 'fs'
+	import { isExcelFile } from '../../utils/ExcelSet'
 	import { remote, ipcRenderer } from 'electron'
 	import { changeFileType, setExcelData ,setActiveSheet, setUploadFiles, delUploadFiles } from '../../vuex/actions'
 	import { getCurSearchVal, getUploadFiles } from '../../vuex/getters'
@@ -64,27 +65,34 @@
 				});
 			},
 			confirmRead(path, index){
-				remote.dialog.showMessageBox({
-					type: 'question',
-					buttons: ['确定', '取消'],
-					defaultId: 0,
-					title: 'XCel',
-					message: '导入该文件会覆盖目前的筛选结果，是否确认要导入？'
-				}, (btnIndex) => {
-					if(btnIndex === 0) {
-						fs.stat(path, (err, stats) => {
-							if(stats && stats.isFile()) {
-								this.setExcelData({
-									path: path,
-									type: 'node'
-								})
-								this.setUploadFiles(path)
-							}else{
-								this.confirmDel(index, '当前文件不存在，是否删除该记录？')
-							}
-						})
-					}
-				})
+				if(!isExcelFile(path)) {
+					ipcRenderer.send('sync-alert-dialog', {
+		        content: '不支持该文件格式'
+		      })
+		      this.confirmDel(index, '当前工具不支持该文件格式，是否删除该记录？')
+				} else {
+					remote.dialog.showMessageBox({
+						type: 'question',
+						buttons: ['确定', '取消'],
+						defaultId: 0,
+						title: 'XCel',
+						message: '导入该文件会覆盖目前的筛选结果，是否确认要导入？'
+					}, (btnIndex) => {
+						if(btnIndex === 0) {
+							fs.stat(path, (err, stats) => {
+								if(stats && stats.isFile()) {
+									this.setExcelData({
+										path: path,
+										type: 'node'
+									})
+									this.setUploadFiles(path)
+								}else{
+									this.confirmDel(index, '当前文件不存在，是否删除该记录？')
+								}
+							})
+						}
+					})
+				}
 			},
 			confirmDel(index, content) {
 				remote.dialog.showMessageBox({
