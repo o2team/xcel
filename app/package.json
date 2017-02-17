@@ -8,6 +8,7 @@
   "dependencies": {
     "compare-versions": "^3.0.0",
     "font-awesome": "^4.6.3",
+    "fs-extra": "^2.0.0",
     "lodash": "^4.17.2",
     "markdown": "^0.5.0",
     "moment": "^2.15.0",
