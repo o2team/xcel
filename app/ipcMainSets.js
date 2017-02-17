@@ -30,6 +30,7 @@ module.exports = function(mainWindow, backgroundWindow) {
 				updateItem = item
 				downloadsFullPath = downloadsPath + item.getFilename()
 				item.setSavePath(downloadsFullPath)
+				console.log(downloadsFullPath)
 				console.log('getTotalBytes', item.getTotalBytes())
 				item.on('updated', (event, state) => {
 					if(state === 'interrupted') {
@@ -67,12 +68,11 @@ module.exports = function(mainWindow, backgroundWindow) {
 					item = null
 				})
 			})
+			console.log('uodate.url', arg.url)
 			if(process.env.NODE_ENV === 'development') {
 				updateWindow.webContents.downloadURL(arg.url)
-				console.log(arg.url)
-				// updateWindow.webContents.downloadURL('https://jdc.jd.com/lab/xcel/xcel/XCel-darwin-x64.zip')
 			} else {
-				// updateWindow.webContents.downloadURL()
+				updateWindow.webContents.downloadURL(arg.url)
 			}
 		}
 	})

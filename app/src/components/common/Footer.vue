@@ -159,14 +159,18 @@
           	if(statusCode === 200) {
 	            let res = JSON.parse(response.body)
 	            /**
-	             * -1即小于，表示当前版本比服务器上的版本还要新
+	             *  1即小于，表示当前版本比服务器上的版本还要新
 	             *  0即等于，表示已是最新版
-	             *  1即大于，表示有更新版本
+	             *  -1即大于，表示有更新版本
 	             */
 	            let compareResult = compareVersions(appInfo.app_version, res.name)
+	            console.log('compareResult', compareResult)
+	            console.log('appInfo.app_version', appInfo.app_version)
+	            console.log('res.name', res.name)
 	            if(compareResult === -1) {
 	            	// 由于 github 对于国内用户下载速度太慢，所以要切换至国内
 	            	let downloadUrl = getDownloadUrl(res.name)
+	            	console.log(downloadUrl)
 	            	if(downloadUrl === undefined) {
 	            		downloadUrl = res.url
 	            	}
