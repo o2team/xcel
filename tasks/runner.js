@@ -38,7 +38,12 @@ function run (command, color, name) {
      *
      * NOTE: needs more testing for stability
      */
-    if (/VALID/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
+    /*if (/VALID/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
+      console.log(`${BLUE}Starting electron...\n${END}`)
+      run('cross-env NODE_ENV=development electron app/electron.js', BLUE, 'electron')
+      isElectronOpen = true
+    }*/
+    if (/Compiled/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
       console.log(`${BLUE}Starting electron...\n${END}`)
       run('cross-env NODE_ENV=development electron app/electron.js', BLUE, 'electron')
       isElectronOpen = true

@@ -102,7 +102,8 @@ let config = {
   },
   externals: [
     {
-        './cptable': 'var cptable'
+      './cptable': 'var cptable',
+      '../xlsx.js': 'var _XLSX'
     }
   ]
 }
