@@ -11,6 +11,7 @@
 								<option v-show="!curFilterTagListCount == 0" value="or">或</option>
 							</select>
 							<p class="val_mask">{{ getLogicOperatorWords(logicOperator) }}</p>
+						</span>
 					</td>
 					<td>
 						<p class="col_placeholder" @click="showColSelectDialog">
