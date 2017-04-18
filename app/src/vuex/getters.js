@@ -67,6 +67,11 @@ export function getColSelectVal(state) {
 	return state.filterList.colSelectVal
 }
 
+// 数据去重相关
+export function getUniqueCols(state) {
+	return state.unique.cols
+}
+
 // 程序更新相关
 export function getUpdateDialogStatus(state) {
 	return state.clientUpdate.isShowUpdateDialog

@@ -3,9 +3,8 @@
 		<div class="col_sel_dialog">
 			<div class="col_sel_dialog_header">
 				<div>
-						<svg width="22px" height="23px" viewBox="20 19 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-					    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
-					    <desc>Created with Sketch.</desc>
+					<svg width="22px" height="23px" viewBox="20 19 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+					    <desc>!</desc>
 					    <defs></defs>
 					    <text id="Info---simple-line-icons" stroke="none" fill="none" font-family="simple-line-icons" font-size="22" font-weight="normal">
 					        <tspan x="20" y="40" fill="#4285F4"></tspan>
@@ -15,6 +14,10 @@
 				</div>
 				<div class="selected_col_container">
 					<p>{{ selectedGroupStr }}</p>
+					<button v-show="curColCount > 0 && colSelectType === 3" class="invert_selection_btn" type="button" title="点击该按钮进行反选" 
+						@click="invertSelectionHandler">
+						{{ btnText }}
+					</button>
 				</div>
 			</div>
 			<div class="col_sel_dialog_content">
@@ -29,7 +32,10 @@
 				</ul>
 			</div>
 			<div class="col_sel_dialog_footer">
-				<div>
+				<div v-if="curColCount === 0">
+					<button type="button" @click="closeDialog" style="font-size: 16px">确定</button>
+				</div>
+				<div v-else>
 					<button type="button" @click="closeDialog">
 						<svg width="28px" height="14px" viewBox="5 5 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 						    <defs></defs>
@@ -75,6 +81,12 @@ import { ipcRenderer } from 'electron'
 				return this.selectedGroup.map((item, index) => {
 					return this.getCharCol(item)
 				}).join('、')
+			},
+			btnText() {
+				let selectedGroupLength = this.selectedGroup.length
+				if(selectedGroupLength === 0) return '全选'
+				else if(selectedGroupLength === this.curColCount) return '全不选'
+				else return '反选'
 			}
 		},
 		methods: {
@@ -85,14 +97,14 @@ import { ipcRenderer } from 'electron'
 			},
 			submit() {
 				let colSelectType = this.colSelectType,
-						colSelectGroup = this.selectedGroup,
-						colSelectLen = colSelectGroup.length,
-						eventBus = window.eventBus,
-						warmStr = ''
+					colSelectGroup = this.selectedGroup,
+					colSelectLen = colSelectGroup.length,
+					eventBus = window.eventBus,
+					warmStr = ''
 				if(this.curColCount === 0) {
 					ipcRenderer.send('sync-alert-dialog', {
-		        content: 'Excel文件未上传或未含有列'
-		      })
+						content: 'Excel文件未上传或未含有列'
+					})
 					return
 				}
 				if(colSelectType === 0) {
@@ -113,6 +125,12 @@ import { ipcRenderer } from 'electron'
 					}else {
 						eventBus.$emit('colSelVal4Double', colSelectGroup)
 					}
+				}else if(colSelectType === 3) {
+					if(colSelectLen === 0) {
+						warmStr = "多列去重逻辑至少选择一列"
+					} else {
+						eventBus.$emit('colSelVal4Remove', colSelectGroup)
+					}
 				}
 
 				if(warmStr.length === 0) {
@@ -120,16 +138,17 @@ import { ipcRenderer } from 'electron'
 					this.setColSelectDialogStatus(false)
 				}else {
 					ipcRenderer.send('sync-alert-dialog', {
-		        content: warmStr
-		      })
+						content: warmStr
+					})
 				}
 			},
 			toggleSelect(index) {
 				let selectedGroup = this.selectedGroup,
 						colSelectType = this.colSelectType
+				console.log('colSelectType', colSelectType)
 				if(colSelectType === 0) {
 					selectedGroup.splice(0, 1, index)
-				}else if(colSelectType === 1) {
+				}else if(colSelectType === 1 || colSelectType === 3) {
 					if(selectedGroup.includes(index)) {
 						let i = selectedGroup.indexOf(index)
 						selectedGroup.splice(i, 1)
@@ -146,6 +165,27 @@ import { ipcRenderer } from 'electron'
 						}	
 					}
 				}
+			},
+			invertSelectionHandler() {
+				let selectedGroup = this.selectedGroup,
+					curColKeys = this.curColKeys,
+					tempSelectedGroup = []
+				console.log('selectGroup', selectedGroup)
+				if(selectedGroup.length === 0) {
+					for(let i = 0; i < this.curColCount; i++) {
+						this.selectedGroup.push(i+1)
+					}
+				} else {
+					
+					for(let i = 0; i < this.curColCount; i++) {
+						if(selectedGroup.indexOf(i+1) === -1) {
+							tempSelectedGroup.push(i+1)
+						}
+					}
+
+					this.selectedGroup = tempSelectedGroup
+				}
+				
 			}
 		}
 	}
@@ -170,6 +210,21 @@ import { ipcRenderer } from 'electron'
 	}
 	.selected_col_container {
 		color: #fff;
+		display: flex;
+		align-items: center;
+
+		.invert_selection_btn {
+			margin-left: 15px;
+			background-color: #4285F4;
+			color: #fff;
+			line-height: 26px;
+			width: 66px;
+			border: 0;
+			padding: 0;
+			border-radius: 13px;
+			outline: 0;
+			cursor: pointer;
+		}
 	}
 	.col_sel_dialog {
 		position: absolute;

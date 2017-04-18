@@ -107,7 +107,11 @@ const mutations = {
           logicOperator: filter.logicOperator,
           filters: [filter]
         }
-        curTagList.push(filterObj)
+        if(filter.filterType === 3) {
+          curTagList.unshift(filterObj)
+        } else {
+          curTagList.push(filterObj)
+        }
       }
 
 	  	state.filterTagList = tempTagList
@@ -120,16 +124,18 @@ const mutations = {
     }
   },
 
-  [types.DEL_FILTER] (state, index) {
+  [types.DEL_FILTER] (state, args) {
     let curSheetName = state.activeSheet.name,
-		    tempTagList = Object.assign({}, state.filterTagList)
+		    tempTagList = Object.assign({}, state.filterTagList),
+        index = args.index,
+        curUniqueCols = arg.curUniqueCols
 
     tempTagList[curSheetName].splice(index, 1)
   	state.filterTagList = tempTagList
 
   	// 然后进行具体的过滤操作
   	let len = state.filterTagList[curSheetName].length
-    if(len < 1) {
+    if(len === 0 && curUniqueCols.length === 0) {
       ipcRenderer.send('delAllFilterTag-start', {
         curActiveSheetName: curSheetName
       })

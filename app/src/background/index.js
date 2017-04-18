@@ -40,6 +40,11 @@ window.addEventListener('load', (event) => {
     })
 
     console.log('colKeys', colKeys)
+    // console.info('curSheetData', curSheetData);
+    for(var i = 0; i < curSheetData.length; i++) {
+      console.log(curSheetData[i])
+    }
+    
     ipcRenderer.send('generate-htmlstring-response', {
       sheetHTML: generateHTMLString({
         sheetData: curSheetData,
@@ -115,13 +120,15 @@ window.addEventListener('load', (event) => {
 }, false)
 
 function filterHandler(arg){
-  let { filterTagList, filterWay } = arg,
+  let { filterTagList, filterWay, uniqueCols } = arg,
       tempFilteredData = Object.assign({}, excelData)
   for(let i = 0, len = excelData.sheetNameList.length; i < len; i++) {
     let curSheetName = excelData.sheetNameList[i],
         curFilterTagList = filterTagList[curSheetName],
-        colKeys = excelData[curSheetName + SUFFIX_COLKEYS]
-
+        colKeys = excelData[curSheetName + SUFFIX_COLKEYS],
+        curUniqueCols = uniqueCols[curSheetName]
+    console.log('curSheetName', curSheetName)
+    console.log('curFilterTagList', curFilterTagList.length)
     if(curFilterTagList.length !== 0){
       tempFilteredData[curSheetName] = tempFilteredData[curSheetName].filter((row, index) => {
         let rowExpStr = ''
@@ -171,6 +178,32 @@ function filterHandler(arg){
         return filterWay == 0 ? rowResult : !rowResult
       })
     }
+    console.log('uniqueCols', uniqueCols)
+    if(curUniqueCols.length !== 0) {
+      let curUniqueColKeys = curUniqueCols.map((item) => {
+        return colKeys[item]
+      })
+      console.log('curUniqueColKeys', curUniqueColKeys)
+      tempFilteredData[curSheetName] = uniqBy(tempFilteredData[curSheetName], curUniqueColKeys)
+    }
   }
   return tempFilteredData
+}
+
+
+function uniqBy(arr, selectedColKeys) {
+  let seen = {}
+  return arr.filter((item) => {
+    let k = key(item, selectedColKeys)
+    return seen.hasOwnProperty(k) ? false : (seen[k] = true)
+  })
+}
+
+function key (item, selectedColKeys) {
+  let filterItem = {}
+  for(var i = 0, len = selectedColKeys.length; i < len; i++) {
+    let key = selectedColKeys[i]
+    filterItem[key] = item[key]
+  }
+  return JSON.stringify(filterItem)
 }

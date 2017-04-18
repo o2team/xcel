@@ -2,7 +2,9 @@
 	<div class="filter_panel" v-show="filterPanelStatus">
 		<div class="filter_tag_container">
 			<filter-tag-list class="filter_tag_list"></filter-tag-list>
-			<button class="submit_btn btn" title="点击筛选并导出文件" 
+			<button 
+				class="submit_btn btn" 
+				title="点击筛选并导出文件" 
 				@click="filterHandler">
 				<svg width="18px" height="15px" viewBox="23 25 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 				    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
@@ -19,6 +21,7 @@
 				<filter-form-single-logic></filter-form-single-logic>
 				<filter-form-multi-calc></filter-form-multi-calc>
 				<filter-form-double-cols-range></filter-form-double-cols-range>
+				<filter-for-unique></filter-for-unique>
 			</div>
 		</div>
 	</div>
@@ -30,7 +33,8 @@
 	import FilterFormSingleLogic from './FilterFormSingleLogic'
 	import FilterFormMultiCalc from './FilterFormMultiCalc'
 	import FilterFormDoubleColsRange from './FilterFormDoubleColsRange'
-	import { getFilterTagList, getFilterPanelStatus, getCurFilterTagListCount, getFilterWay, getFileStatus, getActiveSheet } from '../../vuex/getters'
+	import FilterForUnique from './FilterForUnique'
+	import { getFilterTagList, getFilterPanelStatus, getCurFilterTagListCount, getFilterWay, getFileStatus, getActiveSheet, getUniqueCols } from '../../vuex/getters'
 	import { setFilteredData, setFileStatus } from '../../vuex/actions'
 	import { ipcRenderer } from 'electron'
 	export default{
@@ -38,7 +42,8 @@
 			FilterTagList,
 			FilterFormSingleLogic,
 			FilterFormMultiCalc,
-			FilterFormDoubleColsRange
+			FilterFormDoubleColsRange,
+			FilterForUnique
 		},
 		data() {
 			return {
@@ -56,7 +61,8 @@
 				filterWay: getFilterWay,
 				fileStatus: getFileStatus,
 				curFilterTagListCount: getCurFilterTagListCount,
-				activeSheet: getActiveSheet
+				activeSheet: getActiveSheet,
+				uniqueCols: getUniqueCols
 			},
 			actions: {
 				setFilteredData,
@@ -84,11 +90,8 @@
 	    })
 		},
 		methods: {
-			submit(){
-				if(filterVal.tirm().length === 0) return false
-			},
 			filterHandler(){
-				if(this.curFilterTagListCount === 0) {
+				if(this.curFilterTagListCount === 0 && this.uniqueCols.length === 0) {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: '请先添加筛选条件'
 					})
@@ -97,7 +100,8 @@
 					ipcRenderer.send('filter-start', {
 			      filterTagList: this.filterTagList,
 			      filterWay: this.filterWay,
-			      curActiveSheetName: this.activeSheet.name
+			      curActiveSheetName: this.activeSheet.name,
+						uniqueCols: this.uniqueCols
 			    })
 				}
 			}
@@ -160,13 +164,17 @@
 			}
 		}
 	}
-
+	.filter_form_group table tr {
+		display: flex;
+		// justify-content: space-between;
+		align-items: center;
+	  height: 54px;
+	}
 	.filter_form_group table tr td{
 	  color: #000;
 	  font-size: 12px;
-	  height: 54px;
 		color: #2B3244;
-
+		flex-grow: 0;
 	  .val_mask {
 	  	color: #2B3244;
 	  }
@@ -207,6 +215,7 @@
 	    }
 	  }
 	  &:last-child {
+			flex-grow: 1;
 	    button{
 	      background-color: #4285F4;
 	      font-size: 12px;

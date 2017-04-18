@@ -16,6 +16,12 @@ export const SET_COL_SELECT_DIALOG_STATUS = 'SET_COL_SELECT_DIALOG_STATUS'
 export const SET_COL_SELECT_TYPE = 'SET_COL_SELECT_TYPE'
 export const SET_COL_SELECT_VAL = 'SET_COL_SELECT_VAL'
 
+// 去重 Excel 数据相关
+export const SET_UNIQUE_COLS = 'SET_UNIQUE_COLS'
+export const INIT_UNIQUE = 'INIT_UNIQUE'
+
+
+
 // 其他
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
 

@@ -139,13 +139,13 @@
 			},
 			addFilterHandler(){
 				let filterObj = {},
-						filterWords = '',
-						curCols = this.operatorCol,
-						operator = this.operator,
-						operatorWords = this.getOperatorWords(this.filterOptions, operator),
-						opVal = this.operatorVal.trim(),
-						colOperatorSelect = this.colOperatorSelect,
-						colOperatorWords = this.getColOperatorWords(colOperator, colOperatorSelect)
+					filterWords = '',
+					curCols = this.operatorCol,
+					operator = this.operator,
+					operatorWords = this.getOperatorWords(this.filterOptions, operator),
+					opVal = this.operatorVal.trim(),
+					colOperatorSelect = this.colOperatorSelect,
+					colOperatorWords = this.getColOperatorWords(colOperator, colOperatorSelect)
 
 				if(!this.validateForm({curCols, opVal, colOperatorSelect})) {
 					return

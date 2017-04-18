@@ -15,7 +15,6 @@ let filterUtils = {
         curVal = row[selectKey],
         isNotBelongEmpty = !(operator === 'empty' || operator === 'notEmpty')
     if(isNotBelongEmpty && curVal === undefined) {
-      console.log("isisi")
       return false
     }else{
       return this.filterUnit({operator, curVal, target})

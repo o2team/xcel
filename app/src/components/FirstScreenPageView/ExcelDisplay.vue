@@ -42,7 +42,7 @@
 	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
 	import { isExcelFile } from '../../utils/ExcelSet'
-	import { getSheetNameList, getActiveSheet, getSideBarStatus, getFilterTagList, getFilterWay } from '../../vuex/getters'
+	import { getSheetNameList, getActiveSheet, getSideBarStatus, getFilterTagList, getFilterWay, getUniqueCols } from '../../vuex/getters'
 	import { setActiveSheet, setExcelData, setUploadFiles } from '../../vuex/actions'
 	import SheetOfExcel from './SheetOfExcel'
 	
@@ -61,7 +61,8 @@
 				activeSheet: getActiveSheet,
 				filterTagList: getFilterTagList,
 				filterWay: getFilterWay,
-				sheetNameList: getSheetNameList
+				sheetNameList: getSheetNameList,
+				uniqueCols: getUniqueCols
 			},
 			actions: {
 				setActiveSheet,
@@ -91,7 +92,8 @@
 				ipcRenderer.send('changeTab-start', {
 					filterTagList: this.filterTagList,
 					filterWay: this.filterWay,
-					curActiveSheetName: this.activeSheet.name
+					curActiveSheetName: this.activeSheet.name,
+					uniqueCols: this.uniqueCols
 				})
 			},
 			dragenterHandler(e) {

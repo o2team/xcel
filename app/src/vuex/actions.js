@@ -37,6 +37,8 @@ export const setExcelData = ({ dispatch }, data) => {
   	dispatch(types.SET_UPLOAD_STATUS, -1)
   	dispatch(types.SET_ACTIVE_SHEET, 0)
   	dispatch(types.TOGGLE_FILTER_PANEL_STATUS, true)
+	console.log('actions', arg)
+	dispatch(types.INIT_UNIQUE, arg.sheetNameList)
   	// dispatch(types.SET_EXCEL_DATA, arg)
   	// dispatch(types.TOGGLE_SIDEBAR, true)
   })
@@ -74,6 +76,13 @@ export const setColSelectType = ({ dispatch }, val) => {
 export const setColSelectVal = ({ dispatch }, val) => {
 	dispatch(types.SET_COL_SELECT_VAL, val)
 }
+
+// 数据去重相关
+export const setUniqueCols = ({ dispatch }, val) => {
+	dispatch(types.SET_UNIQUE_COLS, val)
+}
+
+
 
 // 其他
 export const toggleSideBar = ({ dispatch }, val) => {

@@ -110,11 +110,11 @@
 			},
 			addFilterHandler() {
 				let filterObj = {},
-						filterWords = '',
-						curCol = this.operatorCol,
-						operator = this.operator,
-						operatorWords = this.getOperatorWords(this.filterOptions, operator),
-						opVal = this.operatorVal && this.operatorVal.trim()
+					filterWords = '',
+					curCol = this.operatorCol,
+					operator = this.operator,
+					operatorWords = this.getOperatorWords(this.filterOptions, operator),
+					opVal = this.operatorVal && this.operatorVal.trim()
 
 				if(!this.validateForm({curCol, opVal})) {
 					return
