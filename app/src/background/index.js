@@ -69,7 +69,7 @@ window.addEventListener('load', (event) => {
     excelData.sheetNameList.forEach((sheetName, index) => {
       tempFilRow[sheetName] = filteredData[sheetName].length
     })
-
+    console.log('tempFilRow', tempFilRow)
     ipcRenderer.send('filter-response', {
       filRow: tempFilRow
     })

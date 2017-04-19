@@ -32,7 +32,7 @@
 		</ul>
 		<div>
 			<p class="summary_info" v-show="hasFile">
-				筛选后数据为 <em>{{ curFilterTagListCount !== 0 ? curFilRowCount : curOriRowCount }}</em> 行，原始记录为 <em>{{ curOriRowCount }}</em> 行，共 <em>{{ curFilterTagListCount }}</em> 个{{ filterWay == 0 ? "保留" : "剔除"}}</span>条件
+				筛选后数据为 <em>{{ Math.min(curFilRowCount, curOriRowCount) }}</em> 行，原始记录为 <em>{{ curOriRowCount }}</em> 行，共 <em>{{ filterAcount }}</em> 个{{ filterWay == 0 ? "保留" : "剔除"}}</span>条件
 			</p>
 			<img src="./assets/O2-icon.png" alt="O2_logo" @click="openExternal('aotu')">
 		</div>
@@ -56,7 +56,9 @@
 		getCurFilRowCount,
 		getCurFilterTagListCount,
 		getKeepCurVersion,
-		getUpdateDialogStatus
+		getUpdateDialogStatus,
+		getActiveSheet,
+		getUniqueCols
 	} from '../../vuex/getters'
 	import { 
 		toggleSideBar,
@@ -83,7 +85,9 @@
 				curFilRowCount: getCurFilRowCount,
 				curFilterTagListCount: getCurFilterTagListCount,
 				isKeepCurVersion: getKeepCurVersion,
-				isShowUpdateDialog: getUpdateDialogStatus
+				isShowUpdateDialog: getUpdateDialogStatus,
+				uniqueCols: getUniqueCols,
+				activeSheet: getActiveSheet
 			},
 			actions: {
 				toggleSideBar,
@@ -97,7 +101,15 @@
 		computed: {
 			hasFile(){
 				return this.curOriRowCount > 0
+			},
+			filterAcount() {
+				var activeSheetName = this.activeSheet.name
+				var curUniqueCols = this.uniqueCols[activeSheetName] || []
+				console.log('curUniqueCols', curUniqueCols)
+				var curUniqueLength = curUniqueCols.length
+				return curUniqueLength > 0 ? this.curFilterTagListCount + 1 : this.curFilterTagListCount
 			}
+
 		},
 		created() {
 			ipcRenderer.on('open-file-response', (event, path) => {

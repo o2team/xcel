@@ -73,6 +73,7 @@
 			ipcRenderer.on('filter-response', (event, arg) => {
 				this.setFileStatus(2)
       	this.setFilteredData(arg.filRow)
+				console.log('(arg.filRow', arg.filRow)
       	ipcRenderer.send('exportFile-start')
 	    })
 

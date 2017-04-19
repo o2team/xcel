@@ -128,7 +128,7 @@ const mutations = {
     let curSheetName = state.activeSheet.name,
 		    tempTagList = Object.assign({}, state.filterTagList),
         index = args.index,
-        curUniqueCols = arg.curUniqueCols
+        curUniqueCols = args.curUniqueCols
 
     tempTagList[curSheetName].splice(index, 1)
   	state.filterTagList = tempTagList

@@ -38,6 +38,7 @@ export function getCurOriRowCount(state) {
 
 export function getCurFilRowCount(state) {
 	let curSheetName = state.filterList.activeSheet.name
+	console.log('getCurFilRowCound',  curSheetName)
 	return state.filterList.filRow[curSheetName] || 0
 }
 

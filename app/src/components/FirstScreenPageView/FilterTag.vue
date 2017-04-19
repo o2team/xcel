@@ -24,8 +24,8 @@
 
 <script>
 	import { delFilter } from '../../vuex/actions'
-	import { getUniqueCols } from '../../vuex/getters'
-	import { getCharCol, getActiveSheet } from "../../utils/ExcelSet"
+	import { getUniqueCols, getActiveSheet } from '../../vuex/getters'
+	import { getCharCol } from "../../utils/ExcelSet"
 
 	export default {
 		props: {
@@ -42,7 +42,7 @@
 			actions: {
 				delFilter
 			},
-			getter: {
+			getters: {
 				uniqueCols: getUniqueCols,
 				activeSheet: getActiveSheet
 			}

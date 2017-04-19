@@ -49,8 +49,8 @@ export const setActiveSheet = ({ dispatch }, val) => {
 export const addFilter = ({ dispatch }, val) => {
 	dispatch(types.ADD_FILTER, val)
 }
-export const delFilter = ({ dispatch }, val) => {
-	dispatch(types.DEL_FILTER, val)
+export const delFilter = ({ dispatch }, args) => {
+	dispatch(types.DEL_FILTER, args)
 }
 export const setFilteredData = ({ dispatch }, val) => {
 	dispatch(types.SET_FILTERED_DATA, val)
