@@ -38,13 +38,13 @@
 		},
 		methods: {
 			minimizeHandler(){
-		    this.toggleWindowMini()
+		    	this.toggleWindowMini()
 			},
 			maximizeHandler(){
 				this.toggleWindowMax()
 			},
 			closeHandler(){
-		    ipcRenderer.send('sync-close')
+		    	ipcRenderer.send('sync-close')
 			}
 		}
 	}

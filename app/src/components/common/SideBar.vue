@@ -1,11 +1,11 @@
 <template>
 	<div id="sidebar" v-show="getSideBarStatus">
 		<div class="sidebar_header">
-			<img src="http://logo.taobaocdn.com/shop-logo/4a/b8/TB1PeNcIFXXXXcgXVXXwu0bFXXX.png">
+			<img src="./assets/xcel_logo.png">
 			<p>Ultimate EXCEL Filter</p>
 			<a href="javascript:;" class="hide_sidebar_btn" @click="toggleSideBar(false)">
 				<svg width="14px" height="14px" viewBox="5 5 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				    <desc>关闭按钮</desc>
+				    <desc>x</desc>
 				    <defs></defs>
 				    <polygon id="Shape" stroke="none" fill="#fff" fill-rule="evenodd" points="19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12"></polygon>
 				</svg>
@@ -15,7 +15,9 @@
 			<file-list></file-list>
 		</div>
 		<div class="search_form">
-			<input type="text" id="search_file_input" placeholder="请输入搜索关键字" v-model="vuexSearchVal">
+			<input type="text" id="search_file_input"
+				placeholder="请输入搜索关键字" 
+				v-model="vuexSearchVal">
 		</div>
 	</div>
 </template>

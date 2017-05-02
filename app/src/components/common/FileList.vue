@@ -21,7 +21,13 @@
 	import fs from 'fs'
 	import { isExcelFile } from '../../utils/ExcelSet'
 	import { remote, ipcRenderer } from 'electron'
-	import { changeFileType, setExcelData ,setActiveSheet, setUploadFiles, delUploadFiles } from '../../vuex/actions'
+	import { 
+		changeFileType,
+		setExcelData,
+		setActiveSheet,
+		setUploadFiles,
+		delUploadFiles 
+	} from '../../vuex/actions'
 	import { getCurSearchVal, getUploadFiles } from '../../vuex/getters'
 
 	export default {
