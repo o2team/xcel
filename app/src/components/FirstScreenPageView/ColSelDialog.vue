@@ -23,9 +23,11 @@
 			<div class="col_sel_dialog_content">
 				<p v-if="curColCount === 0" class="no_content_tips">请先上传Excel文件或该文件未含有列</p>
 				<ul v-else>
-					<li v-for="(item, index) in curColKeys" @click="toggleSelect(index + 1)" :class="{'active': selectedGroup.includes(index + 1)}">
+					<li v-for="(item, index) in curColKeys" 
+						@click="toggleSelect(index)" 
+						:class="{'active': selectedGroup.includes(index)}">
 						<div>
-							<span>{{ getCharCol(index + 1) }}</span>
+							<span>{{ getCharCol(index) }}</span>
 							<p>{{ item }}</p>
 						</div>
 					</li>
@@ -173,13 +175,13 @@ import { ipcRenderer } from 'electron'
 				console.log('selectGroup', selectedGroup)
 				if(selectedGroup.length === 0) {
 					for(let i = 0; i < this.curColCount; i++) {
-						this.selectedGroup.push(i+1)
+						this.selectedGroup.push(i)
 					}
 				} else {
 					
 					for(let i = 0; i < this.curColCount; i++) {
-						if(selectedGroup.indexOf(i+1) === -1) {
-							tempSelectedGroup.push(i+1)
+						if(selectedGroup.indexOf(i) === -1) {
+							tempSelectedGroup.push(i)
 						}
 					}
 

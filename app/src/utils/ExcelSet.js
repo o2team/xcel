@@ -2,33 +2,30 @@
 
 import pathModule from 'path'
 
-// Excel 横向坐标的转换 1 <--> A
+// Excel 横向坐标的转换 0 <--> A
 /* 来自 http://www.cnblogs.com/lavezhang/archive/2012/05/14/2499000.html */ 
 
 export function getCharCol(n) {
-  let temCol = '',
-    s = '',
-    m = 0
-
-  while (n > 0) {
-    m = n % 26
-    if (m === 0) m = 26
-    s = String.fromCharCode(m + 64) + s
-    n = (n - m) / 26
-  }
-  return s
+    let temCol = '',
+        s = '',
+        m = 0
+    while (n >= 0) {
+        m = n % 26 + 1
+        s = String.fromCharCode(m + 64) + s
+        n = (n - m) / 26
+    }
+    return s
 }
 
 export function getNumCol(s) {
-  if (!s) return 0
-  let n = 0
-  for (let i = s.length - 1, j = 1; i >= 0; i--, j *= 26) {
-    let c = s[i].toUpperCase()
-    if (c < 'A' || c > 'Z') return 0
-    n += (c.charCodeAt() - 64) * j
-  }
-
-  return n
+    if (!s) return 0
+    let n = 0
+    for (let i = s.length - 1, j = 1; i >= 0; i-- , j *= 26) {
+        let c = s[i].toUpperCase()
+        if (c < 'A' || c > 'Z') return 0
+        n += (c.charCodeAt() - 64) * j
+    }
+    return n - 1
 }
 
 export function isExcelFile(filePath) {

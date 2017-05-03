@@ -21,7 +21,7 @@ module.exports = function generateHTMLString(arg){
 		colKeys.forEach((col, index) => {
 			let val = sheetData[i][col]
 			if(val == undefined) val = ""
-			resultTrStr += `<td title="${i + 2}行${getCharCol(index + 1)}列">${val}</td>`
+			resultTrStr += `<td title="${i + 2}行${getCharCol(index)}列">${val}</td>`
 		})
 		resultTrStr += '</tr>'
 		resultBodyStr += resultTrStr
@@ -33,15 +33,13 @@ module.exports = function generateHTMLString(arg){
 
 
 function getCharCol(n) {
-  let temCol = '',
-  	  s = '',
-    	m = 0
-
-  while (n > 0) {
-    m = n % 26
-    if (m === 0) m = 26
-    s = String.fromCharCode(m + 64) + s
-    n = (n - m) / 26
-  }
-  return s
+	let temCol = '',
+		s = '',
+		m = 0
+	while (n >= 0) {
+		m = n % 26 + 1
+		s = String.fromCharCode(m + 64) + s
+		n = (n - m) / 26
+	}
+	return s
 }

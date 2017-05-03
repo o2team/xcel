@@ -132,6 +132,7 @@
 		width: 100%;
 		margin-top: 5px;
 		padding: 5px;
+		flex-grow: 1;
 
 	}
 	.tabs{

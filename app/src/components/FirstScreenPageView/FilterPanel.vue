@@ -111,13 +111,13 @@
 </script>
 
 <style lang="scss">
-	.filter_panel{
+	/*.filter_panel{
 		position: fixed;
 		bottom: 56px;
 		left: 0;
 		right: 0;
 		z-index: 10;
-	}
+	}*/
 
 	.filter_tag_container{
 		min-height: 64px;

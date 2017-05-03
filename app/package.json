@@ -14,7 +14,7 @@
     "moment": "^2.15.0",
     "request": "2.79.0",
     "shortid": "^2.2.6",
-    "vue": "^2.0.0",
+    "vue": "^2.3.2",
     "vue-electron": "^1.0.0",
     "vue-router": "^2.0.0",
     "vuex": "^1.0.0",

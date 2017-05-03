@@ -163,7 +163,7 @@
 						tempColsArr = []
 
 				for(let i = startIndex, len = endIndex; i <= len; i++){
-					tempColsArr.push(i - 1)
+					tempColsArr.push(i)
 				}
 				this.operatorColArr = tempColsArr
 			},
@@ -174,7 +174,7 @@
 						operator = this.operator,
 						operatorWords = this.getOperatorWords(this.filterOptions, operator),
 						opVal = this.operatorVal && this.operatorVal.trim(),
-						preStr = `第${getCharCol(operatorColArr[0] + 1)}至第${getCharCol(operatorColArr[operatorColArr.length - 1] + 1)}列范围内的值中，至少有${this.needConformColIndex}列`
+						preStr = `第${getCharCol(operatorColArr[0])}至第${getCharCol(operatorColArr[operatorColArr.length - 1])}列范围内的值中，至少有${this.needConformColIndex}列`
 
 				if(!this.validateForm({operatorColArr, opVal, operator})) {
 					return

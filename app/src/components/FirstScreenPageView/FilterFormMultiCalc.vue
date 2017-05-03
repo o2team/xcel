@@ -170,7 +170,7 @@
 					groupId: this.groupId,
 					logicOperator: this.logicOperator,
 					col: curCols.map((col, index) => {
-						return col - 1
+						return col
 					}),
 					operator: this.operator,
 					value: opVal,

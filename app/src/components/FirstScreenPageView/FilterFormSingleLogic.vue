@@ -81,6 +81,7 @@
 		},
 		mounted() {
 			window.eventBus.$on('colSelVal4Single', (colSelectGroup) => {
+				console.log('colSelectGroup', colSelectGroup)
 				this.operatorCol = colSelectGroup
 			})
 		},
@@ -131,7 +132,7 @@
 					filterType: 0,
 					groupId: this.groupId,
 					logicOperator: this.logicOperator,
-					col: curCol - 1,
+					col: curCol,
 					operator: this.operator,
 					value: opVal,
 					filterWords: filterWords

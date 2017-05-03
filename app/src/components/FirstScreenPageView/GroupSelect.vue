@@ -2,7 +2,11 @@
 	<span class="select">
 		<select v-model="childGroupId" >
 			<option value="-1">组别</option>
-			<option v-for="index in groupNum" :value="index">{{ getGroupValue(index) }}</option>
+			<!-- v-for 整数迭代是从1开始 -->
+			<option 
+				v-for="index in groupNum" :value="index - 1">
+				{{ getGroupValue(index - 1) }}
+			</option>
 		</select>
 		<p class="val_mask">{{ getGroupName(childGroupId) }}</p>
 	</span>

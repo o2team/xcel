@@ -3,9 +3,9 @@
 		<v-header class="header"></v-header>
 		<main :class="{isShowSideBar: sideBarStatus}">
 			<excel-display></excel-display>
+			<filter-panel id="filter-panel"></filter-panel>
 		</main>
 		<v-footer class="footer"></v-footer>
-		<filter-panel id="filter-panel"></filter-panel>
 		<side-bar class="sibebar"></side-bar>
 		<col-sel-dialog></col-sel-dialog>
 		<loading></loading>
@@ -60,6 +60,8 @@
 		flex-grow: 1;
 		flex-shrink: 1;
 		display: flex;
+		flex-direction: column;
+		justify-content: space-between
 	}
 	.header, .footer{
 		flex-grow: 0;

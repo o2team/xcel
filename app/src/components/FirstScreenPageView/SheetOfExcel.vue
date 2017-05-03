@@ -6,7 +6,8 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th v-for="col in curColCount">{{ getCharCol(col) }}</th>
+					<!-- v-for 整数迭代是从1开始 -->
+					<th v-for="col in curColCount">{{ getCharCol(col - 1) }}</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -34,12 +35,13 @@
 		},
 		mounted() {
 			let tbody = this.$el.querySelector('tbody')
-      tbody && (tbody.innerHTML = this.sheetHTML)
+      		tbody && (tbody.innerHTML = this.sheetHTML)
+			  console.log('curColCount', this.curColCount)
 		},
 		watch: {
 			sheetHTML() {
 				let tbody = this.$el.querySelector('tbody')
-        tbody && (tbody.innerHTML = this.sheetHTML)
+        		tbody && (tbody.innerHTML = this.sheetHTML)
 			}
 		},
 		methods: {

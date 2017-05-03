@@ -43,9 +43,9 @@
                 let finalWords = '第'
                 this.uniqueCols.forEach((item, index) => {
                     if(index === this.uniqueCols.length - 1) {
-                        finalWords += `${this.getCharCol(item + 1)}列`
+                        finalWords += `${this.getCharCol(item)}列`
                     } else {
-                        finalWords += `${this.getCharCol(item + 1)},`
+                        finalWords += `${this.getCharCol(item)},`
                     }
                 })
                 return finalWords

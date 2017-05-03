@@ -63,7 +63,7 @@ Excel.prototype = {
     this.sheetNameList.forEach((curSheetName, index) => {
       let curSheetData = this.workbook.Sheets[curSheetName],
           scope = this.workbook.Sheets[curSheetName]['!ref'].split(':'), // A1 F5
-          startIndex = getNumCol(extractLetters(scope[0])), // 从 1 开始
+          startIndex = getNumCol(extractLetters(scope[0])), // Excel 是从 1 开始
           endIndex = getNumCol(extractLetters(scope[1]))
 
       this[curSheetName + '_headers'] = []
@@ -105,12 +105,12 @@ Excel.prototype = {
         step1
 
     let headers = _headers
-      .map((v, i) => Object.assign({}, { v: v, position: getCharCol(i+1) + 1 }))
+      .map((v, i) => Object.assign({}, { v: v, position: getCharCol(i) + 1 }))
       .reduce((prev, next) => Object.assign({}, prev, {
         [next.position]: { v: next.v }
       }), {})
 
-    step1 = json.map((v, i) => _headers.map((k, j) => Object.assign({}, { v: v[k], position: getCharCol(j+1) + (i + 2) })))
+    step1 = json.map((v, i) => _headers.map((k, j) => Object.assign({}, { v: v[k], position: getCharCol(j) + (i + 2) })))
     if(step1.length === 0) {
       step1.forEach((v, i) => data[v.position]= {v: v.v})
     }else {
@@ -150,25 +150,23 @@ function s2ab(s) {
   return buf;
 }
 function getCharCol(n) {
-  let temCol = '',
-      s = '',
-      m = 0
-
-  while (n > 0) {
-    m = n % 26
-    if (m === 0) m = 26
-    s = String.fromCharCode(m + 64) + s
-    n = (n - m) / 26
-  }
-  return s
+    let temCol = '',
+        s = '',
+        m = 0
+    while (n >= 0) {
+        m = n % 26 + 1
+        s = String.fromCharCode(m + 64) + s
+        n = (n - m) / 26
+    }
+    return s
 }
 function getNumCol(s) {
-  if (!s) return 0
-  let n = 0
-  for (let i = s.length - 1, j = 1; i >= 0; i--, j *= 26) {
-    let c = s[i].toUpperCase()
-    if (c < 'A' || c > 'Z') return 0
-    n += (c.charCodeAt() - 64) * j
-  }
-  return n
+    if (!s) return 0
+    let n = 0
+    for (let i = s.length - 1, j = 1; i >= 0; i-- , j *= 26) {
+        let c = s[i].toUpperCase()
+        if (c < 'A' || c > 'Z') return 0
+        n += (c.charCodeAt() - 64) * j
+    }
+    return n - 1
 }
