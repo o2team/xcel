@@ -48,15 +48,12 @@
         methods: {
             getCharCol,
             delHandler() {
-                console.log('this.curFilterTagList', this.curFilterTagList)
-                this.setUniqueCols({
-                    activeSheetName: this.activeSheet.name,
-                    cols: [],
-                    curFilterTagList: this.curFilterTagList
-                })
+                this.setUniqueCols([])
+                this.checkFilterAndUnqiueCount()
             },
             ...mapActions([
-                'setUniqueCols'
+                'setUniqueCols',
+                'checkFilterAndUnqiueCount'
             ])
 
         }

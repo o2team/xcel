@@ -1,5 +1,5 @@
 <template>
-    <form class="unique_form" @submit.prevent="addFilterHandler" @keyup.stop>
+    <form class="unique_form" @submit.prevent="addUniqueHandler" @keyup.stop>
         <table class="table">
             <tbody>
                 <tr>
@@ -67,16 +67,14 @@
                 this.setColSelectType(3)
                 this.setColSelectDialogStatus(true)
             },
-            addFilterHandler() {
+            addUniqueHandler() {
                 if (!this.validateForm()) {
                     return
                 }
-                this.setUniqueCols({
-                    activeSheetName: this.activeSheet.name,
-                    cols: this.operatorCol.map((col, index) => {
-                        return col - 1
-                    })
+                let uniqueCols = this.operatorCol.map((col, index) => {
+                    return col - 1
                 })
+                this.setUniqueCols(uniqueCols)
                 this.operatorCol = []
             },
             validateForm() {

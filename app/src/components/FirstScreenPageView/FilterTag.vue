@@ -24,7 +24,6 @@
 
 <script>
 
-	import { ipcRenderer } from 'electron'
 	import { mapGetters, mapActions } from 'vuex'
 	import { getCharCol } from "../../utils/ExcelSet"
 
@@ -42,7 +41,6 @@
 		computed: {
 			...mapGetters({
 				uniqueCols: 'getUniqueCols',
-				filterTagList: 'getFilterTagList',
 				activeSheet: 'getActiveSheet'
 			})
 		},
@@ -50,20 +48,15 @@
 			getCharCol,
 			delHandler(index) {
 				let curSheetName = this.activeSheet.name,
-					curUniqueCols = this.uniqueCols[curSheetName],
-					curFilterTagList = this.filterTagList[curSheetName]
+					curUniqueCols = this.uniqueCols[curSheetName]
 
 				this.delFilter({
 					index,
 					curUniqueCols
 				})
 				
-				if(curFilterTagList.length === 0 && curUniqueCols.length === 0) {
-					ipcRenderer.send('delAllFilterTag-start', {
-						curActiveSheetName: curSheetName
-					})
-					this.setFilteredData(null)
-				}
+				this.checkFilterAndUnqiueCount()
+				
 			},
 			getLogicOperator(char) {
 				return char === 'and' ? '且' : '或'
@@ -76,7 +69,8 @@
 			},
 			...mapActions([
 				'delFilter',
-				'setFilteredData'
+				'setFilteredData',
+				'checkFilterAndUnqiueCount'
 			])
 		}
 	}
