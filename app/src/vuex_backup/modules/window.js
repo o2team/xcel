@@ -19,6 +19,7 @@ const mutations = {
 	}
 }
 
+// 多余（未被使用，待删）
 ipcRenderer.on('send-isMax', (event, arg) => {
 	state.isMaximize = arg
 })

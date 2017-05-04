@@ -14,7 +14,8 @@
 				</div>
 				<div class="selected_col_container">
 					<p>{{ selectedGroupStr }}</p>
-					<button v-show="curColCount > 0 && colSelectType === 3" class="invert_selection_btn" type="button" title="点击该按钮进行反选" 
+					<button class="invert_selection_btn" type="button" title="点击该按钮进行反选" 
+						v-show="curColCount > 0 && colSelectType === 3" 
 						@click="invertSelectionHandler">
 						{{ btnText }}
 					</button>

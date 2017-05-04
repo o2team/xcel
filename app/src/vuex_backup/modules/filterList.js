@@ -23,11 +23,6 @@ const state = {
   isShowFillterPanel: false,
   isShowColSelectDialog: false,
   colSelectType: -1, // 0：单列运算 1：多列运算 2：双列范围逻辑
-  colSelectVal: {
-    single: [],
-    multi: [],
-    double: []
-  },
   filterOptions: [
     {
   		char: '>',
@@ -107,11 +102,8 @@ const mutations = {
           logicOperator: filter.logicOperator,
           filters: [filter]
         }
-        if(filter.filterType === 3) {
-          curTagList.unshift(filterObj)
-        } else {
-          curTagList.push(filterObj)
-        }
+       
+        curTagList.push(filterObj)
       }
 
 	  	state.filterTagList = tempTagList
@@ -173,11 +165,8 @@ const mutations = {
 
   [types.SET_COL_SELECT_TYPE] (state, val) {
     state.colSelectType = val
-  },
-
-  [types.SET_COL_SELECT_VAL] (state, val) {
-    state.colSelectVal = val
   }
+
 }
 
 export default {

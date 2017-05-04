@@ -1,6 +1,4 @@
 import * as types from '../mutation-types'
-import _ from 'lodash'
-import { ipcRenderer } from 'electron'
 
 const SUFFIX_COLKEYS = '_headers'
 

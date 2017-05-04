@@ -73,10 +73,6 @@ export const setColSelectType = ({ dispatch }, val) => {
 	dispatch(types.SET_COL_SELECT_TYPE, val)
 }
 
-export const setColSelectVal = ({ dispatch }, val) => {
-	dispatch(types.SET_COL_SELECT_VAL, val)
-}
-
 // 数据去重相关
 export const setUniqueCols = ({ dispatch }, val) => {
 	dispatch(types.SET_UNIQUE_COLS, val)
