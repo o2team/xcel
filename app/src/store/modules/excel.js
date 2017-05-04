@@ -1,3 +1,4 @@
+import * as types from '../mutation-types'
 import { ipcRenderer } from 'electron'
 
 const state = {
@@ -25,11 +26,11 @@ const getters = {
     getCurColCount: (state, getters, rootState) => {
         let curSheetName = rootState.excel.activeSheet.name,
             curColKeys = state.colKeys[curSheetName]
-        return curColKeys || curColKeys.length ||0
+        return curColKeys && curColKeys.length || 0
     },
     getCurColKeys: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name,
-        return state.colKeys[curSheetName]        
+        let curSheetName = rootState.excel.activeSheet.name
+        return state.colKeys[curSheetName]
     }
 }
 
@@ -41,11 +42,13 @@ const actions = {
             data: excelObj
         })
         ipcRenderer.once('readFile-response', (event, excelObj) => {
+            console.log('excelObj', excelObj)
             commit(types.SET_EXCEL_BASE_INFO, excelObj)
             commit(types.SET_UPLOAD_STATUS, -1)
             commit(types.SET_ACTIVE_SHEET, 0)
             commit(types.TOGGLE_FILTER_PANEL_STATUS, true)
             commit(types.INIT_UNIQUE, excelObj.sheetNameList)
+            commit(types.INIT_FILTER_TAG_LIST, excelObj.filterTagList)
         })
     },
     setActiveSheet({ state, commit, rootState }, index) {
@@ -57,24 +60,29 @@ const actions = {
 }
 
 const mutations = {
-    [types.TOGGLE_SIDEBAR] (state, isShowSideBar) {
-        if(_.isBoolean(isShowSideBar))
-            state.isShowSideBar = isShowSideBar
-        else 
-            state.isShowSideBar = !state.isShowSideBar
-    },
-    [types.SET_EXCEL_BASE_INFO] (state, excelBaseInfoObj) {
+    [types.SET_EXCEL_BASE_INFO](state, excelBaseInfoObj) {
         Object.keys(excelBaseInfoObj).forEach((key, index) => {
-            state[key] = excelBaseInfoObj[key]
+            if(key !== 'filterTagList') 
+                state[key] = excelBaseInfoObj[key]
         })
     },
-    [types.SET_ACTIVE_SHEET] (state, index) {
+    [types.SET_ACTIVE_SHEET](state, index) {
         state.activeSheet = {
             index,
             name: state.sheetNameList[index]
         }
     },
-    [types.SET_FILTER_DATA] (state, filRow) {
-        state.filRow = filRow
+    [types.SET_FILTER_DATA](state, filRow) {
+        if(filRow === undefined || filRow === null)
+            state.filRow = state.oriRow
+        else
+            state.filRow = filRow
     }
+}
+
+export default {
+    state,
+    getters,
+    actions,
+    mutations
 }

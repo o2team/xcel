@@ -12,13 +12,13 @@ const DOWNLOAD_HOST = 'http://jdc.jd.com/lab/xcel/download/'
 
 // dev 时显示了 app.getName()、app.getVersion()都返回Electron的信息，但打包后正常
 let app = remote.app,
-		isDev = process.env.NODE_ENV === 'development',
-		app_version = isDev ? packageJSON.version : app.getVersion(),
-		name = isDev ? packageJSON.name : app.getName(),
-		platform = os.platform(),
-		arch = os.arch(),
-		updateUrl = isDev ? UPDATE_HOST_DEV+'update/'+ platform + '_' + arch +'/'+app_version
-											: UPDATE_HOST+'update/'+ platform + '_' + arch +'/'+app_version
+	isDev = process.env.NODE_ENV === 'development',
+	app_version = isDev ? packageJSON.version : app.getVersion(),
+	name = isDev ? packageJSON.name : app.getName(),
+	platform = os.platform(),
+	arch = os.arch(),
+	updateUrl = isDev ? UPDATE_HOST_DEV + 'update/' + platform + '_' + arch + '/' + app_version
+		: UPDATE_HOST + 'update/' + platform + '_' + arch + '/' + app_version
 
 export const appInfo = {
 	platform,
@@ -33,21 +33,21 @@ export const appInfo = {
 
 
 export function getDownloadUrl(version) {
-		let prefix = `${DOWNLOAD_HOST}${version}/`
-		if(platform === 'darwin') {
-			return `${prefix}${name}-${version}.dmg`
-		} else if(platform === 'win32') {
-			if(arch === 'ia32' || arch === 'x86') {
-				return `${prefix}${name} Setup ${version}-ia32.exe`
-			} else if(arch === 'x64') {
-				return `${prefix}${name} Setup ${version}.exe`
-			}
-		} else if(platform === 'linux') {
-			if(arch === 'ia32' || arch === 'x86') {
-				return `${prefix}${name}-${version}-linux-ia32.zip`
-			} else if(arch === 'x64') {
-				return `${prefix}${name}-${version}-linux-x64.zip`
-			}
+	let prefix = `${DOWNLOAD_HOST}${version}/`
+	if (platform === 'darwin') {
+		return `${prefix}${name}-${version}.dmg`
+	} else if (platform === 'win32') {
+		if (arch === 'ia32' || arch === 'x86') {
+			return `${prefix}${name} Setup ${version}-ia32.exe`
+		} else if (arch === 'x64') {
+			return `${prefix}${name} Setup ${version}.exe`
 		}
-		return undefined
+	} else if (platform === 'linux') {
+		if (arch === 'ia32' || arch === 'x86') {
+			return `${prefix}${name}-${version}-linux-ia32.zip`
+		} else if (arch === 'x64') {
+			return `${prefix}${name}-${version}-linux-x64.zip`
+		}
 	}
+	return undefined
+}

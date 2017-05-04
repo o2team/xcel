@@ -30,95 +30,87 @@
 <script>
 	
 	import FilterTagList from './FilterTagList'
-	import FilterFormSingleLogic from './FilterFormSingleLogic'
-	import FilterFormMultiCalc from './FilterFormMultiCalc'
-	import FilterFormDoubleColsRange from './FilterFormDoubleColsRange'
-	import FilterForUnique from './FilterForUnique'
-	import { getFilterTagList, getFilterPanelStatus, getCurFilterTagListCount, getFilterWay, getFileStatus, getActiveSheet, getUniqueCols } from '../../vuex/getters'
-	import { setFilteredData, setFileStatus } from '../../vuex/actions'
-	import { ipcRenderer } from 'electron'
-	export default{
-		components: {
-			FilterTagList,
-			FilterFormSingleLogic,
-			FilterFormMultiCalc,
-			FilterFormDoubleColsRange,
-			FilterForUnique
-		},
-		data() {
-			return {
-				curCol: 1,
-				filterVal: '',
-				colOfSheet: 1,
-				filterFormNav: ['单列（组合）逻辑', '多列运算逻辑', '双列范围逻辑'],
-				activeFilterFormIndex: 0
-			}
-		},
-		vuex: {
-			getters: {
-				filterPanelStatus: getFilterPanelStatus,
-				filterTagList: getFilterTagList,
-				filterWay: getFilterWay,
-				fileStatus: getFileStatus,
-				curFilterTagListCount: getCurFilterTagListCount,
-				activeSheet: getActiveSheet,
-				uniqueCols: getUniqueCols
-			},
-			actions: {
-				setFilteredData,
-				setFileStatus
-			}
-		},
-		created(){
-			ipcRenderer.on('filter-response', (event, arg) => {
-				this.setFileStatus(2)
-      	this.setFilteredData(arg.filRow)
-				console.log('(arg.filRow', arg.filRow)
-      	ipcRenderer.send('exportFile-start')
-	    })
+    import FilterFormSingleLogic from './FilterFormSingleLogic'
+    import FilterFormMultiCalc from './FilterFormMultiCalc'
+    import FilterFormDoubleColsRange from './FilterFormDoubleColsRange'
+    import FilterForUnique from './FilterForUnique'
+    import { mapGetters, mapActions } from 'vuex'
+    import { ipcRenderer } from 'electron'
 
-	    ipcRenderer.on('exportFile-response', (event, arg) => {
-	    	console.log(arg.info)
-	    	this.setFileStatus(-1)
-	    	
-	    	if(arg.type === -1) {
-	    		setTimeout(() => {
-	    			ipcRenderer.send('sync-alert-dialog', {
-		    			content: arg.info
-		    		})
-	    		}, 30)
-	    	}
-	    })
-		},
-		methods: {
-			filterHandler(){
-				if(this.curFilterTagListCount === 0 && this.uniqueCols.length === 0) {
-					ipcRenderer.send('sync-alert-dialog', {
-						content: '请先添加筛选条件'
-					})
-				}else {
-					this.setFileStatus(1) 
-					ipcRenderer.send('filter-start', {
-			      filterTagList: this.filterTagList,
-			      filterWay: this.filterWay,
-			      curActiveSheetName: this.activeSheet.name,
-						uniqueCols: this.uniqueCols
-			    })
-				}
-			}
-		}
-	}
+    export default {
+        components: {
+            FilterTagList,
+            FilterFormSingleLogic,
+            FilterFormMultiCalc,
+            FilterFormDoubleColsRange,
+            FilterForUnique
+        },
+        data() {
+            return {
+                curCol: 1,
+                filterVal: '',
+                colOfSheet: 1,
+                filterFormNav: ['单列（组合）逻辑', '多列运算逻辑', '双列范围逻辑'],
+                activeFilterFormIndex: 0
+            }
+        },
+        created() {
+            ipcRenderer.on('filter-response', (event, arg) => {
+                this.setFileStatus(2)
+                this.setFilteredData(arg.filRow)
+                console.log('(arg.filRow', arg.filRow)
+                ipcRenderer.send('exportFile-start')
+            })
+
+            ipcRenderer.on('exportFile-response', (event, arg) => {
+                console.log(arg.info)
+                this.setFileStatus(-1)
+
+                if (arg.type === -1) {
+                    setTimeout(() => {
+                        ipcRenderer.send('sync-alert-dialog', {
+                            content: arg.info
+                        })
+                    }, 30)
+                }
+            })
+        },
+        computed: {
+            ...mapGetters({
+                filterPanelStatus: 'getFilterPanelStatus',
+                filterTagList: 'getFilterTagList',
+                filterWay: 'getFilterWay',
+                fileStatus: 'getFileStatus',
+                curFilterTagListCount: 'getCurFilterTagListCount',
+                activeSheet: 'getActiveSheet',
+                uniqueCols: 'getUniqueCols'
+            })
+        },
+        methods: {
+            filterHandler() {
+                if (this.curFilterTagListCount === 0 && this.uniqueCols.length === 0) {
+                    ipcRenderer.send('sync-alert-dialog', {
+                        content: '请先添加筛选条件'
+                    })
+                } else {
+                    this.setFileStatus(1)
+                    ipcRenderer.send('filter-start', {
+                        filterTagList: this.filterTagList,
+                        filterWay: this.filterWay,
+                        curActiveSheetName: this.activeSheet.name,
+                        uniqueCols: this.uniqueCols
+                    })
+                }
+            },
+            ...mapActions([
+                'setFilteredData',
+                'setFileStatus'
+            ])
+        }
+    }
 </script>
 
 <style lang="scss">
-	/*.filter_panel{
-		position: fixed;
-		bottom: 56px;
-		left: 0;
-		right: 0;
-		z-index: 10;
-	}*/
-
 	.filter_tag_container{
 		min-height: 64px;
 		background-color: #fff;

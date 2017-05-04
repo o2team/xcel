@@ -15,9 +15,8 @@
 </template>
 
 <script>
-    import { setUniqueCols } from '../../vuex/actions'
-    import { getActiveSheet } from '../../vuex/getters'
     import { getCharCol } from '../../utils/ExcelSet'
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
         props: {
@@ -30,26 +29,21 @@
                 required: true
             }
         },
-        vuex: {
-            actions: {
-                setUniqueCols
-            },
-            getters: {
-                activeSheet: getActiveSheet
-            }
-        },
         computed: {
             uniqueWords() {
                 let finalWords = '第'
                 this.uniqueCols.forEach((item, index) => {
-                    if(index === this.uniqueCols.length - 1) {
+                    if (index === this.uniqueCols.length - 1) {
                         finalWords += `${this.getCharCol(item)}列`
                     } else {
                         finalWords += `${this.getCharCol(item)},`
                     }
                 })
                 return finalWords
-            }
+            },
+            ...mapGetters({
+                activeSheet: 'getActiveSheet'
+            })
         },
         methods: {
             getCharCol,
@@ -60,7 +54,11 @@
                     cols: [],
                     curFilterTagList: this.curFilterTagList
                 })
-            }
+            },
+            ...mapActions([
+                'setUniqueCols'
+            ])
+
         }
     }
 </script>

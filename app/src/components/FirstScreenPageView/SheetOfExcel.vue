@@ -16,32 +16,32 @@
 </template>
 
 <script>
-	import { getSideBarStatus, getCurColCount, getCurOriRowCount } from '../../vuex/getters'
+	import { mapGetters } from 'vuex'
 	import { getCharCol, getNumCol } from '../../utils/ExcelSet'
 	import { ipcRenderer } from 'electron'
 	export default {
-		vuex: {
-			getters: {
-				sideBarStatus: getSideBarStatus,
-				curOriRowCount: getCurOriRowCount,
-				curColCount: getCurColCount
-			}
-		},
 		props: {
 			sheetHTML: {
 				type: String,
 				required: true
 			}
 		},
+		computed: {
+			...mapGetters({
+				sideBarStatus: 'getSideBarStatus',
+				curOriRowCount: 'getCurOriRowCount',
+				curColCount: 'getCurColCount'
+			})
+		},
 		mounted() {
 			let tbody = this.$el.querySelector('tbody')
-      		tbody && (tbody.innerHTML = this.sheetHTML)
-			  console.log('curColCount', this.curColCount)
+			tbody && (tbody.innerHTML = this.sheetHTML)
+			console.log('curColCount', this.curColCount)
 		},
 		watch: {
 			sheetHTML() {
 				let tbody = this.$el.querySelector('tbody')
-        		tbody && (tbody.innerHTML = this.sheetHTML)
+				tbody && (tbody.innerHTML = this.sheetHTML)
 			}
 		},
 		methods: {

@@ -10,9 +10,9 @@
 </template>
 
 <script>
-	import { getFileStatus } from '../../vuex/getters'
+	import { mapGetters } from 'vuex'
 	export default {
-		data(){
+		data() {
 			return {
 				loadingText: [
 					'文件正在导入中',
@@ -21,10 +21,10 @@
 				]
 			}
 		},
-		vuex: {
-			getters: {
-				fileStatus: getFileStatus
-			}
+		computed: {
+			...mapGetters({
+				fileStatus: 'getFileStatus'
+			})
 		}
 	}
 </script>

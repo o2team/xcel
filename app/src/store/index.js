@@ -7,8 +7,7 @@ import excel from './modules/excel'
 import file from './modules/file'
 import filter from './modules/filter'
 import unique from './modules/unique'
-import programWindow from './modules/programWindow' 
-// import createLogger from '../../node_modules/vuex/src/plugins/logger'
+import programWindow from './modules/programWindow'
 import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
@@ -19,8 +18,13 @@ export default new Vuex.Store({
     actions,
     getters,
     modules: {
-
+        clientUpdate,
+        excel,
+        file,
+        filter,
+        unique,
+        programWindow
     },
     strict: isDev,
-    plugins: isDev? [createLogger()] : []
+    plugins: isDev ? [createLogger()] : []
 })

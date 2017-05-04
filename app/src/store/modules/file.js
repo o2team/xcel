@@ -1,14 +1,15 @@
+import pathModule from 'path'
 import * as types from '../mutation-types'
 import { getLocal, setLocal } from '../../utils/localStorageSet'
 import _ from 'lodash'
 
 let uploadFiles = (function initUploadFiles() {
-  let localUploadFiles = getLocal('uploadFiles')
-  if(_.isArray(localUploadFiles)) {
-    return localUploadFiles
-  } else {
-    return []
-  }
+    let localUploadFiles = getLocal('uploadFiles')
+    if (_.isArray(localUploadFiles)) {
+        return localUploadFiles
+    } else {
+        return []
+    }
 })();
 
 
@@ -42,26 +43,32 @@ const actions = {
     // 去掉复数
     delUploadFiles({ state, commit, rootState }, index) {
         commit(types.DEL_UPLOAD_FILES, index)
+    },
+    toggleSideBar({ state, commit, rootState }, isShowSideBar) {
+        commit(types.TOGGLE_SIDEBAR, isShowSideBar)
+    },
+    setFileStatus({ state, commit, rootState }, fileStatus) {
+        commit(types.SET_UPLOAD_STATUS, fileStatus)
     }
 }
 
 const mutations = {
     // 约定 payload 皆对象
-    [types.TOGGLE_SIDEBAR] (state, isShowSideBar) {
-        if(_.isBoolean(isShowSideBar))
+    [types.TOGGLE_SIDEBAR](state, isShowSideBar) {
+        if (_.isBoolean(isShowSideBar))
             state.isShowSideBar = isShowSideBar
-        else 
+        else
             state.isShowSideBar = !state.isShowSideBar
     },
-    [types.CHANGE_SEARCH_VALUE] (state, val) {
+    [types.CHANGE_SEARCH_VALUE](state, val) {
         state.curSearchVal = val
     },
     [types.SET_UPLOAD_FILES](state, fileObj) {
         let isExistent = false,
             existentIndex = 0
-        
+
         state.fileList.some((file, index) => {
-            if(file.path === fileObj.path) {
+            if (file.path === fileObj.path) {
                 isExistent = true
                 existentIndex = index
 
@@ -69,7 +76,7 @@ const mutations = {
             }
         })
 
-        if(isExistent) {
+        if (isExistent) {
             state.fileList.splice(existentIndex, 1)
             state.fileList.unshift(fileObj)
         } else {
@@ -79,11 +86,12 @@ const mutations = {
         setLocal('uploadFiles', state.fileList)
     },
     // 去掉复数
-    [types.DEL_UPLOAD_FILES] (state, index) {
+    [types.DEL_UPLOAD_FILES](state, index) {
         state.fileList.splice(index, 1)
         setLocal('uploadFiles', state.fileList)
     },
-    [types.SET_UPLOAD_STATUS] (state, status) {
+    // 命名要改
+    [types.SET_UPLOAD_STATUS](state, status) {
         state.fileStatus = status
     }
 }

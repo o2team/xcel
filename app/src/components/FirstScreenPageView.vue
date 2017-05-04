@@ -20,9 +20,11 @@
 	import ExcelDisplay from './FirstScreenPageView/ExcelDisplay'
 	import FilterPanel from './FirstScreenPageView/FilterPanel'
 	import ColSelDialog from './FirstScreenPageView/ColSelDialog'
-	import { getSideBarStatus } from '../vuex/getters'
+	import { mapGetters } from 'vuex'
 	import os from 'os'
+
 	console.log('主页面pid：', process.pid)
+
 	export default {
 		name: 'index',
 		components: {
@@ -34,15 +36,15 @@
 			Loading,
 			ColSelDialog
 		},
-		data(){
+		data() {
 			return {
 				osStr: os.platform()
 			}
 		},
-		vuex: {
-			getters: {
-				sideBarStatus: getSideBarStatus
-			}
+		computed: {
+			...mapGetters({
+				sideBarStatus: 'getSideBarStatus'
+			})
 		}
 	}
 </script>

@@ -22,8 +22,7 @@
 </template>
 
 <script> 
-	import { toggleSideBar, setFilterWay } from '../../vuex/actions'
-	import { getFilterWay } from '../../vuex/getters'
+	import { mapGetters, mapActions } from 'vuex'
 	import os from 'os'
 
 	export default {
@@ -32,15 +31,6 @@
 				isShowNav: false,
 				isShowInstruction: this.$route.name === 'instructions',
 				osStr: os.platform()
-			}
-		},
-		vuex: {
-			getters: {
-				filterWay: getFilterWay
-			},
-			actions: {
-				toggleSideBar,
-				setFilterWay
 			}
 		},
 		computed: {
@@ -52,15 +42,22 @@
 					this.setFilterWay(val)
 				}
 			},
+			...mapGetters({
+				filterWay: 'getFilterWay'
+			})
 		},
 		methods: {
 			clickHandler() {
-				if(this.isShowInstruction) {
+				if (this.isShowInstruction) {
 					this.$router.push('index')
-				}else {
+				} else {
 					this.toggleSideBar()
 				}
-			}
+			},
+			...mapActions([
+				'toggleSideBar',
+				'setFilterWay'
+			])
 		}
 	}
 </script>

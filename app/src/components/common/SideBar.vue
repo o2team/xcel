@@ -24,8 +24,7 @@
 
 <script>
 	import FileList from './FileList'
-	import { getSideBarStatus, getCurSearchVal } from '../../vuex/getters'
-	import { toggleSideBar, changeSearchVal } from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
 
 	export default {
 		components: {
@@ -39,17 +38,17 @@
 				set(val) {
 					this.changeSearchVal(val)
 				}
-			}
-		},
-		vuex: {
-			getters: {
-				getSideBarStatus,
-				getCurSearchVal
 			},
-			actions: {
-				toggleSideBar,
-				changeSearchVal
-			}
+			...mapGetters([
+				'getSideBarStatus',
+				'getCurSearchVal'
+			])
+		},
+		methods: {
+			...mapActions([
+				'toggleSideBar',
+				'changeSearchVal'
+			])
 		}
 	}
 </script>

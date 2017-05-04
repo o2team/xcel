@@ -46,8 +46,7 @@
 </template>
 
 <script>
-	import { addFilter, setColSelectDialogStatus, setColSelectType } from '../../vuex/actions'
-	import { getActiveSheet, getFilterOptions, getCurFilterTagListCount, getCurColCount } from '../../vuex/getters'
+	import { mapGetters, mapActions } from 'vuex'
 	import { getCharCol, getLogicOperatorWords, getOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
@@ -56,7 +55,7 @@
 		components: {
 			GroupSelect
 		},
-		data(){
+		data() {
 			return {
 				operatorVal: '',
 				operatorCol: [],
@@ -66,19 +65,6 @@
 				groupId: -1
 			}
 		},
-		vuex: {
-			getters: {
-				activeSheet: getActiveSheet,
-				filterOptions: getFilterOptions,
-				curColCount: getCurColCount,
-				curFilterTagListCount: getCurFilterTagListCount
-			},
-			actions: {
-				setColSelectDialogStatus,
-				setColSelectType,
-				addFilter
-			}
-		},
 		mounted() {
 			window.eventBus.$on('colSelVal4Single', (colSelectGroup) => {
 				console.log('colSelectGroup', colSelectGroup)
@@ -86,16 +72,24 @@
 			})
 		},
 		watch: {
-			curFilterTagListCount(){
-				if(this.curFilterTagListCount == 0) {
+			curFilterTagListCount() {
+				if (this.curFilterTagListCount == 0) {
 					this.logicOperator = 'and'
 				}
 			},
 			operator() {
-				if(this.operator === 'empty' || this.operator === 'notEmpty') {
+				if (this.operator === 'empty' || this.operator === 'notEmpty') {
 					this.operatorVal = undefined
 				}
 			}
+		},
+		computed: {
+			...mapGetters({
+				activeSheet: 'getActiveSheet',
+				filterOptions: 'getFilterOptions',
+				curColCount: 'getCurColCount',
+				curFilterTagListCount: 'getCurFilterTagListCount'
+			})
 		},
 		methods: {
 			getCharCol,
@@ -117,7 +111,7 @@
 					operatorWords = this.getOperatorWords(this.filterOptions, operator),
 					opVal = this.operatorVal && this.operatorVal.trim()
 
-				if(!this.validateForm({curCol, opVal})) {
+				if (!this.validateForm({ curCol, opVal })) {
 					return
 				}
 
@@ -146,32 +140,33 @@
 			},
 			validateForm(args) {
 				let { curCol, opVal } = args,
-						isValidated = false,
-						tipWords = '单列运算逻辑：'
+					isValidated = false,
+					tipWords = '单列运算逻辑：'
 				console.log('opVal', opVal)
-				if(curCol.length === 0) {
+				if (curCol.length === 0) {
 					tipWords += '请选择列'
-				}else if(opVal !== undefined && opVal.length === 0) {
+				} else if (opVal !== undefined && opVal.length === 0) {
 					console.log("哈哈哈")
 					tipWords += '请填写运算符的值'
-				}else {
+				} else {
 					isValidated = true
 				}
 
-				if(!isValidated) {
+				if (!isValidated) {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: tipWords
 					})
 					return false
-				}else{
+				} else {
 					return true
 				}
-			}
+			},
+			...mapActions([
+				'setColSelectDialogStatus',
+				'setColSelectType',
+				'addFilter'
+			])
 		}
 	}
 
 </script>
-
-<style lang="scss" scoped>
-	
-</style>

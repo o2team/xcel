@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import { getLocal, setLocal } from '../../utils/localStorageSet'
-import _ from 'loadash'
+import _ from 'lodash'
 
 let isKeepCurVersion = (function initIsKeepVersion() {
     let isKeepCurVersionTemp = getLocal('isKeepCurVersion')

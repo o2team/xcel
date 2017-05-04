@@ -58,8 +58,7 @@
 </template>
 
 <script>
-	import { addFilter, setColSelectDialogStatus, setColSelectType } from '../../vuex/actions'
-	import { getActiveSheet, getFilterOptions, getCurFilterTagListCount, getCurColCount } from '../../vuex/getters'
+	import { mapGetters, mapActions } from 'vuex'
 	import { getCharCol, getNumCol, getOperatorWords, getLogicOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
@@ -68,7 +67,7 @@
 		components: {
 			GroupSelect
 		},
-		data(){
+		data() {
 			return {
 				operatorVal: '',
 				operatorCol: '', // 最终会转为数组
@@ -80,32 +79,19 @@
 				groupId: -1
 			}
 		},
-		vuex: {
-			getters: {
-				activeSheet: getActiveSheet,
-				filterOptions: getFilterOptions,
-				curFilterTagListCount: getCurFilterTagListCount,
-				curColCount: getCurColCount
-			},
-			actions: {
-				setColSelectDialogStatus,
-				setColSelectType,
-				addFilter
-			}
-		},
 		mounted() {
 			window.eventBus.$on('colSelVal4Double', (colSelectGroup) => {
 				this.operatorCol = colSelectGroup
 			})
 		},
 		watch: {
-			curFilterTagListCount(){
-				if(this.curFilterTagListCount == 0) {
+			curFilterTagListCount() {
+				if (this.curFilterTagListCount == 0) {
 					this.logicOperator = 'and'
 				}
 			},
 			operator() {
-				if(this.operator === 'empty' || this.operator === 'notEmpty') {
+				if (this.operator === 'empty' || this.operator === 'notEmpty') {
 					this.operatorVal = undefined
 				}
 			},
@@ -119,24 +105,30 @@
 					return this.getCharCol(col)
 				}).join(',')
 			},
-			needConformColsNum(){
+			needConformColsNum() {
 				let operatorColArr = this.operatorColArr
-				if(operatorColArr.length >= 2){
+				if (operatorColArr.length >= 2) {
 					// 取绝对值，让输入的列的顺序无关
 					let startIndex = operatorColArr[0],
-							endIndex = operatorColArr[operatorColArr.length - 1],
-							distance = Math.abs( endIndex - startIndex )
-					if(distance === 1) {
+						endIndex = operatorColArr[operatorColArr.length - 1],
+						distance = Math.abs(endIndex - startIndex)
+					if (distance === 1) {
 						distance = 2
-					}else if(distance > 1) {
+					} else if (distance > 1) {
 						distance += 1
 					}
 					this.needConformColIndex = 1
-					return distance 
-				}else{
+					return distance
+				} else {
 					return 0
 				}
-			}
+			},
+			...mapGetters({
+				activeSheet: 'getActiveSheet',
+				filterOptions: 'getFilterOptions',
+				curFilterTagListCount: 'getCurFilterTagListCount',
+				curColCount: 'getCurColCount'
+			})
 		},
 		methods: {
 			getNumCol,
@@ -151,32 +143,32 @@
 				this.setColSelectType(2)
 				this.setColSelectDialogStatus(true)
 			},
-			generateNeedConformColWords(index){
+			generateNeedConformColWords(index) {
 				return index !== this.needConformColsNum ? `满足${index}列` : '满足全部列'
 			},
-			generateNeedConformColNum(){
+			generateNeedConformColNum() {
 				let operatorCol = this.operatorCol,
-						abs0 = Math.abs(+operatorCol[0]),
-						abs1 = Math.abs(+operatorCol[1]),
-						startIndex = Math.min(abs0, abs1),
-						endIndex = Math.max(abs0, abs1),
-						tempColsArr = []
+					abs0 = Math.abs(+operatorCol[0]),
+					abs1 = Math.abs(+operatorCol[1]),
+					startIndex = Math.min(abs0, abs1),
+					endIndex = Math.max(abs0, abs1),
+					tempColsArr = []
 
-				for(let i = startIndex, len = endIndex; i <= len; i++){
+				for (let i = startIndex, len = endIndex; i <= len; i++) {
 					tempColsArr.push(i)
 				}
 				this.operatorColArr = tempColsArr
 			},
 			addFilterHandler() {
 				let filterObj = {},
-						filterWords = '',
-						operatorColArr = this.operatorColArr,
-						operator = this.operator,
-						operatorWords = this.getOperatorWords(this.filterOptions, operator),
-						opVal = this.operatorVal && this.operatorVal.trim(),
-						preStr = `第${getCharCol(operatorColArr[0])}至第${getCharCol(operatorColArr[operatorColArr.length - 1])}列范围内的值中，至少有${this.needConformColIndex}列`
+					filterWords = '',
+					operatorColArr = this.operatorColArr,
+					operator = this.operator,
+					operatorWords = this.getOperatorWords(this.filterOptions, operator),
+					opVal = this.operatorVal && this.operatorVal.trim(),
+					preStr = `第${getCharCol(operatorColArr[0])}至第${getCharCol(operatorColArr[operatorColArr.length - 1])}列范围内的值中，至少有${this.needConformColIndex}列`
 
-				if(!this.validateForm({operatorColArr, opVal, operator})) {
+				if (!this.validateForm({ operatorColArr, opVal, operator })) {
 					return
 				}
 				filterWords = preStr + this.getFilterWordsPrimitive({
@@ -184,7 +176,7 @@
 					operatorWords,
 					val: opVal
 				})
-				console.log("this.operatorColArr",  this.operatorColArr)
+				console.log("this.operatorColArr", this.operatorColArr)
 				console.log("operator", operator)
 				filterObj = {
 					filterType: 2,
@@ -205,33 +197,38 @@
 			},
 			validateForm(args) {
 				let { operatorColArr, opVal, operator } = args,
-						isValidated = false,
-						tipWords = '双列范围逻辑：',
-						isNotBelongEmpty = !(operator === 'empty' || operator === 'notEmpty')
-				
-				if(operatorColArr.length === 0) {
+					isValidated = false,
+					tipWords = '双列范围逻辑：',
+					isNotBelongEmpty = !(operator === 'empty' || operator === 'notEmpty')
+
+				if (operatorColArr.length === 0) {
 					tipWords += '请填写列'
-				}else if(!this.isConformDoubleCols) {
+				} else if (!this.isConformDoubleCols) {
 					tipWords += '只能填写两列，它会取指定两列范围内的所有列（包含自身）'
-				}else if(operatorColArr[0] + 1 < 1) {
+				} else if (operatorColArr[0] + 1 < 1) {
 					tipWords += '列从1开始'
-				}else if(this.curColCount !== 0 && operatorColArr[operatorColArr.length - 1] + 1 > this.curColCount){
+				} else if (this.curColCount !== 0 && operatorColArr[operatorColArr.length - 1] + 1 > this.curColCount) {
 					tipWords += `超过最大列${this.curColCount}`
-				}else if(isNotBelongEmpty && opVal.length === 0) {
+				} else if (isNotBelongEmpty && opVal.length === 0) {
 					tipWords += '请填写运算符的值'
-				}else {
+				} else {
 					isValidated = true
 				}
 
-				if(!isValidated) {
+				if (!isValidated) {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: tipWords
 					})
 					return false
-				}else {
-					 return true
+				} else {
+					return true
 				}
-			}
+			},
+			...mapActions([
+				'setColSelectDialogStatus',
+				'setColSelectType',
+				'addFilter'
+			])
 		}
 	}
 </script>

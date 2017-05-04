@@ -15,7 +15,7 @@
 			</li>
 			<li class="btn filter_btn" title="添加筛选条件" 
 				v-show="!isShowInstruction"
-				@click="toggleFilterPanelStatus"
+				@click="clickFilterBtn"
 				:class="{active: isShowFilterPanel}">
 				<i class="fa fa-filter"></i>
 			</li>
@@ -54,83 +54,43 @@
 	import compareVersions from 'compare-versions'
 	import { openExternal } from '../../utils/openExternal'
 	import { appInfo, getDownloadUrl } from '../../utils/appInfo'
-	import { 
-		getSideBarStatus,
-		getFilterPanelStatus,
-		getFilterWay,
-		getCurOriRowCount,
-		getCurFilRowCount,
-		getCurFilterTagListCount,
-		getKeepCurVersion,
-		getUpdateDialogStatus,
-		getActiveSheet,
-		getUniqueCols
-	} from '../../vuex/getters'
-	import { 
-		toggleSideBar,
-		toggleFilterPanelStatus,
-		setExcelData,
-		setUploadFiles,
-		toggleUpdateDialog,
-		setUpdateUrl,
-		setUpdateVersion,
-		setUpdateNotes,
-		setUpdatePubDate,
-		setHasNewStatus,
-		setKeepVersionStatus
-	} from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
 
 	let firstTime = true
 	export default {
-		data(){
+		data() {
 			return {
 				isShowInstruction: this.$route.name === 'instructions'
 			}
 		},
-		vuex: {
-			getters: {
-				isShowFilterPanel: getFilterPanelStatus,
-				isShowSideBar: getSideBarStatus,
-				filterWay: getFilterWay,
-				curOriRowCount: getCurOriRowCount,
-				curFilRowCount: getCurFilRowCount,
-				curFilterTagListCount: getCurFilterTagListCount,
-				isKeepCurVersion: getKeepCurVersion,
-				isShowUpdateDialog: getUpdateDialogStatus,
-				uniqueCols: getUniqueCols,
-				activeSheet: getActiveSheet
-			},
-			actions: {
-				toggleSideBar,
-				toggleFilterPanelStatus,
-				setExcelData, 
-				setUploadFiles,
-				toggleUpdateDialog,
-				setUpdateUrl,
-				setUpdateVersion,
-				setUpdateNotes,
-				setUpdatePubDate,
-				setHasNewStatus,
-				setKeepVersionStatus
-			}
-		},
 		computed: {
-			hasFile(){
+			hasFile() {
 				return this.curOriRowCount > 0
 			},
 			filterAcount() {
 				let activeSheetName = this.activeSheet.name
 				let curUniqueCols = this.uniqueCols[activeSheetName] || []
 				let curUniqueLength = curUniqueCols.length
-				return curUniqueLength > 0 
+				return curUniqueLength > 0
 					? this.curFilterTagListCount + 1
 					: this.curFilterTagListCount
-			}
-
+			},
+			...mapGetters({
+				isShowFilterPanel: 'getFilterPanelStatus',
+				isShowSideBar: 'getSideBarStatus',
+				filterWay: 'getFilterWay',
+				curOriRowCount: 'getCurOriRowCount',
+				curFilRowCount: 'getCurFilRowCount',
+				curFilterTagListCount: 'getCurFilterTagListCount',
+				isKeepCurVersion: 'getKeepCurVersion',
+				isShowUpdateDialog: 'getUpdateDialogStatus',
+				uniqueCols: 'getUniqueCols',
+				activeSheet: 'getActiveSheet'
+			})
 		},
 		created() {
 			ipcRenderer.on('open-file-response', (event, path) => {
-				if(isExcelFile(path)) {
+				if (isExcelFile(path)) {
 					this.setExcelData({
 						path: path,
 						type: 'node'
@@ -138,29 +98,29 @@
 					this.setUploadFiles(path)
 				} else {
 					ipcRenderer.send('sync-alert-dialog', {
-		        content: '不支持该文件格式'
-		      })
+						content: '不支持该文件格式'
+					})
 				}
 			})
-			if(!this.isKeepCurVersion && firstTime) {
-        this.checkUpdate(false)
-        firstTime = false
-      }
+			if (!this.isKeepCurVersion && firstTime) {
+				this.checkUpdate(false)
+				firstTime = false
+			}
 		},
 		methods: {
 			openExternal,
-			toggleView(){
+			toggleView() {
 				let curRouteName = this.$route.name
-				if(curRouteName === 'instructions') {
+				if (curRouteName === 'instructions') {
 					this.$router.push('index')
-				}else{
+				} else {
 					this.$router.push('instructions')
 				}
 			},
-			focusSearchInput(){
+			focusSearchInput() {
 				let searchInput = document.getElementById('search_file_input')
 				this.toggleSideBar()
-				if(this.isShowSideBar){
+				if (this.isShowSideBar) {
 					this.$nextTick(() => {
 						searchInput && searchInput.focus()
 					})
@@ -174,55 +134,71 @@
 				this.setKeepVersionStatus(false)
 			},
 			checkUpdate(isClick) {
-        let that = this
-        console.log(appInfo.updateUrl)
-        request({
-          url: appInfo.updateUrl,
-          method: 'GET'
-        }, function(err, response, body) {
-          if(err) {
-            console.log(err)
-          }
-          try {
-          	let statusCode = response.statusCode
-          	if(statusCode === 200) {
-	            let res = JSON.parse(response.body)
-	            /**
-	             *  1即小于，表示当前版本比服务器上的版本还要新
-	             *  0即等于，表示已是最新版
-	             *  -1即大于，表示有更新版本
-	             */
-	            let compareResult = compareVersions(appInfo.app_version, res.name)
-	            console.log('compareResult', compareResult)
-	            console.log('appInfo.app_version', appInfo.app_version)
-	            console.log('res.name', res.name)
-	            if(compareResult === -1) {
-	            	// 由于 github 对于国内用户下载速度太慢，所以要切换至国内
-	            	let downloadUrl = getDownloadUrl(res.name)
-	            	console.log(downloadUrl)
-	            	if(downloadUrl === undefined) {
-	            		downloadUrl = res.url
-	            	}
-	              that.toggleUpdateDialog(true)
-	              that.setUpdateUrl(downloadUrl)
-	              that.setUpdateVersion(res.name)
-	              that.setUpdateNotes(res.notes)
-	              that.setUpdatePubDate(res.pub_date)
-	              that.setHasNewStatus(true)
-	            }
-          	} else if(statusCode === 204) {
-          		console.log('无新版本')
-          		if(isClick) {
-          			that.toggleUpdateDialog(true)
-          		} 
-              that.setHasNewStatus(false)
-          	}
-          } catch(e) {
-            console.log('version 解析失败')
-            console.log(e)
-          }
-        })
-      }
+				let that = this
+				console.log(appInfo.updateUrl)
+				request({
+					url: appInfo.updateUrl,
+					method: 'GET'
+				}, function (err, response, body) {
+					if (err) {
+						console.log(err)
+					}
+					try {
+						let statusCode = response.statusCode
+						if (statusCode === 200) {
+							let res = JSON.parse(response.body)
+							/**
+							*  1即小于，表示当前版本比服务器上的版本还要新
+							*  0即等于，表示已是最新版
+							*  -1即大于，表示有更新版本
+							*/
+							let compareResult = compareVersions(appInfo.app_version, res.name)
+							console.log('compareResult', compareResult)
+							console.log('appInfo.app_version', appInfo.app_version)
+							console.log('res.name', res.name)
+							if (compareResult === -1) {
+								// 由于 github 对于国内用户下载速度太慢，所以要切换至国内
+								let downloadUrl = getDownloadUrl(res.name)
+								console.log(downloadUrl)
+								if (downloadUrl === undefined) {
+									downloadUrl = res.url
+								}
+								that.toggleUpdateDialog(true)
+								that.setUpdateUrl(downloadUrl)
+								that.setUpdateVersion(res.name)
+								that.setUpdateNotes(res.notes)
+								that.setUpdatePubDate(res.pub_date)
+								that.setHasNewStatus(true)
+							}
+						} else if (statusCode === 204) {
+							console.log('无新版本')
+							if (isClick) {
+								that.toggleUpdateDialog(true)
+							}
+							that.setHasNewStatus(false)
+						}
+					} catch (e) {
+						console.log('version 解析失败')
+						console.log(e)
+					}
+				})
+			},
+			clickFilterBtn() {
+				this.toggleFilterPanelStatus()
+			},
+			...mapActions([
+				'toggleSideBar',
+				'toggleFilterPanelStatus',
+				'setExcelData',
+				'setUploadFiles',
+				'toggleUpdateDialog',
+				'setUpdateUrl',
+				'setUpdateVersion',
+				'setUpdateNotes',
+				'setUpdatePubDate',
+				'setHasNewStatus',
+				'setKeepVersionStatus'
+			])
 		}
 	}
 </script>

@@ -5,10 +5,16 @@
 			    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
 			    <desc>Created with Sketch.</desc>
 			    <defs></defs>
-			    <path d="M0.5,16 L17.5,16 L9,1 L0.5,16 L0.5,16 Z M10,14 L8,14 L8,12 L10,12 L10,14 L10,14 Z M10,11 L8,11 L8,7 L10,7 L10,11 L10,11 Z" id="Shape" stroke="none" fill="#D50000" fill-rule="evenodd"></path>
+			    <path d="M0.5,16 L17.5,16 L9,1 L0.5,16 L0.5,16 Z M10,14 L8,14 L8,12 L10,12 L10,14 L10,14 Z M10,11 L8,11 L8,7 L10,7 L10,11 L10,11 Z" 
+					id="Shape" stroke="none" fill="#D50000" fill-rule="evenodd">
+				</path>
 			</svg>暂无任何筛选条件.
 		</div>
-		<unique-tag :unique-cols="uniqueCols[activeSheet.name]" :cur-filter-tag-list="filterTagList[activeSheet.name]" v-if="uniqueCols[activeSheet.name] && uniqueCols[activeSheet.name].length > 0"></unique-tag>
+		<unique-tag 
+			:unique-cols="uniqueCols[activeSheet.name]" 
+			:cur-filter-tag-list="filterTagList[activeSheet.name]" 
+			v-if="uniqueCols[activeSheet.name] && uniqueCols[activeSheet.name].length > 0">
+		</unique-tag>
 		<filter-tag v-for="(filterTag, index) in filterTagList[activeSheet.name]" 
 			:filter-tag="filterTag" 
 			:tag-index="index">
@@ -19,23 +25,16 @@
 <script>
 	import FilterTag from './FilterTag'
 	import UniqueTag from './UniqueTag'
-	import { getFilterTagList, getActiveSheet, getUniqueCols } from '../../vuex/getters'
+	import { mapGetters } from 'vuex'
 
 	export default {
 		components: {
 			FilterTag,
 			UniqueTag
 		},
-		data(){
+		data() {
 			return {
 				curFilterTagList: []
-			}
-		},
-		vuex: {
-			getters: {
-				filterTagList: getFilterTagList,
-				activeSheet: getActiveSheet,
-				uniqueCols: getUniqueCols
 			}
 		},
 		computed: {
@@ -43,18 +42,23 @@
 				let activeSheetName = this.activeSheet.name
 				let curTagList = this.filterTagList[activeSheetName]
 				let curUniqueCols = this.uniqueCols[activeSheetName]
-				if(!curTagList || curTagList.length === 0) {
-					if(curUniqueCols === undefined) return true
+				
+				if (!curTagList || curTagList.length === 0) {
+					if (curUniqueCols === undefined) return true
 					else {
-						if(curUniqueCols.length === 0) return true
+						if (curUniqueCols.length === 0) return true
 						else return false
 					}
-				}else {
+				} else {
 					return false
 				}
-			}
+			},
+			...mapGetters({
+				filterTagList: 'getFilterTagList',
+				activeSheet: 'getActiveSheet',
+				uniqueCols: 'getUniqueCols'
+			})
 		}
-		
 	}
 </script>
 

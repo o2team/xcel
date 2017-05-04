@@ -41,8 +41,7 @@
 </template>
 
 <script>
-	import { getUpdateDialogStatus, getUpdateUrl, getUpdateVersion, getUpdateNotes, getUpdatePubDate, getHasNewStatus } from '../../vuex/getters'
-	import { toggleUpdateDialog, setKeepVersionStatus } from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
 	import { ipcRenderer } from 'electron'
 	import { openExternal } from '../../utils/openExternal'
 	import { markdown } from 'markdown'
@@ -53,28 +52,21 @@
 		data() {
 			return {}
 		},
-		vuex: {
-			getters: {
-				updateDialogStatus: getUpdateDialogStatus,
-				updateUrl: getUpdateUrl,
-				updateVersion: getUpdateVersion,
-				updateNotes: getUpdateNotes,
-				updatePubDate: getUpdatePubDate,
-				isHasNew: getHasNewStatus
-			},
-			actions: {
-				toggleUpdateDialog,
-				setKeepVersionStatus
-			}
-		},
-
 		computed: {
 			updateNotesHTML() {
 				return markdown.toHTML(this.updateNotes) || '空'
 			},
 			formatPubDate() {
 				return moment(this.updatePubDate).subtract(8, 'hours').format('YYYY年MM月DD日 HH时mm分')
-			}
+			},
+			...mapGetters({
+				updateDialogStatus: 'getUpdateDialogStatus',
+				updateUrl: 'getUpdateUrl',
+				updateVersion: 'getUpdateVersion',
+				updateNotes: 'getUpdateNotes',
+				updatePubDate: 'getUpdatePubDate',
+				isHasNew: 'getHasNewStatus'
+			})
 		},
 		methods: {
 			openExternal,
@@ -82,15 +74,19 @@
 				this.toggleUpdateDialog(false)
 			},
 			updateBtnHandler() {
-        ipcRenderer.send('will-download-handler', {
-        	url: this.updateUrl
-        })
-        this.toggleUpdateDialog(false)
+				ipcRenderer.send('will-download-handler', {
+					url: this.updateUrl
+				})
+				this.toggleUpdateDialog(false)
 			},
 			keepCurVersion() {
-        this.toggleUpdateDialog(false)
+				this.toggleUpdateDialog(false)
 				this.setKeepVersionStatus(true)
-			}
+			},
+			...mapActions([
+				'toggleUpdateDialog',
+				'setKeepVersionStatus'
+			])
 		}
 	}
 </script>

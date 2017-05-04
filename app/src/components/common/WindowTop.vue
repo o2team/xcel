@@ -28,24 +28,23 @@
 
 <script>
 	import { ipcRenderer } from 'electron'
-	import { toggleWindowMax, toggleWindowMini } from '../../vuex/actions'
+	import { mapActions } from 'vuex'
+
 	export default {
-		vuex: {
-			actions: {
-				toggleWindowMax,
-				toggleWindowMini
-			}
-		},
 		methods: {
-			minimizeHandler(){
-		    	this.toggleWindowMini()
+			minimizeHandler() {
+				this.toggleWindowMini()
 			},
-			maximizeHandler(){
+			maximizeHandler() {
 				this.toggleWindowMax()
 			},
-			closeHandler(){
-		    	ipcRenderer.send('sync-close')
-			}
+			closeHandler() {
+				ipcRenderer.send('sync-close')
+			},
+			...mapActions([
+				'toggleWindowMax',
+				'toggleWindowMini'
+			])
 		}
 	}
 </script>

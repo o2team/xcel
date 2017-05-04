@@ -5,7 +5,7 @@ import Router from 'vue-router'
 import 'font-awesome/css/font-awesome.min.css'
 import App from './App'
 import routes from './routes'
-import store from './vuex/store'
+import store from './store'
 
 Vue.use(Electron)
 Vue.use(Router)

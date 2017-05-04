@@ -28,31 +28,15 @@
 </template>
 
 <script>
-    import { addFilter, setColSelectDialogStatus, setColSelectType, setUniqueCols } from '../../vuex/actions'
-    import { getActiveSheet, getCurFilterTagListCount, getCurColCount, getFilterTagList, getUniqueCols } from '../../vuex/getters'
-	import { getCharCol, getLogicOperatorWords, getOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
-	import { ipcRenderer } from 'electron'
+    import { mapGetters, mapActions } from 'vuex'
+    import { getCharCol, getLogicOperatorWords, getOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
+    import { ipcRenderer } from 'electron'
 
     export default {
         data() {
             return {
                 operatorCol: [],
                 logicOperator: 'and'
-            }
-        },
-        vuex: {
-            getters: {
-                activeSheet: getActiveSheet,
-                curColCount: getCurColCount,				
-                filterTagList: getFilterTagList,
-				curFilterTagListCount: getCurFilterTagListCount,
-                uniqueCols: getUniqueCols
-            },
-            actions: {
-                setColSelectDialogStatus,
-				setColSelectType,
-				addFilter,
-                setUniqueCols
             }
         },
         mounted() {
@@ -63,21 +47,28 @@
         },
         computed: {
             formatColGroup() {
-				console.log(this.operatorCol)
-				return this.operatorCol.map((col, index) => {
-					return this.getCharCol(col)
-				}).join(',')
-			}
+                console.log(this.operatorCol)
+                return this.operatorCol.map((col, index) => {
+                    return this.getCharCol(col)
+                }).join(',')
+            },
+            ...mapGetters({
+                activeSheet: 'getActiveSheet',
+                curColCount: 'getCurColCount',
+                filterTagList: 'getFilterTagList',
+                curFilterTagListCount: 'getCurFilterTagListCount',
+                uniqueCols: 'getUniqueCols'
+            })
         },
         methods: {
             getCharCol,
             getLogicOperatorWords,
             showColSelectDialog() {
-				this.setColSelectType(3)
-				this.setColSelectDialogStatus(true)
-			},
+                this.setColSelectType(3)
+                this.setColSelectDialogStatus(true)
+            },
             addFilterHandler() {
-                if(!this.validateForm()) {
+                if (!this.validateForm()) {
                     return
                 }
                 this.setUniqueCols({
@@ -90,21 +81,27 @@
             },
             validateForm() {
 
-                if(this.uniqueCols.length > 0) {
+                if (this.uniqueCols.length > 0) {
                     ipcRenderer.send('sync-alert-dialog', {
-                        content: '筛选条件已存在去重逻辑。若需替换，请先删除原有去重逻辑。' 
+                        content: '筛选条件已存在去重逻辑。若需替换，请先删除原有去重逻辑。'
                     })
                     return false
                 }
 
-                if(this.operatorCol.length > 0) return true
+                if (this.operatorCol.length > 0) return true
                 else {
                     ipcRenderer.send('sync-alert-dialog', {
-                        content: '多列去重逻辑：至少填写一列' 
+                        content: '多列去重逻辑：至少填写一列'
                     })
                     return false
                 }
-            }
+            },
+            ...mapActions([
+                'setColSelectDialogStatus',
+                'setColSelectType',
+                'addFilter',
+                'setUniqueCols'
+            ])
         }
     }
     

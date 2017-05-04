@@ -23,8 +23,9 @@
 </template>
 
 <script>
-	import { delFilter } from '../../vuex/actions'
-	import { getUniqueCols, getActiveSheet } from '../../vuex/getters'
+
+	import { ipcRenderer } from 'electron'
+	import { mapGetters, mapActions } from 'vuex'
 	import { getCharCol } from "../../utils/ExcelSet"
 
 	export default {
@@ -38,23 +39,31 @@
 				required: true
 			}
 		},
-		vuex: {
-			actions: {
-				delFilter
-			},
-			getters: {
-				uniqueCols: getUniqueCols,
-				activeSheet: getActiveSheet
-			}
+		computed: {
+			...mapGetters({
+				uniqueCols: 'getUniqueCols',
+				filterTagList: 'getFilterTagList',
+				activeSheet: 'getActiveSheet'
+			})
 		},
 		methods: {
 			getCharCol,
-			delHandler(index){
-				let curUniqueCols = this.uniqueCols[this.activeSheet.name]
+			delHandler(index) {
+				let curSheetName = this.activeSheet.name,
+					curUniqueCols = this.uniqueCols[curSheetName],
+					curFilterTagList = this.filterTagList[curSheetName]
+
 				this.delFilter({
 					index,
 					curUniqueCols
 				})
+				
+				if(curFilterTagList.length === 0 && curUniqueCols.length === 0) {
+					ipcRenderer.send('delAllFilterTag-start', {
+						curActiveSheetName: curSheetName
+					})
+					this.setFilteredData(null)
+				}
 			},
 			getLogicOperator(char) {
 				return char === 'and' ? '且' : '或'
@@ -64,7 +73,11 @@
 				filterTag.filters.forEach((item, index) => {
 					finalWords
 				})
-			}
+			},
+			...mapActions([
+				'delFilter',
+				'setFilteredData'
+			])
 		}
 	}
 </script>

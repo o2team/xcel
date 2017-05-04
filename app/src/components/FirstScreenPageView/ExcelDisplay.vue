@@ -42,10 +42,8 @@
 	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
 	import { isExcelFile } from '../../utils/ExcelSet'
-	import { getSheetNameList, getActiveSheet, getSideBarStatus, getFilterTagList, getFilterWay, getUniqueCols } from '../../vuex/getters'
-	import { setActiveSheet, setExcelData, setUploadFiles } from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
 	import SheetOfExcel from './SheetOfExcel'
-	
 
 	export default {
 		components: {
@@ -56,35 +54,30 @@
 				sheetHTML: ''
 			}
 		},
-		vuex: {
-			getters: {
-				activeSheet: getActiveSheet,
-				filterTagList: getFilterTagList,
-				filterWay: getFilterWay,
-				sheetNameList: getSheetNameList,
-				uniqueCols: getUniqueCols
-			},
-			actions: {
-				setActiveSheet,
-				setExcelData,
-				setUploadFiles
-			}
-		},
-		mounted(){
+		mounted() {
 			ipcRenderer.on('generate-htmlstring-response', (event, arg) => {
 				this.sheetHTML = arg.sheetHTML
 			})
 
 			let dropArea = document.querySelector('.drop_area')
-			if(dropArea) {
+			if (dropArea) {
 				dropArea.addEventListener('dragenter', dragoverHandler, false)
 				dropArea.addEventListener('dragover', dragoverHandler, false)
 			}
-			function dragoverHandler(e){
+			function dragoverHandler(e) {
 				e.stopPropagation()
 				e.preventDefault()
 				e.dataTransfer.dropEffect = 'copy'
 			}
+		},
+		computed: {
+			...mapGetters({
+				activeSheet: 'getActiveSheet',
+				filterTagList: 'getFilterTagList',
+				filterWay: 'getFilterWay',
+				sheetNameList: 'getSheetNameList',
+				uniqueCols: 'getUniqueCols'
+			})
 		},
 		methods: {
 			changeTab(index) {
@@ -102,15 +95,15 @@
 			dragleaveHandler(e) {
 				e.target.classList.remove('active')
 			},
-			dropHandler(e){
+			dropHandler(e) {
 				let files = e.dataTransfer.files
 				let path = files[0].path
 
-				if(!isExcelFile(path)) {
+				if (!isExcelFile(path)) {
 					this.dragleaveHandler(e)
 					ipcRenderer.send('sync-alert-dialog', {
-		        content: '不支持该文件格式'
-		      })
+						content: '不支持该文件格式'
+					})
 				} else {
 					this.setExcelData({
 						path: path,
@@ -118,7 +111,12 @@
 					})
 					this.setUploadFiles(path)
 				}
-			}			
+			},
+			...mapActions([
+				'setActiveSheet',
+				'setExcelData',
+				'setUploadFiles'
+			])
 		}
 	}
 

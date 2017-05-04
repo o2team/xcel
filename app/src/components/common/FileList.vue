@@ -21,61 +21,45 @@
 	import fs from 'fs'
 	import { isExcelFile } from '../../utils/ExcelSet'
 	import { remote, ipcRenderer } from 'electron'
-	import { 
-		changeFileType,
-		setExcelData,
-		setActiveSheet,
-		setUploadFiles,
-		delUploadFiles 
-	} from '../../vuex/actions'
-	import { getCurSearchVal, getUploadFiles } from '../../vuex/getters'
+	import { mapGetters, mapActions } from 'vuex'
 
 	export default {
-		data(){
+		data() {
 			return {
 				filterFileList: [],
 				curLoadingIndex: -1
 			}
 		},
-		vuex: {
-			getters: {
-				fileList: getUploadFiles,
-				curSearchVal: getCurSearchVal
-			},
-			actions: {
-				changeFileType,
-				setExcelData,
-				setActiveSheet,
-				setUploadFiles,
-				delUploadFiles
-			}
-		},
 		computed: {
 			fileListByQuery() {
 				return this.filterByQuery(this.fileList, this.curSearchVal)
-			}
+			},
+			...mapGetters({
+				fileList: 'getUploadFiles',
+				curSearchVal: 'getCurSearchVal'
+			})
 		},
 		methods: {
-			filterByQuery(fileList, query){
-				if(query.trim().length === 0) return fileList
+			filterByQuery(fileList, query) {
+				if (query.trim().length === 0) return fileList
 				let filterRegExp = new RegExp(query, 'gi')
 				return fileList.filter((file, index) => {
-					if(file.name.match(filterRegExp)) return true
+					if (file.name.match(filterRegExp)) return true
 				})
 			},
-			filterByType(fileList, type){
-				if(type.toUpperCase() === 'ALL') return fileList
-				let filterRegExp = new RegExp(( type + '$' ), 'gi')
-				return fileList.filter(function(file, index) {
-					if(file.name.match(filterRegExp)) return true
+			filterByType(fileList, type) {
+				if (type.toUpperCase() === 'ALL') return fileList
+				let filterRegExp = new RegExp((type + '$'), 'gi')
+				return fileList.filter(function (file, index) {
+					if (file.name.match(filterRegExp)) return true
 				});
 			},
-			confirmRead(path, index){
-				if(!isExcelFile(path)) {
+			confirmRead(path, index) {
+				if (!isExcelFile(path)) {
 					ipcRenderer.send('sync-alert-dialog', {
-		        content: '不支持该文件格式'
-		      })
-		      this.confirmDel(index, '当前工具不支持该文件格式，是否删除该记录？')
+						content: '不支持该文件格式'
+					})
+					this.confirmDel(index, '当前工具不支持该文件格式，是否删除该记录？')
 				} else {
 					remote.dialog.showMessageBox({
 						type: 'question',
@@ -84,15 +68,15 @@
 						title: 'XCel',
 						message: '导入该文件会覆盖目前的筛选结果，是否确认要导入？'
 					}, (btnIndex) => {
-						if(btnIndex === 0) {
+						if (btnIndex === 0) {
 							fs.stat(path, (err, stats) => {
-								if(stats && stats.isFile()) {
+								if (stats && stats.isFile()) {
 									this.setExcelData({
 										path: path,
 										type: 'node'
 									})
 									this.setUploadFiles(path)
-								}else{
+								} else {
 									this.confirmDel(index, '当前文件不存在，是否删除该记录？')
 								}
 							})
@@ -108,16 +92,22 @@
 					title: 'XCel',
 					message: '是否要删除该文件记录？'
 				}, (btnIndex) => {
-					if(btnIndex === 0) {
+					if (btnIndex === 0) {
 						this.delUploadFiles(index)
-					} 
+					}
 				})
-			}
+			},
+			...mapActions([
+				'changeFileType',
+				'setExcelData',
+				'setActiveSheet',
+				'setUploadFiles',
+				'delUploadFiles'
+			])
 		}
 	}
-
-
 </script>
+
 <style scoped>
 	.del_btn{
 		background-color: #FF4081;

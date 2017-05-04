@@ -59,16 +59,15 @@
 
 <script>
 	import { colOperator, getNumCol, getCharCol, getOperatorWords, getColOperatorWords, getColArithmeticOperatorWords, getLogicOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
-	import { getFilterOptions, getCurFilterTagListCount } from '../../vuex/getters'
-	import { addFilter, setColSelectDialogStatus, setColSelectType } from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
 
-	export default{
+	export default {
 		components: {
 			GroupSelect
 		},
-		data(){
+		data() {
 			return {
 				operatorVal: '',
 				operatorCol: [], // 最终会转为数组
@@ -79,25 +78,14 @@
 				groupId: -1
 			}
 		},
-		vuex: {
-			getters: {
-				filterOptions: getFilterOptions,
-				curFilterTagListCount: getCurFilterTagListCount
-			},
-			actions: {
-				setColSelectDialogStatus,
-				setColSelectType,
-				addFilter
-			}
-		},
 		mounted() {
 			window.eventBus.$on('colSelVal4Multi', (colSelectGroup) => {
 				this.operatorCol = colSelectGroup
 			})
 		},
 		watch: {
-			curFilterTagListCount(){
-				if(this.curFilterTagListCount == 0) {
+			curFilterTagListCount() {
+				if (this.curFilterTagListCount == 0) {
 					this.logicOperator = 'and'
 				}
 			}
@@ -111,15 +99,19 @@
 			},
 			filteredOpt() {
 				return this.filterOptions.filter((opt, index) => {
-					if(opt.char === 'empty' || opt.char === 'notEmpty') {
+					if (opt.char === 'empty' || opt.char === 'notEmpty') {
 						return false
-					}else {
+					} else {
 						return true
 					}
 				})
-			}
+			},
+			...mapGetters({
+				filterOptions: 'getFilterOptions',
+				curFilterTagListCount: 'getCurFilterTagListCount'
+			})
 		},
-		methods:{
+		methods: {
 			getNumCol,
 			getCharCol,
 			getOperatorWords,
@@ -137,7 +129,7 @@
 				this.setColSelectType(1)
 				this.setColSelectDialogStatus(true)
 			},
-			addFilterHandler(){
+			addFilterHandler() {
 				let filterObj = {},
 					filterWords = '',
 					curCols = this.operatorCol,
@@ -147,11 +139,11 @@
 					colOperatorSelect = this.colOperatorSelect,
 					colOperatorWords = this.getColOperatorWords(colOperator, colOperatorSelect)
 
-				if(!this.validateForm({curCols, opVal, colOperatorSelect})) {
+				if (!this.validateForm({ curCols, opVal, colOperatorSelect })) {
 					return
 				}
 
-				let colText = '' 
+				let colText = ''
 				curCols.forEach((col, index) => {
 					colText += `, ${getCharCol(col)}`
 				})
@@ -184,32 +176,37 @@
 				this.groupId = -1
 				this.operator = '>'
 			},
-			validateForm(args){
+			validateForm(args) {
 				let { curCols, opVal, colOperatorSelect } = args,
-						isValidated = false,
-						tipWords = '多列运算逻辑：'
+					isValidated = false,
+					tipWords = '多列运算逻辑：'
 
-				if(curCols.length === 0) {
+				if (curCols.length === 0) {
 					tipWords += '请填写列'
-				}else if(curCols.length < 2) {
+				} else if (curCols.length < 2) {
 					tipWords += '至少填写两列'
-				}else if(opVal.length === 0) {
+				} else if (opVal.length === 0) {
 					tipWords += '请填写运算符'
-				}else if(colOperatorSelect.includes('time') && curCols.length > 2) {
+				} else if (colOperatorSelect.includes('time') && curCols.length > 2) {
 					tipWords += '中的时间相关操作只能选择两列'
-				}else {
+				} else {
 					isValidated = true
 				}
-				
-				if(!isValidated) {
+
+				if (!isValidated) {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: tipWords
 					})
 					return false
-				}else {
+				} else {
 					return true
 				}
-			}
+			},
+			...mapActions([
+				'setColSelectDialogStatus',
+				'setColSelectType',
+				'addFilter'
+			])
 		}
 	}
 </script>

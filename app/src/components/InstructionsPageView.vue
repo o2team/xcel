@@ -1,5 +1,4 @@
 <template>
-
 	<div class="instructions_view">
 		<v-header class="header"></v-header>
 		<main>

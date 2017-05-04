@@ -1,17 +1,17 @@
 export function getLocal(key) {
 	let localStorage = window.localStorage,
-			valStr
+		valStr
 
-	if(key !== undefined && key !== null) {
+	if (key !== undefined && key !== null) {
 		valStr = localStorage.getItem(key)
 	} else {
 		return false
 	}
 
-	if(valStr !== 'undefined' && valStr !== 'null') {
+	if (valStr !== 'undefined' && valStr !== 'null') {
 		try {
 			return JSON.parse(valStr)
-		} catch(e) {
+		} catch (e) {
 			console.log(`localStorage 的 ${key} 属性解析失败`)
 			return false
 		}
@@ -24,7 +24,7 @@ export function getLocal(key) {
 export function setLocal(key, val) {
 	let localStorage = window.localStorage
 
-	if(key !== undefined && key !== null) {
+	if (key !== undefined && key !== null) {
 		try {
 			localStorage.setItem(key, JSON.stringify(val))
 		} catch (e) {

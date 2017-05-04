@@ -58,25 +58,14 @@
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+	import { ipcRenderer } from 'electron'
 	import { getCharCol } from '../../utils/ExcelSet'
-	import { getCurColKeys, getColSelectDialogStatus, getColSelectType, getCurColCount } from '../../vuex/getters'
-	import { setColSelectDialogStatus } from '../../vuex/actions'
+	import { mapGetters, mapActions } from 'vuex'
+
 	export default {
 		data() {
 			return {
 				selectedGroup: []
-			}
-		},
-		vuex: {
-			getters: {
-				curColKeys: getCurColKeys,
-				colSelectDialogStatus: getColSelectDialogStatus,
-				colSelectType: getColSelectType,
-				curColCount: getCurColCount
-			},
-			actions: {
-				setColSelectDialogStatus
 			}
 		},
 		computed: {
@@ -87,10 +76,16 @@ import { ipcRenderer } from 'electron'
 			},
 			btnText() {
 				let selectedGroupLength = this.selectedGroup.length
-				if(selectedGroupLength === 0) return '全选'
-				else if(selectedGroupLength === this.curColCount) return '全不选'
+				if (selectedGroupLength === 0) return '全选'
+				else if (selectedGroupLength === this.curColCount) return '全不选'
 				else return '反选'
-			}
+			},
+			...mapGetters({
+				curColKeys: 'getCurColKeys',
+				colSelectDialogStatus: 'getColSelectDialogStatus',
+				colSelectType: 'getColSelectType',
+				curColCount: 'getCurColCount'
+			})
 		},
 		methods: {
 			getCharCol,
@@ -104,42 +99,42 @@ import { ipcRenderer } from 'electron'
 					colSelectLen = colSelectGroup.length,
 					eventBus = window.eventBus,
 					warmStr = ''
-				if(this.curColCount === 0) {
+				if (this.curColCount === 0) {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: 'Excel文件未上传或未含有列'
 					})
 					return
 				}
-				if(colSelectType === 0) {
-					if(colSelectLen === 0) {
+				if (colSelectType === 0) {
+					if (colSelectLen === 0) {
 						warmStr = '单列运算逻辑需要选择一列'
-					}else {
+					} else {
 						eventBus.$emit('colSelVal4Single', colSelectGroup)
 					}
-				}else if(colSelectType === 1) {
-					if(colSelectLen < 2) {
+				} else if (colSelectType === 1) {
+					if (colSelectLen < 2) {
 						warmStr = '多列运算逻辑至少选择两列'
-					}else {
+					} else {
 						eventBus.$emit('colSelVal4Multi', colSelectGroup)
 					}
-				}else if(colSelectType === 2) {
-					if(colSelectLen !== 2) {
+				} else if (colSelectType === 2) {
+					if (colSelectLen !== 2) {
 						warmStr = '双列运算逻辑只能选择两列'
-					}else {
+					} else {
 						eventBus.$emit('colSelVal4Double', colSelectGroup)
 					}
-				}else if(colSelectType === 3) {
-					if(colSelectLen === 0) {
+				} else if (colSelectType === 3) {
+					if (colSelectLen === 0) {
 						warmStr = "多列去重逻辑至少选择一列"
 					} else {
 						eventBus.$emit('colSelVal4Remove', colSelectGroup)
 					}
 				}
 
-				if(warmStr.length === 0) {
+				if (warmStr.length === 0) {
 					this.selectedGroup = []
 					this.setColSelectDialogStatus(false)
-				}else {
+				} else {
 					ipcRenderer.send('sync-alert-dialog', {
 						content: warmStr
 					})
@@ -147,25 +142,25 @@ import { ipcRenderer } from 'electron'
 			},
 			toggleSelect(index) {
 				let selectedGroup = this.selectedGroup,
-						colSelectType = this.colSelectType
-				console.log('colSelectType', colSelectType)
-				if(colSelectType === 0) {
+					colSelectType = this.colSelectType
+					
+				if (colSelectType === 0) {
 					selectedGroup.splice(0, 1, index)
-				}else if(colSelectType === 1 || colSelectType === 3) {
-					if(selectedGroup.includes(index)) {
+				} else if (colSelectType === 1 || colSelectType === 3) {
+					if (selectedGroup.includes(index)) {
 						let i = selectedGroup.indexOf(index)
 						selectedGroup.splice(i, 1)
-					}else {
+					} else {
 						selectedGroup.push(index)
-					}	
-				}else if(colSelectType === 2) {
-					if(selectedGroup.length <= 2) {
-						if(selectedGroup.includes(index)) {
+					}
+				} else if (colSelectType === 2) {
+					if (selectedGroup.length <= 2) {
+						if (selectedGroup.includes(index)) {
 							let i = selectedGroup.indexOf(index)
 							selectedGroup.splice(i, 1)
-						}else if(selectedGroup.length < 2) {
+						} else if (selectedGroup.length < 2) {
 							selectedGroup.push(index)
-						}	
+						}
 					}
 				}
 			},
@@ -173,23 +168,26 @@ import { ipcRenderer } from 'electron'
 				let selectedGroup = this.selectedGroup,
 					curColKeys = this.curColKeys,
 					tempSelectedGroup = []
-				console.log('selectGroup', selectedGroup)
-				if(selectedGroup.length === 0) {
-					for(let i = 0; i < this.curColCount; i++) {
+
+				if (selectedGroup.length === 0) {
+					for (let i = 0; i < this.curColCount; i++) {
 						this.selectedGroup.push(i)
 					}
 				} else {
-					
-					for(let i = 0; i < this.curColCount; i++) {
-						if(selectedGroup.indexOf(i) === -1) {
+
+					for (let i = 0; i < this.curColCount; i++) {
+						if (selectedGroup.indexOf(i) === -1) {
 							tempSelectedGroup.push(i)
 						}
 					}
 
 					this.selectedGroup = tempSelectedGroup
 				}
-				
-			}
+
+			},
+			...mapActions([
+				'setColSelectDialogStatus'
+			])
 		}
 	}
 </script>
