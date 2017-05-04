@@ -12,6 +12,6 @@ export const checkFilterAndUnqiueCount = ({commit, dispatch, getters, rootGetter
         ipcRenderer.send('delAllFilterTag-start', {
             curActiveSheetName: curSheetName
         })
-        commit(types.SET_FILTER_DATA, null)        
+        commit(types.SET_FILTERED_DATA, null)        
     }
 }

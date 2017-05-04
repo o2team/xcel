@@ -111,11 +111,10 @@
 			openExternal,
 			toggleView() {
 				let curRouteName = this.$route.name
-				if (curRouteName === 'instructions') {
+				if (curRouteName === 'instructions')
 					this.$router.push('index')
-				} else {
+				else
 					this.$router.push('instructions')
-				}
 			},
 			focusSearchInput() {
 				let searchInput = document.getElementById('search_file_input')

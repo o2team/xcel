@@ -72,7 +72,7 @@ const mutations = {
             name: state.sheetNameList[index]
         }
     },
-    [types.SET_FILTER_DATA](state, filRow) {
+    [types.SET_FILTERED_DATA](state, filRow) {
         if(filRow === undefined || filRow === null)
             state.filRow = state.oriRow
         else

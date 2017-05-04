@@ -128,9 +128,6 @@ const mutations = {
         tempTagList[curSheetName].splice(index, 1)
         state.filterTagList = tempTagList
     },
-    [types.SET_FILTERED_DATA](state, filRow) {
-        state.filRow = filRow
-    },
     [types.SET_FILTER_WAY](state, filterWay) {
         state.filterWay = filterWay
         setLocal('filterWay', filterWay)
