@@ -4,7 +4,7 @@ module.exports = Excel
 
 function Excel() {
     this.workbook = null,
-        this.sheetNameList = null
+    this.sheetNameList = null
 }
 
 Excel.prototype = {
