@@ -36,8 +36,8 @@ const getters = {
     getFilterWay: (state, getters, rootState) => state.filterWay,
     getFilterPanelStatus: (state, getters, rootState) => state.isShowFilterPanel,
     getCurFilterTagListCount: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name,
-            curFilterTagList = state.filterTagList[curSheetName]
+        let activeSheetName = getters.getActiveSheetName,
+            curFilterTagList = state.filterTagList[activeSheetName]
         return curFilterTagList && curFilterTagList.length || 0
     },
     getColSelectDialogStatus: (state, getters, rootState) => {
@@ -50,17 +50,18 @@ const actions = {
     // 对于内部 action，context.state 是局部状态，根节点的状态是context.rootState
     // 还能有 getters，这样就可以简化 activeSheetName
     addFilter({ state, commit, rootState, getters }, filter) {
+        console.log('getters', getters)
         commit(types.ADD_FILTER, {
-            curSheetName: rootState.excel.activeSheet.name,
+            activeSheetName: getters.getActiveSheetName,
             filter
         })
     },
-    delFilter({ state, commit, rootState }, index) {
-        let curSheetName = rootState.excel.activeSheet.name
+    delFilter({ state, commit, rootState, getters }, index) {
+        let activeSheetName = getters.getActiveSheetName
         commit(types.DEL_FILTER, {
-            curSheetName,
+            activeSheetName,
             index,
-            curUniqueCols: rootState.unique.cols[curSheetName]
+            curUniqueCols: rootState.unique.cols[activeSheetName]
         })
     },
     setFilterWay({ state, commit, rootState }, filterWay) {
@@ -81,13 +82,13 @@ const actions = {
 }
 
 const mutations = {
-    [types.ADD_FILTER](state, { curSheetName, filter }) {
-        if (curSheetName) {
+    [types.ADD_FILTER](state, { activeSheetName, filter }) {
+        if (activeSheetName) {
             console.log('state.filterTagList', state.filterTagList)
             console.log('curTagList', curTagList)
-            console.log('curSheetName', curSheetName)
+            console.log('activeSheetName', activeSheetName)
             let tempTagList = Object.assign({}, state.filterTagList),
-                curTagList = tempTagList[curSheetName],
+                curTagList = tempTagList[activeSheetName],
                 isHasSameGroup = false
 
             // 判断当前filter是否存在组
@@ -122,10 +123,10 @@ const mutations = {
             })
         }
     },
-    [types.DEL_FILTER](state, { curSheetName, index, curUniqueCols }) {
+    [types.DEL_FILTER](state, { activeSheetName, index, curUniqueCols }) {
         let tempTagList = Object.assign({}, state.filterTagList)
 
-        tempTagList[curSheetName].splice(index, 1)
+        tempTagList[activeSheetName].splice(index, 1)
         state.filterTagList = tempTagList
     },
     [types.SET_FILTER_WAY](state, filterWay) {

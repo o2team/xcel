@@ -1,5 +1,4 @@
 import * as types from '../mutation-types'
-import { ipcRenderer } from 'electron'
 
 const state = {
     oriRow: {},
@@ -15,45 +14,31 @@ const state = {
 const getters = {
     getSheetNameList: (state, getters, rootState) => state.sheetNameList,
     getActiveSheet: (state, getters, rootState) => state.activeSheet,
+    getActiveSheetName: (state, getters, rootState) => state.activeSheet.name,
     getCurOriRowCount: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name
-        return state.oriRow[curSheetName] || 0
+        let activeSheetName = getters.getActiveSheetName
+        return state.oriRow[activeSheetName] || 0
     },
     getCurFilRowCount: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name
-        return state.filRow[curSheetName] || 0
+        let activeSheetName = getters.getActiveSheetName
+        return state.filRow[activeSheetName] || 0
     },
     getCurColCount: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name,
-            curColKeys = state.colKeys[curSheetName]
+        let activeSheetName = getters.getActiveSheetName,
+            curColKeys = state.colKeys[activeSheetName]
         return curColKeys && curColKeys.length || 0
     },
     getCurColKeys: (state, getters, rootState) => {
-        let curSheetName = rootState.excel.activeSheet.name
-        return state.colKeys[curSheetName]
+        let activeSheetName = getters.getActiveSheetName
+        return state.colKeys[activeSheetName]
     }
 }
 
 const actions = {
-    // 涉及多个模块，应该放在 action.js
-    setExcelData({ state, commit, rootState }, excelObj) {
-        commit(types.SET_UPLOAD_STATUS, 0)
-        ipcRenderer.send('readFile-start', {
-            data: excelObj
-        })
-        ipcRenderer.once('readFile-response', (event, excelObj) => {
-            console.log('excelObj', excelObj)
-            commit(types.SET_EXCEL_BASE_INFO, excelObj)
-            commit(types.SET_UPLOAD_STATUS, -1)
-            commit(types.SET_ACTIVE_SHEET, 0)
-            commit(types.TOGGLE_FILTER_PANEL_STATUS, true)
-            commit(types.INIT_UNIQUE, excelObj.sheetNameList)
-            commit(types.INIT_FILTER_TAG_LIST, excelObj.filterTagList)
-        })
-    },
     setActiveSheet({ state, commit, rootState }, index) {
         commit(types.SET_ACTIVE_SHEET, index)
     },
+    // 筛选后的数据，目前只有 行数
     setFilteredData({ state, commit, rootState }, filRow) {
         commit(types.SET_FILTERED_DATA, filRow)
     }

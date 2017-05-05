@@ -62,8 +62,8 @@ window.addEventListener('load', (event) => {
     })
     ipcRenderer.on('filter-start', (event, arg) => {
         filteredData = filterHandler(arg)
-        let curActiveSheetName = arg.curActiveSheetName,
-            curColKeys = colKeys[curActiveSheetName],
+        let activeSheetName = arg.activeSheetName,
+            curColKeys = colKeys[activeSheetName],
             tempFilRow = {}
 
         excelData.sheetNameList.forEach((sheetName, index) => {
@@ -76,7 +76,7 @@ window.addEventListener('load', (event) => {
 
         ipcRenderer.send('generate-htmlstring-response', {
             sheetHTML: generateHTMLString({
-                sheetData: filteredData[curActiveSheetName],
+                sheetData: filteredData[activeSheetName],
                 colKeys: curColKeys
             })
         })
@@ -84,13 +84,13 @@ window.addEventListener('load', (event) => {
 
     ipcRenderer.on('changeTab-start', (event, arg) => {
         filteredData = filterHandler(arg)
-        let curActiveSheetName = arg.curActiveSheetName,
-            curColKeys = colKeys[curActiveSheetName],
+        let activeSheetName = arg.activeSheetName,
+            curColKeys = colKeys[activeSheetName],
             tempFilRow = {}
 
         ipcRenderer.send('generate-htmlstring-response', {
             sheetHTML: generateHTMLString({
-                sheetData: filteredData[curActiveSheetName],
+                sheetData: filteredData[activeSheetName],
                 colKeys: curColKeys
             })
         })
@@ -105,9 +105,9 @@ window.addEventListener('load', (event) => {
     })
 
     ipcRenderer.on('delAllFilterTag-start', (event, arg) => {
-        let curActiveSheetName = arg.curActiveSheetName,
-            curColKeys = colKeys[curActiveSheetName],
-            curSheetData = excelData[curActiveSheetName]
+        let activeSheetName = arg.activeSheetName,
+            curColKeys = colKeys[activeSheetName],
+            curSheetData = excelData[activeSheetName]
 
         ipcRenderer.send('generate-htmlstring-response', {
             sheetHTML: generateHTMLString({

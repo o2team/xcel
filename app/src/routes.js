@@ -11,6 +11,5 @@ export default {
     }, {
         path: '*',
         redirect: '/'
-    }
-    ]
+    }]
 }

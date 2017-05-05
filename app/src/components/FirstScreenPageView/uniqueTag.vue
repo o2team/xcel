@@ -10,7 +10,7 @@
 
 <script>
     import { getCharCol } from '../../utils/ExcelSet'
-    import { mapGetters, mapActions } from 'vuex'
+    import { mapActions } from 'vuex'
 
     export default {
         props: {
@@ -34,10 +34,7 @@
                     }
                 })
                 return finalWords
-            },
-            ...mapGetters({
-                activeSheet: 'getActiveSheet'
-            })
+            }
         },
         methods: {
             getCharCol,
@@ -49,7 +46,6 @@
                 'setUniqueCols',
                 'checkFilterAndUnqiueCount'
             ])
-
         }
     }
 </script>

@@ -4,11 +4,11 @@
 			<img src="../assets/svg/filter_tag_list_warm.svg" alt="[警告]">暂无任何筛选条件.
 		</div>
 		<unique-tag 
-			:unique-cols="uniqueCols[activeSheet.name]" 
-			:cur-filter-tag-list="filterTagList[activeSheet.name]" 
-			v-if="uniqueCols[activeSheet.name] && uniqueCols[activeSheet.name].length > 0">
+			:unique-cols="uniqueCols[activeSheetName]" 
+			:cur-filter-tag-list="filterTagList[activeSheetName]" 
+			v-if="uniqueCols[activeSheetName] && uniqueCols[activeSheetName].length > 0">
 		</unique-tag>
-		<filter-tag v-for="(filterTag, index) in filterTagList[activeSheet.name]" 
+		<filter-tag v-for="(filterTag, index) in filterTagList[activeSheetName]" 
 			:filter-tag="filterTag" 
 			:tag-index="index">
 		</filter-tag>
@@ -32,7 +32,7 @@
 		},
 		computed: {
 			isShowPlaceholder() {
-				let activeSheetName = this.activeSheet.name
+				let activeSheetName = this.activeSheetName
 				let curTagList = this.filterTagList[activeSheetName]
 				let curUniqueCols = this.uniqueCols[activeSheetName]
 				
@@ -48,7 +48,7 @@
 			},
 			...mapGetters({
 				filterTagList: 'getFilterTagList',
-				activeSheet: 'getActiveSheet',
+				activeSheetName: 'getActiveSheetName',
 				uniqueCols: 'getUniqueCols'
 			})
 		}

@@ -34,8 +34,6 @@
 
 
 <script>
-	import fs from 'fs-extra'
-	import pathModule from 'path'
 	import { ipcRenderer } from 'electron'
 	import { isExcelFile } from '../../utils/ExcelSet'
 	import { mapGetters, mapActions } from 'vuex'
@@ -81,7 +79,7 @@
 				ipcRenderer.send('changeTab-start', {
 					filterTagList: this.filterTagList,
 					filterWay: this.filterWay,
-					curActiveSheetName: this.activeSheet.name,
+					activeSheetName: this.activeSheet.name,
 					uniqueCols: this.uniqueCols
 				})
 			},
@@ -101,7 +99,7 @@
 						content: '不支持该文件格式'
 					})
 				} else {
-					this.setExcelData({
+					this.initAfterImportFile({
 						path: path,
 						type: 'node'
 					})
@@ -110,7 +108,7 @@
 			},
 			...mapActions([
 				'setActiveSheet',
-				'setExcelData',
+				'initAfterImportFile',
 				'setUploadFiles'
 			])
 		}

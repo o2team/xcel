@@ -2,17 +2,22 @@
 	<transition name="slide-fade">
 		<div id="sidebar" v-show="getSideBarStatus">
 			<div class="sidebar_header">
-				<img src="../assets/xcel_logo.png" class="logo"
+				<img src="../assets/xcel_logo.png" 
+					class="logo"
 					title="XCEL官网"
 					@click="openExternal('xcel')">
 				<p>Ultimate EXCEL Filter</p>
-				<a class="hide_sidebar_btn" @click="toggleSideBar(false)" title="关闭侧边栏"></a>
+				<a class="hide_sidebar_btn" 
+					title="关闭侧边栏" 
+					@click="toggleSideBar(false)">
+				</a>
 			</div>
 			<div>
 				<file-list></file-list>
 			</div>
 			<div class="search_form">
-				<input type="text" id="search_file_input"
+				<input type="text" 
+					id="search_file_input"
 					placeholder="请输入搜索关键字" 
 					v-model="vuexSearchVal">
 			</div>
@@ -32,22 +37,22 @@
 		computed: {
 			vuexSearchVal: {
 				get() {
-					return this.getCurSearchVal
+					return this.getSearchVal
 				},
 				set(val) {
-					this.changeSearchVal(val)
+					this.setSearchVal(val)
 				}
 			},
 			...mapGetters([
 				'getSideBarStatus',
-				'getCurSearchVal'
+				'getSearchVal'
 			])
 		},
 		methods: {
 			openExternal,
 			...mapActions([
 				'toggleSideBar',
-				'changeSearchVal'
+				'setSearchVal'
 			])
 		}
 	}

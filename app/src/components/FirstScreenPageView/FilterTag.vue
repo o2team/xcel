@@ -1,12 +1,16 @@
 <template>
 	<span class="filter_tag">
-		<span class="logic_char">{{ getLogicOperator(filterTag.filters[0].logicOperator) }}</span>
+		<span class="logic_char">
+			{{ getLogicOperator(filterTag.filters[0].logicOperator) }}
+		</span>
 		<span class="group_id" v-if="filterTag.groupId != '-1'">
 			{{ getCharCol(filterTag.groupId) }}
 		</span>
 		<ul>
 			<li v-for="(filter, index) in filterTag.filters">
-				<span class="logic_char" v-if="index !== 0">{{ getLogicOperator(filter.logicOperator) }}</span>
+				<span class="logic_char" v-if="index !== 0">
+					{{ getLogicOperator(filter.logicOperator) }}
+				</span>
 				<p>{{ filter.filterWords }}</p>
 			</li>
 		</ul>
@@ -35,14 +39,14 @@
 		computed: {
 			...mapGetters({
 				uniqueCols: 'getUniqueCols',
-				activeSheet: 'getActiveSheet'
+				activeSheetName: 'getActiveSheetName'
 			})
 		},
 		methods: {
 			getCharCol,
 			delHandler(index) {
-				let curSheetName = this.activeSheet.name,
-					curUniqueCols = this.uniqueCols[curSheetName]
+				let activeSheetName = this.activeSheetName,
+					curUniqueCols = this.uniqueCols[activeSheetName]
 
 				this.delFilter({
 					index,
@@ -50,7 +54,6 @@
 				})
 				
 				this.checkFilterAndUnqiueCount()
-				
 			},
 			getLogicOperator(char) {
 				return char === 'and' ? '且' : '或'

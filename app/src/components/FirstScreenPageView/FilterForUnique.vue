@@ -29,7 +29,12 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex'
-    import { getCharCol, getLogicOperatorWords, getOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
+    import {
+        getCharCol,
+        getLogicOperatorWords,
+        getOperatorWords,
+        getFilterWordsPrimitive
+    } from '../../utils/ExcelSet'
     import { ipcRenderer } from 'electron'
 
     export default {
@@ -53,7 +58,6 @@
                 }).join(',')
             },
             ...mapGetters({
-                activeSheet: 'getActiveSheet',
                 curColCount: 'getCurColCount',
                 filterTagList: 'getFilterTagList',
                 curFilterTagListCount: 'getCurFilterTagListCount',

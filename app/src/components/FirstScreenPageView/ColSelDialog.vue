@@ -8,7 +8,9 @@
 				</div>
 				<div class="selected_col_container">
 					<p>{{ selectedGroupStr }}</p>
-					<button class="invert_selection_btn" type="button" title="点击该按钮进行反选" 
+					<button type="button" 
+						class="invert_selection_btn" 
+						title="点击该按钮进行反选" 
 						v-show="curColCount > 0 && colSelectType === 3" 
 						@click="invertSelectionHandler">
 						{{ btnText }}
@@ -16,7 +18,10 @@
 				</div>
 			</div>
 			<div class="col_sel_dialog_content">
-				<p v-if="curColCount === 0" class="no_content_tips">请先上传Excel文件或该文件未含有列</p>
+				<p class="no_content_tips" 
+					v-if="curColCount === 0">
+					请先上传Excel文件或该文件未含有列
+				</p>
 				<ul v-else>
 					<li v-for="(item, index) in curColKeys" 
 						@click="toggleSelect(index)" 

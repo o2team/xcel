@@ -14,7 +14,9 @@
 						</span>
 					</td>
 					<td>
-						<p class="col_placeholder" @click="showColSelectDialog">{{operatorCol.length === 0 ? "请选择列" : getCharCol(operatorCol[0])}}</p>
+						<p class="col_placeholder" @click="showColSelectDialog">
+							{{operatorCol.length === 0 ? "请选择列" : getCharCol(operatorCol[0])}}
+						</p>
 					</td>
 					<td>
 						<span class="select">
@@ -34,7 +36,9 @@
 							v-model="operatorVal">
 					</td>
 					<td>
-						<group-select :group-id="groupId" @changeSelect="changeSelHandler"></group-select>
+						<group-select :group-id="groupId" 
+							@changeSelect="changeSelHandler">
+						</group-select>
 					</td>
 					<td>
 						<button type="submit">添加</button>
@@ -47,7 +51,12 @@
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
-	import { getCharCol, getLogicOperatorWords, getOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
+	import {
+		getCharCol,
+		getLogicOperatorWords,
+		getOperatorWords,
+		getFilterWordsPrimitive
+	} from '../../utils/ExcelSet'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
 
@@ -85,7 +94,6 @@
 		},
 		computed: {
 			...mapGetters({
-				activeSheet: 'getActiveSheet',
 				filterOptions: 'getFilterOptions',
 				curColCount: 'getCurColCount',
 				curFilterTagListCount: 'getCurFilterTagListCount'
@@ -168,5 +176,4 @@
 			])
 		}
 	}
-
 </script>

@@ -1,7 +1,9 @@
 <template>
-	<div class="update_modal" @keyup :class="{'active': updateDialogStatus}">
-		<div class="update_dialog" :class="isHasNew ? 'has_new' : 'no_new'">
-			<template v-if="isHasNew">
+	<div class="update_modal" 
+		@keyup 
+		:class="{'active': updateDialogStatus}">
+		<div class="update_dialog" :class="isHasNewVersion ? 'has_new' : 'no_new'">
+			<template v-if="isHasNewVersion">
 				<div class="update_dialog_header">
 					<h4>新版本『v{{ updateVersion }}』的更新内容如下：</h4>
 				</div>
@@ -13,9 +15,15 @@
 				</div>
 				<div class="update_dialog_footer">
 					<div>
-						<button type="button" class="one_day_btn" @click="keepCurVersion">暂用当前版本</button>
-						<button type="button" class="update_btn" @click="updateBtnHandler">升级</button>
-						<button type="button" class="close_btn" @click="closeDialog">取消</button>
+						<button type="button" 
+							class="one_day_btn" 
+							@click="keepCurVersion">暂用当前版本</button>
+						<button type="button" 
+							class="update_btn" 
+							@click="updateBtnHandler">升级</button>
+						<button type="button" 
+							class="close_btn" 
+							@click="closeDialog">取消</button>
 					</div>
 				</div>
 			</template>
@@ -24,8 +32,14 @@
 					<h4>XCel 已是最新版本</h4>
 				</div>
 				<div class="update_dialog_content">
-					<p>如遇软件使用上的问题，请联系 <a @click="openExternal('aotu')">凹凸实验室</a>。同时，也欢迎你提出宝贵的意见。</p>
-					<p>问题提交地址：<a @click="openExternal('issues')">问题/建议提交地址。</a></p>
+					<p>如遇软件使用上的问题，请联系
+						<a @click="openExternal('aotu')">凹凸实验室
+						</a>。同时，也欢迎你提出宝贵的意见。
+					</p>
+					<p>问题提交地址：
+						<a @click="openExternal('issues')">问题/建议提交地址。
+						</a>
+					</p>
 					<div>
 						<img src="../InstructionsPageView/assets/qrcode.jpg" alt="凹凸实验室二维码">
 					</div>
@@ -45,6 +59,7 @@
 	import { ipcRenderer } from 'electron'
 	import { openExternal } from '../../utils/openExternal'
 	import { markdown } from 'markdown'
+
 	const moment = require('moment')
 	moment.locale('zh')
 
@@ -57,15 +72,17 @@
 				return markdown.toHTML(this.updateNotes) || '空'
 			},
 			formatPubDate() {
-				return moment(this.updatePubDate).subtract(8, 'hours').format('YYYY年MM月DD日 HH时mm分')
+				return (moment(this.updatePubDate)
+						.subtract(8, 'hours')
+						.format('YYYY年MM月DD日 HH时mm分'))
 			},
 			...mapGetters({
 				updateDialogStatus: 'getUpdateDialogStatus',
 				updateUrl: 'getUpdateUrl',
 				updateVersion: 'getUpdateVersion',
-				updateNotes: 'getUpdateNotes',
+				updateNotes: 'getUpdateLog',
 				updatePubDate: 'getUpdatePubDate',
-				isHasNew: 'getHasNewStatus'
+				isHasNewVersion: 'getHasNewVersionStatus'
 			})
 		},
 		methods: {
@@ -107,7 +124,6 @@
 			visibility: visible;
 		}
 	}
-
 
 	.update_dialog {
 		position: absolute;

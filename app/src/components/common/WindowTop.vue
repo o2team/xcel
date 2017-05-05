@@ -1,9 +1,12 @@
 <template>
 	<div class="window_top_container" @dblclick="maximizeHandler">
 		<ul>
-			<li class="minimize" @click.prevent.stop="minimizeHandler"></li>
-			<li class="maximize" @click.prevent.stop="maximizeHandler"></li>
-			<li class="close" @click.prevent.stop="closeHandler"></li>
+			<li class="minimize" 
+				@click.prevent.stop="minimizeHandler"></li>
+			<li class="maximize" 
+				@click.prevent.stop="maximizeHandler"></li>
+			<li class="close" 
+				@click.prevent.stop="closeHandler"></li>
 		</ul>
 	</div>
 </template>
@@ -15,7 +18,7 @@
 	export default {
 		methods: {
 			minimizeHandler() {
-				this.toggleWindowMini()
+				this.toggleWindowMin()
 			},
 			maximizeHandler() {
 				this.toggleWindowMax()
@@ -25,7 +28,7 @@
 			},
 			...mapActions([
 				'toggleWindowMax',
-				'toggleWindowMini'
+				'toggleWindowMin'
 			])
 		}
 	}

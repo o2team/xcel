@@ -1,123 +1,114 @@
 <template>
 	<nav class="file_list_container">
-	  <div class="file_list">
-	  	<ul>
-	  		<li title="双击文件名即可导入"
-		  		:class="{cur_file: file.path === fileList[0].path}"
-	  			v-for="(file, index) in fileListByQuery" 
-	  			@dblclick="confirmRead(file.path ,index)">
-	  			<span>{{ file.extname.replace(/^./, "") }}</span>
-	  			<p>{{ file.name }}</p>
-	  			<button class="btn del_btn" @click="confirmDel(index)">删除</button>
-	  		</li>
-	  	</ul>
-	  </div>
+		<div class="file_list">
+			<ul>
+				<li title="双击文件名即可导入" 
+					v-for="(file, index) in fileListByQuery"
+					:class="{cur_file: file.path === fileList[0].path}"
+					@dblclick="confirmRead(file.path ,file)">
+					<span>{{ file.extname.replace(/^./, "") }}</span>
+					<p>{{ file.name }}</p>
+					<button class="btn del_btn" @click="confirmDel(file)">删除</button>
+				</li>
+			</ul>
+		</div>
 	</nav>
 </template>
 
 
 <script>
-	import xlsx from 'xlsx'
-	import fs from 'fs'
-	import { isExcelFile } from '../../utils/ExcelSet'
-	import { remote, ipcRenderer } from 'electron'
-	import { mapGetters, mapActions } from 'vuex'
+import xlsx from 'xlsx'
+import fs from 'fs'
+import { isExcelFile } from '../../utils/ExcelSet'
+import { remote, ipcRenderer } from 'electron'
+import { mapGetters, mapActions } from 'vuex'
 
-	export default {
-		data() {
-			return {
-				filterFileList: [],
-				curLoadingIndex: -1
-			}
+export default {
+	data() {
+		return {
+			filterFileList: [],
+			curLoadingIndex: -1
+		}
+	},
+	computed: {
+		fileListByQuery() {
+			return this.filterByQuery(this.fileList, this.searchVal)
 		},
-		computed: {
-			fileListByQuery() {
-				return this.filterByQuery(this.fileList, this.curSearchVal)
-			},
-			...mapGetters({
-				fileList: 'getUploadFiles',
-				curSearchVal: 'getCurSearchVal'
+		...mapGetters({
+			fileList: 'getUploadFiles',
+			searchVal: 'getSearchVal'
+		})
+	},
+	methods: {
+		filterByQuery(fileList, query) {
+			if (query.trim().length === 0) return fileList
+			let filterRegExp = new RegExp(query, 'gi')
+			return fileList.filter((file, index) => {
+				if (file.name.match(filterRegExp)) return true
 			})
 		},
-		methods: {
-			filterByQuery(fileList, query) {
-				if (query.trim().length === 0) return fileList
-				let filterRegExp = new RegExp(query, 'gi')
-				return fileList.filter((file, index) => {
-					if (file.name.match(filterRegExp)) return true
+		filterByType(fileList, type) {
+			if (type.toUpperCase() === 'ALL') return fileList
+			let filterRegExp = new RegExp((type + '$'), 'gi')
+			return fileList.filter(function (file, index) {
+				if (file.name.match(filterRegExp)) return true
+			});
+		},
+		confirmRead(path, file) {
+			if (!isExcelFile(path)) {
+				ipcRenderer.send('sync-alert-dialog', {
+					content: '不支持该文件格式'
 				})
-			},
-			filterByType(fileList, type) {
-				if (type.toUpperCase() === 'ALL') return fileList
-				let filterRegExp = new RegExp((type + '$'), 'gi')
-				return fileList.filter(function (file, index) {
-					if (file.name.match(filterRegExp)) return true
-				});
-			},
-			confirmRead(path, index) {
-				if (!isExcelFile(path)) {
-					ipcRenderer.send('sync-alert-dialog', {
-						content: '不支持该文件格式'
-					})
-					this.confirmDel(index, '当前工具不支持该文件格式，是否删除该记录？')
-				} else {
-					remote.dialog.showMessageBox({
-						type: 'question',
-						buttons: ['确定', '取消'],
-						defaultId: 0,
-						title: 'XCel',
-						message: '导入该文件会覆盖目前的筛选结果，是否确认要导入？'
-					}, (btnIndex) => {
-						if (btnIndex === 0) {
-							fs.stat(path, (err, stats) => {
-								if (stats && stats.isFile()) {
-									this.setExcelData({
-										path: path,
-										type: 'node'
-									})
-									this.setUploadFiles(path)
-								} else {
-									this.confirmDel(index, '当前文件不存在，是否删除该记录？')
-								}
-							})
-						}
-					})
-				}
-			},
-			confirmDel(index, content) {
+				this.confirmDel(file, '当前工具不支持该文件格式，是否删除该记录？')
+			} else {
 				remote.dialog.showMessageBox({
 					type: 'question',
 					buttons: ['确定', '取消'],
 					defaultId: 0,
 					title: 'XCel',
-					message: '是否要删除该文件记录？'
+					message: '导入该文件会覆盖目前的筛选结果，是否确认要导入？'
 				}, (btnIndex) => {
 					if (btnIndex === 0) {
-						this.delUploadFiles(index)
+						fs.stat(path, (err, stats) => {
+							if (stats && stats.isFile()) {
+								this.initAfterImportFile({
+									path: path,
+									type: 'node'
+								})
+								this.setUploadFiles(path)
+							} else {
+								console.log('不存在')
+								this.confirmDel(file, '当前文件不存在，是否删除该记录？')
+							}
+						})
 					}
 				})
-			},
-			...mapActions([
-				'changeFileType',
-				'setExcelData',
-				'setActiveSheet',
-				'setUploadFiles',
-				'delUploadFiles'
-			])
-		}
+			}
+		},
+		confirmDel(file, content) {
+			remote.dialog.showMessageBox({
+				type: 'question',
+				buttons: ['确定', '取消'],
+				defaultId: 0,
+				title: 'XCel',
+				message: content || '是否要删除该文件记录？'
+			}, (btnIndex) => {
+				if (btnIndex === 0) {
+					this.delUploadFile(file)
+				}
+			})
+		},
+		...mapActions([
+			'changeFileType',
+			'initAfterImportFile',
+			'setActiveSheet',
+			'setUploadFiles',
+			'delUploadFile'
+		])
 	}
+}
 </script>
 
-<style scoped>
-	.del_btn{
-		background-color: #FF4081;
-		color: #fff;
-		border: 0;
-		outline: 0;
-		font-size: 12px;
-		cursor: pointer;
-	}
-</style>
 <style lang="scss" scoped>
 	.file_list_container {
 		padding-left: 24px;
@@ -129,11 +120,11 @@
 				justify-content: space-between;
 				-webkit-user-select: none;
 				user-select: none;
-				&:hover .del_btn{
+				&:hover .del_btn {
 					display: block;
 				}
 				&:not(:first-child) p {
-						color: rgba(0,0,0, .87);
+					color: rgba(0, 0, 0, .87);
 				}
 				&.cur_file {
 					span {
@@ -173,4 +164,12 @@
 		}
 	}
 
+	.del_btn {
+		background-color: #FF4081;
+		color: #fff;
+		border: 0;
+		outline: 0;
+		font-size: 12px;
+		cursor: pointer;
+	}
 </style>

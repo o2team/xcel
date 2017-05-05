@@ -1,4 +1,3 @@
-
 <template>
 	<footer class="footer">
 		<ul class="btn_group">
@@ -44,6 +43,7 @@
 		</div>
 	</footer>
 </template>
+
 <script>
 	import { remote } from 'electron'
 	import os from 'os'
@@ -57,10 +57,30 @@
 	import { mapGetters, mapActions } from 'vuex'
 
 	let firstTime = true
+
 	export default {
 		data() {
 			return {
 				isShowInstruction: this.$route.name === 'instructions'
+			}
+		},
+		created() {
+			ipcRenderer.on('open-file-response', (event, path) => {
+				if (isExcelFile(path)) {
+					this.initAfterImportFile({
+						path: path,
+						type: 'node'
+					})
+					this.setUploadFiles(path)
+				} else {
+					ipcRenderer.send('sync-alert-dialog', {
+						content: '不支持该文件格式'
+					})
+				}
+			})
+			if (!this.isKeepCurVersion && firstTime) {
+				this.checkUpdate(false)
+				firstTime = false
 			}
 		},
 		computed: {
@@ -68,7 +88,7 @@
 				return this.curOriRowCount > 0
 			},
 			filterAcount() {
-				let activeSheetName = this.activeSheet.name
+				let activeSheetName = this.activeSheetName
 				let curUniqueCols = this.uniqueCols[activeSheetName] || []
 				let curUniqueLength = curUniqueCols.length
 				return curUniqueLength > 0
@@ -85,27 +105,8 @@
 				isKeepCurVersion: 'getKeepCurVersion',
 				isShowUpdateDialog: 'getUpdateDialogStatus',
 				uniqueCols: 'getUniqueCols',
-				activeSheet: 'getActiveSheet'
+				activeSheetName: 'getActiveSheetName'
 			})
-		},
-		created() {
-			ipcRenderer.on('open-file-response', (event, path) => {
-				if (isExcelFile(path)) {
-					this.setExcelData({
-						path: path,
-						type: 'node'
-					})
-					this.setUploadFiles(path)
-				} else {
-					ipcRenderer.send('sync-alert-dialog', {
-						content: '不支持该文件格式'
-					})
-				}
-			})
-			if (!this.isKeepCurVersion && firstTime) {
-				this.checkUpdate(false)
-				firstTime = false
-			}
 		},
 		methods: {
 			openExternal,
@@ -165,7 +166,7 @@
 								that.toggleUpdateDialog(true)
 								that.setUpdateUrl(downloadUrl)
 								that.setUpdateVersion(res.name)
-								that.setUpdateNotes(res.notes)
+								that.setUpdateLog(res.notes)
 								that.setUpdatePubDate(res.pub_date)
 								that.setHasNewStatus(true)
 							}
@@ -188,12 +189,12 @@
 			...mapActions([
 				'toggleSideBar',
 				'toggleFilterPanelStatus',
-				'setExcelData',
+				'initAfterImportFile',
 				'setUploadFiles',
 				'toggleUpdateDialog',
 				'setUpdateUrl',
 				'setUpdateVersion',
-				'setUpdateNotes',
+				'setUpdateLog',
 				'setUpdatePubDate',
 				'setHasNewStatus',
 				'setKeepVersionStatus'

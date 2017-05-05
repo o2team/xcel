@@ -75,10 +75,10 @@
                 filterWay: 'getFilterWay',
                 fileStatus: 'getFileStatus',
                 curFilterTagListCount: 'getCurFilterTagListCount',
-                activeSheet: 'getActiveSheet',
                 uniqueCols: 'getUniqueCols',
 				curUniqueColsCount: 'getCurUniqueColsCount',
-				sheetNameList: 'getSheetNameList'
+				sheetNameList: 'getSheetNameList',
+				activeSheetName: 'getActiveSheetName'
             })
         },
         methods: {
@@ -96,7 +96,7 @@
                     ipcRenderer.send('filter-start', {
                         filterTagList: this.filterTagList,
                         filterWay: this.filterWay,
-                        curActiveSheetName: this.activeSheet.name,
+                        activeSheetName: this.activeSheetName,
                         uniqueCols: this.uniqueCols
                     })
                 }

@@ -13,21 +13,21 @@ let isKeepCurVersion = (function initIsKeepVersion() {
 const state = {
     url: '',
     version: '',
-    notes: '',
+    log: '',
     pubDate: '',
     isShowUpdateDialog: false,
     isKeepCurVersion: isKeepCurVersion,
-    isHasNew: false
+    isHasNewVersion: false
 }
 
 const getters = {
     getUpdateDialogStatus: state => state.isShowUpdateDialog,
     getUpdateUrl: state => state.url,
     getUpdateVersion: state => state.version,
-    getUpdateNotes: state => state.notes,
+    getUpdateLog: state => state.log,
     getUpdatePubDate: state => state.pubDate,
     getKeepCurVersion: state => state.isKeepCurVersion,
-    getHasNewStatus: state => state.isHasNew
+    getHasNewVersionStatus: state => state.isHasNewVersion
 }
 
 const actions = {
@@ -40,8 +40,8 @@ const actions = {
     setUpdateVersion({ state, commit, rootState }, version) {
         commit(types.SET_UPDATE_VERSION, version)
     },
-    setUpdateNotes({ state, commit, rootState }, notes) {
-        commit(types.SET_UPDATE_NOTES, notes)
+    setUpdateLog({ state, commit, rootState }, notes) {
+        commit(types.SET_UPDATE_LOG, notes)
     },
     setUpdatePubDate({ state, commit, rootState }, pubDate) {
         commit(types.SET_UPDATE_PUB_DATE, pubDate)
@@ -49,8 +49,8 @@ const actions = {
     setKeepVersionStatus({ state, commit, rootState }, isKeepCurVersion) {
         commit(types.SET_KEEP_VERSION_STATUS, isKeepCurVersion)
     },
-    setHasNewStatus({ state, commit, rootState }, isHasNew) {
-        commit(types.SET_HAS_NEW_STATUS, isHasNew)
+    setHasNewStatus({ state, commit, rootState }, isHasNewVersion) {
+        commit(types.SET_HAS_NEW_VERSION, isHasNewVersion)
     }
 }
 
@@ -67,8 +67,8 @@ const mutations = {
     [types.SET_UPDATE_VERSION](state, version) {
         state.version = version
     },
-    [types.SET_UPDATE_NOTES](state, notes) {
-        state.notes = notes
+    [types.SET_UPDATE_LOG](state, log) {
+        state.log = log
     },
     [types.SET_UPDATE_PUB_DATE](state, pubDate) {
         state.pubDate = pubDate
@@ -77,8 +77,8 @@ const mutations = {
         state.isKeepCurVersion = isKeepCurVersion
         setLocal('isKeepCurVersion', state.isKeepCurVersion)
     },
-    [types.SET_HAS_NEW_STATUS](state, isHasNew) {
-        state.isHasNew = isHasNew
+    [types.SET_HAS_NEW_VERSION](state, isHasNewVersion) {
+        state.isHasNewVersion = isHasNewVersion
     }
 }
 

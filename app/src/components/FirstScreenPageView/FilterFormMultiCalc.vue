@@ -26,7 +26,9 @@
 									{{ op.words }}
 								</option>
 							</select>
-							<p class="val_mask">{{ getColArithmeticOperatorWords( colOperator, colOperatorSelect) }}</p>
+							<p class="val_mask">
+								{{ getColArithmeticOperatorWords( colOperator, colOperatorSelect) }}
+							</p>
 						</span>
 					</td>
 					<td>
@@ -58,7 +60,16 @@
 </template>
 
 <script>
-	import { colOperator, getNumCol, getCharCol, getOperatorWords, getColOperatorWords, getColArithmeticOperatorWords, getLogicOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
+	import {
+		colOperator,
+		getNumCol,
+		getCharCol,
+		getOperatorWords,
+		getColOperatorWords,
+		getColArithmeticOperatorWords,
+		getLogicOperatorWords,
+		getFilterWordsPrimitive
+	} from '../../utils/ExcelSet'
 	import { mapGetters, mapActions } from 'vuex'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
@@ -210,7 +221,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-	
-</style>

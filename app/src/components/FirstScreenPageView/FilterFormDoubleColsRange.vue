@@ -41,12 +41,14 @@
 						</span>
 					</td>
 					<td>
-							<input type="text" placeholder="请填写运算符的值" 
-								:disabled="operator === 'empty' || operator === 'notEmpty'" 
-								v-model="operatorVal">
+						<input type="text" placeholder="请填写运算符的值" 
+							:disabled="operator === 'empty' || operator === 'notEmpty'" 
+							v-model="operatorVal">
 					</td>
 					<td>
-						<group-select :group-id="groupId" @changeSelect="changeSelHandler"></group-select>
+						<group-select :group-id="groupId" 
+							@changeSelect="changeSelHandler">
+						</group-select>
 					</td>
 					<td>
 						<button type="submit">添加</button>
@@ -59,7 +61,13 @@
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
-	import { getCharCol, getNumCol, getOperatorWords, getLogicOperatorWords, getFilterWordsPrimitive } from '../../utils/ExcelSet'
+	import { 
+		getCharCol,
+		getNumCol,
+		getOperatorWords,
+		getLogicOperatorWords,
+		getFilterWordsPrimitive
+	} from '../../utils/ExcelSet'
 	import GroupSelect from './GroupSelect'
 	import { ipcRenderer } from 'electron'
 
@@ -124,7 +132,6 @@
 				}
 			},
 			...mapGetters({
-				activeSheet: 'getActiveSheet',
 				filterOptions: 'getFilterOptions',
 				curFilterTagListCount: 'getCurFilterTagListCount',
 				curColCount: 'getCurColCount'
@@ -232,7 +239,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-	
-</style>

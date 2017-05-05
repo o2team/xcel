@@ -1,4 +1,3 @@
-<!-- Excel 中的 Sheet -->
 <template>
 	<div class="sheet_of_excel" 
 		:class="{'isShowSideBar': !sideBarStatus}">
@@ -7,7 +6,9 @@
 				<tr>
 					<th></th>
 					<!-- v-for 整数迭代是从1开始 -->
-					<th v-for="col in curColCount">{{ getCharCol(col - 1) }}</th>
+					<th v-for="col in curColCount" :title="'即第' + col + '行'">
+						{{ getCharCol(col - 1) }}
+					</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -18,7 +19,7 @@
 <script>
 	import { mapGetters } from 'vuex'
 	import { getCharCol, getNumCol } from '../../utils/ExcelSet'
-	import { ipcRenderer } from 'electron'
+	
 	export default {
 		props: {
 			sheetHTML: {

@@ -22,11 +22,11 @@ const actions = {
 
 const mutations = {
     [types.TOGGLE_WINDOW_MAX](state) {
-        ipcRender.send('sync-maximize')
+        ipcRenderer.send('sync-maximize')
         state.isMaximize = !state.isMaximize
     },
     [types.TOGGLE_WINDOW_MIN](state) {
-        ipcRender.send('sync-minimize')
+        ipcRenderer.send('sync-minimize')
         state.isMinimize = !state.isMinimize
     }
 }

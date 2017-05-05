@@ -167,10 +167,6 @@
 	}
 </script>
 
-<style>
-	
-
-</style>
 <style lang="scss" scoped>
 	.content{
 		text-align: left;
