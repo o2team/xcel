@@ -49,8 +49,8 @@
 			}
 		},
 		mounted() {
-			ipcRenderer.on('generate-htmlstring-response', (event, arg) => {
-				this.sheetHTML = arg.sheetHTML
+			ipcRenderer.on('generate-htmlstring-response', (event, { sheetHTML }) => {
+				this.sheetHTML = sheetHTML
 			})
 
 			let dropArea = document.querySelector('.drop_area')

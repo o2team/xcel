@@ -133,9 +133,6 @@
 			changeSelHandler(groupId) {
 				this.groupId = groupId
 			},
-			setMultiColInput(arg) {
-				this.operatorCol = arg
-			},
 			showColSelectDialog() {
 				this.setColSelectType(1)
 				this.setColSelectDialogStatus(true)

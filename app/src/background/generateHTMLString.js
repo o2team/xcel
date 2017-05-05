@@ -1,8 +1,7 @@
 'use strict';
 
-module.exports = function generateHTMLString(arg) {
-	let { sheetData, colKeys } = arg,
-		resultHeadStr = '<tr><td>1</td>',
+module.exports = function generateHTMLString({ sheetData, colKeys }) {
+	let resultHeadStr = '<tr><td>1</td>',
 		resultBodyStr = ''
 
 	colKeys.forEach((row, index) => {

@@ -48,21 +48,20 @@
             }
         },
         created() {
-            ipcRenderer.on('filter-response', (event, arg) => {
+            ipcRenderer.on('filter-response', (event, { filRow }) => {
                 this.setFileStatus(2)
-                this.setFilteredData(arg.filRow)
-                console.log('(arg.filRow', arg.filRow)
+                this.setFilteredData(filRow)
                 ipcRenderer.send('exportFile-start')
             })
 
-            ipcRenderer.on('exportFile-response', (event, arg) => {
-                console.log(arg.info)
+            ipcRenderer.on('exportFile-response', (event, { info, type }) => {
+                console.log(info)
                 this.setFileStatus(-1)
 
-                if (arg.type === -1) {
+                if (type === -1) {
                     setTimeout(() => {
                         ipcRenderer.send('sync-alert-dialog', {
-                            content: arg.info
+                            content: info
                         })
                     }, 30)
                 }

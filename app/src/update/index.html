@@ -33,9 +33,8 @@
 						checkoutSourceBtn = $('.checkout_source_btn'),
 						pauseBtn = $('.pause_btn'),
 						cancelBtn = $('.cancel_btn'),
-						willDownloadResponse = function(event, arg) {
-							let { curReceivedBytes, totalBytes, downloadStatus } = arg,
-							  	percentage = curReceivedBytes / totalBytes * 100 + '%'
+						willDownloadResponse = function(event, { curReceivedBytes, totalBytes, downloadStatus }) {
+							let percentage = curReceivedBytes / totalBytes * 100 + '%'
 
 							cur.innerText = (curReceivedBytes / 1024 / 1024).toFixed(2)
 							total.innerText = (totalBytes / 1024 / 1024).toFixed(2)
@@ -47,8 +46,8 @@
 						pauseBtnHandler = function() {
 							ipcRenderer.send('update-switch')
 						},
-						togglePauseBtn = function(event, arg) {
-							pauseBtn.innerText = arg.text
+						togglePauseBtn = function(event, { text }) {
+							pauseBtn.innerText = text
 						}
 
 			ipcRenderer.on('will-download-response', willDownloadResponse)

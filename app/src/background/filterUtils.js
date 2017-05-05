@@ -86,7 +86,7 @@ let filterUtils = {
         for (let i = 1, len = filterCol.length; i < len; i++) {
             let cKey = colKeys[filterCol[i]],
                 curVal = row[cKey] === undefined ? 0 : +row[cKey]
-            console.log('curVal', curVal)
+
             if (isNaN(curVal)) return undefined
 
             switch (colOperator) {
@@ -98,7 +98,6 @@ let filterUtils = {
                 default: console.log('calcNumSet未匹配操作符')
             }
         }
-        console.log('result', result)
         return isNaN(result) ? undefined : result
     },
     filterUnit(args) {
@@ -113,7 +112,7 @@ let filterUtils = {
             target = typeof (+target) === 'number' ? +(+target).toFixed(12) : (+target)
         }
         // console.log(typeof curVal, typeof operator, typeof target)
-        console.log(curVal, operator, target)
+        
         switch (operator) {
             case '>': return (curVal > target); break;
             case '<': return (curVal < target); break;

@@ -10,13 +10,12 @@ function Excel() {
 Excel.prototype = {
     constructor: Excel,
 
-    init(arg) {
+    init({ type, path }) {
         let isParseSuccess = true
         try {
-            let type = arg.type
             if (!!type) {
                 if (type === 'node') {
-                    this.readByPath(arg.path)
+                    this.readByPath(path)
                 } else if (type === 'data') {
                     this.readByData(data)
                 }

@@ -14,7 +14,7 @@ let excelData,
     filRow = {}
 
 window.addEventListener('load', (event) => {
-    ipcRenderer.on('readFile-start', (event, arg) => {
+    ipcRenderer.on('readFile-start', (event, { data, activeSheetIndex }) => {
         /* excelData 的数据结构
         {
           sheetNameN: [] 所有行
@@ -23,11 +23,11 @@ window.addEventListener('load', (event) => {
           workbook: {} Excel 相关
         }
         */
-        excelData = new Excel().init(arg.data)
+        excelData = new Excel().init(data)
         oriRow = {}
         filRow = {}
+        activeSheetIndex = activeSheetIndex || 0
         let filterTagList = {},
-            activeSheetIndex = arg.activeSheetIndex || 0,
             activeSheetName = excelData.sheetNameList[activeSheetIndex],
             curColKeys = excelData[activeSheetName + SUFFIX_COLKEYS],
             curSheetData = excelData[activeSheetName];
@@ -38,12 +38,6 @@ window.addEventListener('load', (event) => {
             colKeys[sheetName] = excelData[sheetName + SUFFIX_COLKEYS]
             filterTagList[sheetName] = []
         })
-
-        console.log('colKeys', colKeys)
-        // console.info('curSheetData', curSheetData);
-        for (var i = 0; i < curSheetData.length; i++) {
-            console.log(curSheetData[i])
-        }
 
         ipcRenderer.send('generate-htmlstring-response', {
             sheetHTML: generateHTMLString({
@@ -60,16 +54,15 @@ window.addEventListener('load', (event) => {
             sheetNameList: excelData.sheetNameList
         })
     })
-    ipcRenderer.on('filter-start', (event, arg) => {
-        filteredData = filterHandler(arg)
-        let activeSheetName = arg.activeSheetName,
-            curColKeys = colKeys[activeSheetName],
+    ipcRenderer.on('filter-start', (event, { activeSheetName, filterTagList, filterWay, uniqueCols }) => {
+        filteredData = filterHandler({ filterTagList, filterWay, uniqueCols })
+        let curColKeys = colKeys[activeSheetName],
             tempFilRow = {}
 
         excelData.sheetNameList.forEach((sheetName, index) => {
             tempFilRow[sheetName] = filteredData[sheetName].length
         })
-        console.log('tempFilRow', tempFilRow)
+
         ipcRenderer.send('filter-response', {
             filRow: tempFilRow
         })
@@ -82,10 +75,9 @@ window.addEventListener('load', (event) => {
         })
     })
 
-    ipcRenderer.on('changeTab-start', (event, arg) => {
-        filteredData = filterHandler(arg)
-        let activeSheetName = arg.activeSheetName,
-            curColKeys = colKeys[activeSheetName],
+    ipcRenderer.on('changeTab-start', (event, { activeSheetName, filterTagList, filterWay, uniqueCols }) => {
+        filteredData = filterHandler({ filterTagList, filterWay, uniqueCols })
+        let curColKeys = colKeys[activeSheetName],
             tempFilRow = {}
 
         ipcRenderer.send('generate-htmlstring-response', {
@@ -96,7 +88,7 @@ window.addEventListener('load', (event) => {
         })
     })
 
-    ipcRenderer.on('exportFile-start', (event, arg) => {
+    ipcRenderer.on('exportFile-start', (event) => {
         excelData.exportFileByWB({
             filteredData,
             excelData
@@ -104,9 +96,8 @@ window.addEventListener('load', (event) => {
         ipcRenderer.send('exportFile-response', { info: '成功导出' })
     })
 
-    ipcRenderer.on('delAllFilterTag-start', (event, arg) => {
-        let activeSheetName = arg.activeSheetName,
-            curColKeys = colKeys[activeSheetName],
+    ipcRenderer.on('delAllFilterTag-start', (event, { activeSheetName }) => {
+        let curColKeys = colKeys[activeSheetName],
             curSheetData = excelData[activeSheetName]
 
         ipcRenderer.send('generate-htmlstring-response', {
@@ -119,16 +110,14 @@ window.addEventListener('load', (event) => {
     })
 }, false)
 
-function filterHandler(arg) {
-    let { filterTagList, filterWay, uniqueCols } = arg,
-        tempFilteredData = Object.assign({}, excelData)
+function filterHandler({ filterTagList, filterWay, uniqueCols }) {
+    let tempFilteredData = Object.assign({}, excelData)
     for (let i = 0, len = excelData.sheetNameList.length; i < len; i++) {
         let curSheetName = excelData.sheetNameList[i],
             curFilterTagList = filterTagList[curSheetName],
             colKeys = excelData[curSheetName + SUFFIX_COLKEYS],
             curUniqueCols = uniqueCols[curSheetName]
-        console.log('curSheetName', curSheetName)
-        console.log('curFilterTagList', curFilterTagList.length)
+            
         if (curFilterTagList.length !== 0) {
             tempFilteredData[curSheetName] = tempFilteredData[curSheetName].filter((row, index) => {
                 let rowExpStr = ''
@@ -178,12 +167,11 @@ function filterHandler(arg) {
                 return filterWay == 0 ? rowResult : !rowResult
             })
         }
-        console.log('uniqueCols', uniqueCols)
+
         if (curUniqueCols.length !== 0) {
             let curUniqueColKeys = curUniqueCols.map((item) => {
                 return colKeys[item]
             })
-            console.log('curUniqueColKeys', curUniqueColKeys)
             tempFilteredData[curSheetName] = uniqBy(tempFilteredData[curSheetName], curUniqueColKeys)
         }
     }
