@@ -1,21 +1,23 @@
 <template>
-	<div id="sidebar" v-show="getSideBarStatus">
-		<div class="sidebar_header">
-			<img src="../assets/xcel_logo.png" class="logo"
-				title="XCEL官网"
-				@click="openExternal('xcel')">
-			<p>Ultimate EXCEL Filter</p>
-			<a class="hide_sidebar_btn" @click="toggleSideBar(false)" title="关闭侧边栏"></a>
+	<transition name="slide-fade">
+		<div id="sidebar" v-show="getSideBarStatus">
+			<div class="sidebar_header">
+				<img src="../assets/xcel_logo.png" class="logo"
+					title="XCEL官网"
+					@click="openExternal('xcel')">
+				<p>Ultimate EXCEL Filter</p>
+				<a class="hide_sidebar_btn" @click="toggleSideBar(false)" title="关闭侧边栏"></a>
+			</div>
+			<div>
+				<file-list></file-list>
+			</div>
+			<div class="search_form">
+				<input type="text" id="search_file_input"
+					placeholder="请输入搜索关键字" 
+					v-model="vuexSearchVal">
+			</div>
 		</div>
-		<div>
-			<file-list></file-list>
-		</div>
-		<div class="search_form">
-			<input type="text" id="search_file_input"
-				placeholder="请输入搜索关键字" 
-				v-model="vuexSearchVal">
-		</div>
-	</div>
+	</transition>
 </template>
 
 <script>
@@ -112,5 +114,36 @@
 
 	.logo {
 		cursor: pointer;
+	}
+
+	.slide-fade-enter-active {
+		animation: slide-fade-in .3s;
+	}
+	.slide-fade-leave-active {
+		animation: slide-fade-out .3s;
+	}
+	
+	@keyframes slide-fade-in {
+		0% {
+			transform: translate3d(-100%, 0, 0);
+			opacity: 0;
+		}
+		80% {
+			opacity: 1;
+		}
+		100% {
+			transform: translateX(0, 0, 0);
+		}
+	}
+
+	@keyframes slide-fade-out {
+		0% {
+			transform: translateX(0);
+			opacity: 1;
+		}
+		100% {
+			transform: translateX(-100%);
+			opacity: 0;
+		}
 	}
 </style>
