@@ -1,14 +1,7 @@
 <template>
 	<div class="filter_list">
 		<div class="filter_tag_palceholder" v-show="isShowPlaceholder">
-			<svg width="18px" height="15px" viewBox="0 1 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-			    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
-			    <desc>Created with Sketch.</desc>
-			    <defs></defs>
-			    <path d="M0.5,16 L17.5,16 L9,1 L0.5,16 L0.5,16 Z M10,14 L8,14 L8,12 L10,12 L10,14 L10,14 Z M10,11 L8,11 L8,7 L10,7 L10,11 L10,11 Z" 
-					id="Shape" stroke="none" fill="#D50000" fill-rule="evenodd">
-				</path>
-			</svg>暂无任何筛选条件.
+			<img src="../assets/svg/filter_tag_list_warm.svg" alt="[警告]">暂无任何筛选条件.
 		</div>
 		<unique-tag 
 			:unique-cols="uniqueCols[activeSheet.name]" 
@@ -74,7 +67,7 @@
 		line-height: 24px;
 		padding: 0 13px 0 7px;
 		// width: 160px;
-		svg {
+		img {
 			vertical-align: sub;
 			margin-right: 5px;
 		}

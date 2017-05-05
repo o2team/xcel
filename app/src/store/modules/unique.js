@@ -10,7 +10,12 @@ const getters = {
         /*let curSheetName = rootState.excel.activeSheet.name
         return state.cols[curSheetName]*/
         return state.cols
-    }
+    },
+    getCurUniqueColsCount: (state, getters, rootState) => {
+        let curSheetName = rootState.excel.activeSheet.name,
+            curCols = state.cols[curSheetName]
+        return curCols && curCols.length || 0
+    },
 }
 
 const actions = {

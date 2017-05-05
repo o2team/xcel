@@ -59,10 +59,10 @@
 </script>
 
 <style lang="scss">
-    @import './components/common/assets/common.scss';
-    @import './components/common/assets/content.scss';
-    @import './components/common/assets/table.scss';
-    @import './components/common/assets/tabs.scss';
-    @import './components/common/assets/select.scss';
-    @import './components/common/assets/markdown.scss';
+    @import './components/assets/common.scss';
+    @import './components/assets/content.scss';
+    @import './components/assets/table.scss';
+    @import './components/assets/tabs.scss';
+    @import './components/assets/select.scss';
+    @import './components/assets/markdown.scss';
 </style>

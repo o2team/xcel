@@ -40,7 +40,7 @@
 				<em>{{ filterAcount }}</em>
 				个{{ filterWay == 0 ? "保留" : "剔除"}}条件
 			</p>
-			<img src="./assets/O2-icon.png" alt="O2_logo" @click="openExternal('aotu')">
+			<img src="../assets/O2-icon.png" alt="O2_logo" title="凹凸实验室" @click="openExternal('aotu')">
 		</div>
 	</footer>
 </template>

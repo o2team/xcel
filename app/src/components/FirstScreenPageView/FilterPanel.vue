@@ -6,14 +6,7 @@
 				class="submit_btn btn" 
 				title="点击筛选并导出文件" 
 				@click="filterHandler">
-				<svg width="18px" height="15px" viewBox="23 25 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-				    <desc>Created with Sketch.</desc>
-				    <defs></defs>
-				    <g id="Material/Icons-black/check" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(23.000000, 25.000000)">
-				        <polygon id="Shape" fill="#FFFFFF" points="5.9999939 11.2 1.7999939 7 0.399993896 8.4 5.9999939 14 17.9999939 2 16.5999939 0.6"></polygon>
-				    </g>
-				</svg>
+				<img src="../assets/svg/filter_panel_submit.svg" alt="确定" title="开始过滤">
 			</button>
 		</div>
 		<div class="filter_form_group">
@@ -83,12 +76,18 @@
                 fileStatus: 'getFileStatus',
                 curFilterTagListCount: 'getCurFilterTagListCount',
                 activeSheet: 'getActiveSheet',
-                uniqueCols: 'getUniqueCols'
+                uniqueCols: 'getUniqueCols',
+				curUniqueColsCount: 'getCurUniqueColsCount',
+				sheetNameList: 'getSheetNameList'
             })
         },
         methods: {
             filterHandler() {
-                if (this.curFilterTagListCount === 0 && this.uniqueCols.length === 0) {
+				if (this.sheetNameList.length === 0) {
+					ipcRenderer.send('sync-alert-dialog', {
+                        content: '请先上传Excel文件'
+                    })
+				} else if (this.curFilterTagListCount === 0 && this.curUniqueColsCount === 0) {
                     ipcRenderer.send('sync-alert-dialog', {
                         content: '请先添加筛选条件'
                     })
@@ -131,6 +130,7 @@
 			color: #fff;
 			border: 0;
 			outline: 0;
+			padding: 3px 6px;
 			cursor: pointer;
 		}
 	}

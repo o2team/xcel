@@ -3,13 +3,7 @@
 		<div class="col_sel_dialog">
 			<div class="col_sel_dialog_header">
 				<div>
-					<svg width="22px" height="23px" viewBox="20 19 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-					    <desc>!</desc>
-					    <defs></defs>
-					    <text id="Info---simple-line-icons" stroke="none" fill="none" font-family="simple-line-icons" font-size="22" font-weight="normal">
-					        <tspan x="20" y="40" fill="#4285F4"></tspan>
-					    </text>
-					</svg>
+					<img src="../assets/svg/col_select_dialog_i.svg" alt="[!]">
 					<h4>请选择列</h4>
 				</div>
 				<div class="selected_col_container">
@@ -40,16 +34,10 @@
 				</div>
 				<div v-else>
 					<button type="button" @click="closeDialog">
-						<svg width="28px" height="14px" viewBox="5 5 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						    <defs></defs>
-						    <polygon id="Shape" stroke="none" fill="#6B727D" fill-rule="evenodd" points="19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12"></polygon>
-						</svg>
+						<img src="../assets/svg/col_select_dialog_close.svg" alt="关闭">
 					</button>
 					<button type="button" @click="submit">
-						<svg width="28px" height="14px" viewBox="3 5 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-						    <defs></defs>
-						    <polygon id="Shape" stroke="none" fill="#fff" fill-rule="evenodd" points="8.9999939 16.2 4.7999939 12 3.3999939 13.4 8.9999939 19 20.9999939 7 19.5999939 5.6"></polygon>
-						</svg>
+						<img src="../assets/svg/col_select_dialog_confirm.svg" alt="确认">
 					</button>
 				</div>
 			</div>
@@ -257,7 +245,7 @@
 				white-space: nowrap;
 				margin-right: 20px;
 			}
-			h4, svg {
+			h4, img {
 				vertical-align: middle;
 			}
 			h4 {

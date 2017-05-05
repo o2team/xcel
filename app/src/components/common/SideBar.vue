@@ -1,15 +1,11 @@
 <template>
 	<div id="sidebar" v-show="getSideBarStatus">
 		<div class="sidebar_header">
-			<img src="./assets/xcel_logo.png">
+			<img src="../assets/xcel_logo.png" class="logo"
+				title="XCEL官网"
+				@click="openExternal('xcel')">
 			<p>Ultimate EXCEL Filter</p>
-			<a href="javascript:;" class="hide_sidebar_btn" @click="toggleSideBar(false)">
-				<svg width="14px" height="14px" viewBox="5 5 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-				    <desc>x</desc>
-				    <defs></defs>
-				    <polygon id="Shape" stroke="none" fill="#fff" fill-rule="evenodd" points="19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12"></polygon>
-				</svg>
-			</a>
+			<a class="hide_sidebar_btn" @click="toggleSideBar(false)" title="关闭侧边栏"></a>
 		</div>
 		<div>
 			<file-list></file-list>
@@ -23,6 +19,7 @@
 </template>
 
 <script>
+	import { openExternal } from '../../utils/openExternal'
 	import FileList from './FileList'
 	import { mapGetters, mapActions } from 'vuex'
 
@@ -45,6 +42,7 @@
 			])
 		},
 		methods: {
+			openExternal,
 			...mapActions([
 				'toggleSideBar',
 				'changeSearchVal'
@@ -60,7 +58,7 @@
 		width: 269px;
 		position: fixed;
 		left: 0;
-		top: 0;
+		top: 32px;
 		bottom: 56px;
 		z-index: 100;
 		box-shadow: 0 0 16px rgba(0, 0, 0, .18), 0 16px 16px rgba(0, 0, 0, .24);
@@ -90,6 +88,12 @@
 			cursor: pointer;
 			padding: 5px;
 			-webkit-app-region: no-drag;
+			transition: transform .2s;
+			background: url('../assets/svg/sidebar_close.svg') 50% 50% no-repeat;
+			
+			&:hover {
+				transform: rotate(90deg)
+			}
 		}
 	}
 
@@ -104,5 +108,9 @@
 			width: 100%;
 			height: 100%;
 		}
+	}
+
+	.logo {
+		cursor: pointer;
 	}
 </style>

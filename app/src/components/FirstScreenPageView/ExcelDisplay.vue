@@ -21,11 +21,7 @@
 				@dragleave="dragleaveHandler"
 				>
 				<p class = "drop_tips">
-					<svg width="18px" height="15px" viewBox="0 1 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-					    <desc>警告</desc>
-					    <defs></defs>
-					    <path d="M0.5,16 L17.5,16 L9,1 L0.5,16 L0.5,16 Z M10,14 L8,14 L8,12 L10,12 L10,14 L10,14 Z M10,11 L8,11 L8,7 L10,7 L10,11 L10,11 Z" id="Shape" stroke="none" fill="#D50000" fill-rule="evenodd"></path>
-					</svg>当前没有选中任何Excel文件，可将文件拖拽至此区域。
+					<img src="../assets/svg/excel_display_warm.svg" alt="[警告]">当前没有选中任何Excel文件，可将文件拖拽至此区域。
 				</p>
 			</div>
 			<sheet-of-excel v-for="(sheetName, index) in sheetNameList"
@@ -188,9 +184,9 @@
 			background-color: rgba(0,0,0, .15);
 			text-align: center;
 			pointer-events: none;
-			svg {
+			img {
 				vertical-align: text-top;
-				margin-right: 10px;
+				margin: 1px 6px 0 0;
 			}
 		}
 		p {
