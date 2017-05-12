@@ -14,7 +14,7 @@
 				<filter-form-single-logic></filter-form-single-logic>
 				<filter-form-multi-calc></filter-form-multi-calc>
 				<filter-form-double-cols-range></filter-form-double-cols-range>
-				<filter-for-unique></filter-for-unique>
+				<filter-form-unique></filter-form-unique>
 			</div>
 		</div>
 	</div>
@@ -26,7 +26,7 @@
     import FilterFormSingleLogic from './FilterFormSingleLogic'
     import FilterFormMultiCalc from './FilterFormMultiCalc'
     import FilterFormDoubleColsRange from './FilterFormDoubleColsRange'
-    import FilterForUnique from './FilterForUnique'
+    import FilterFormUnique from './FilterFormUnique'
     import { mapGetters, mapActions } from 'vuex'
     import { ipcRenderer } from 'electron'
 
@@ -36,7 +36,7 @@
             FilterFormSingleLogic,
             FilterFormMultiCalc,
             FilterFormDoubleColsRange,
-            FilterForUnique
+            FilterFormUnique
         },
         data() {
             return {
