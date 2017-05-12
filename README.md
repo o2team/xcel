@@ -99,6 +99,7 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 3. 解析 Excel 后的数据结构（在 Background Process 中）  
   ![解析 Excel 后的数据结构][16]  
 4. 项目的文件结构  
+```
 .  
 ├── README.md  
 ├── app················································应用的代码目录  
@@ -220,7 +221,7 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 │       ├── route.template.txt·························  
 │       └── routes.template.txt························  
 └── webpack.config.js··································webpack 配置文件  
-
+```
 
 
   [1]: https://aotu.io/
