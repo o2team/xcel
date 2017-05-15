@@ -225,10 +225,10 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 
 
   [1]: https://aotu.io/
-  [2]: http://jdc.jd.com/lab/xcel/download/1.3.1/xcel-1.3.1.dmg
-  [3]: http://jdc.jd.com/lab/xcel/download/1.3.1/xcel%20Setup%201.3.1.exe
-  [4]: http://jdc.jd.com/lab/xcel/download/1.3.1/xcel%20Setup%201.3.1-ia32.exe
-  [5]: http://jdc.jd.com/lab/xcel/download/1.3.1/xcel-1.3.1-linux-x64.zip
+  [2]: http://jdc.jd.com/lab/xcel/download/1.4.0/xcel-1.4.0.dmg
+  [3]: http://jdc.jd.com/lab/xcel/download/1.4.0/xcel%20Setup%201.4.0.exe
+  [4]: http://jdc.jd.com/lab/xcel/download/1.4.0/xcel%20Setup%201.4.0-ia32.exe
+  [5]: http://jdc.jd.com/lab/xcel/download/1.4.0/xcel-1.4.0-linux-x64.zip
   [6]: https://misc.aotu.io/JChehe/xcel/initial_interface.png
   [7]: https://misc.aotu.io/JChehe/xcel/filter_panel.png
   [8]: https://misc.aotu.io/JChehe/xcel/sidebar.png
