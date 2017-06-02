@@ -15,16 +15,16 @@ Vue.use(Vuex)
 const isDev = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-    actions,
-    getters,
-    modules: {
-        clientUpdate,
-        excel,
-        file,
-        filter,
-        unique,
-        programWindow
-    },
-    strict: isDev,
-    plugins: isDev ? [createLogger()] : []
+  actions,
+  getters,
+  modules: {
+    clientUpdate,
+    excel,
+    file,
+    filter,
+    unique,
+    programWindow
+  },
+  strict: isDev,
+  plugins: isDev ? [createLogger()] : []
 })

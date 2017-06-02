@@ -14,9 +14,11 @@ window.eventBus = new Vue()
 
 const router = new Router(routes)
 
+/* eslint-disable */
 new Vue({
-	el: '#app',
-	router: router,
-	store,
-	render: h => h(App)
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
 })
+/* eslint-enable */

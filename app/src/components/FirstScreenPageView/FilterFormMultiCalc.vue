@@ -21,7 +21,7 @@
 					<td>
 						<span class="select">
 							<select v-model="colOperatorSelect">
-								<option v-for="op in colOperator" 
+								<option v-for="op in colOperator"
 									:value="op.char">
 									{{ op.words }}
 								</option>
@@ -34,7 +34,7 @@
 					<td>
 						<span class="select">
 							<select v-model="operator">
-								<option v-for="op in filteredOpt" 
+								<option v-for="op in filteredOpt"
 									:value="op.char">
 									{{ op.words }}
 								</option>
@@ -60,161 +60,156 @@
 </template>
 
 <script>
-	import {
-		colOperator,
-		getNumCol,
-		getCharCol,
-		getOperatorWords,
-		getColOperatorWords,
-		getColArithmeticOperatorWords,
-		getLogicOperatorWords,
-		getFilterWordsPrimitive
-	} from '../../utils/ExcelSet'
-	import { mapGetters, mapActions } from 'vuex'
-	import GroupSelect from './GroupSelect'
-	import { ipcRenderer } from 'electron'
+import {
+  colOperator,
+  getNumCol,
+  getCharCol,
+  getOperatorWords,
+  getColOperatorWords,
+  getColArithmeticOperatorWords,
+  getLogicOperatorWords,
+  getFilterWordsPrimitive
+} from '../../utils/ExcelSet'
+import { mapGetters, mapActions } from 'vuex'
+import GroupSelect from './GroupSelect'
+import { ipcRenderer } from 'electron'
 
-	export default {
-		components: {
-			GroupSelect
-		},
-		data() {
-			return {
-				operatorVal: '',
-				operatorCol: [], // 最终会转为数组
-				operator: '>',
-				colOperatorSelect: '+',
-				logicOperator: 'and',
-				colOperator: colOperator,
-				groupId: -1
-			}
-		},
-		mounted() {
-			window.eventBus.$on('colSelVal4Multi', (colSelectGroup) => {
-				this.operatorCol = colSelectGroup
-			})
-		},
-		watch: {
-			curFilterTagListCount() {
-				if (this.curFilterTagListCount == 0) {
-					this.logicOperator = 'and'
-				}
-			}
-		},
-		computed: {
-			formatColGroup() {
-				console.log(this.operatorCol)
-				return this.operatorCol.map((col, index) => {
-					return this.getCharCol(col)
-				}).join(',')
-			},
-			filteredOpt() {
-				return this.filterOptions.filter((opt, index) => {
-					if (opt.char === 'empty' || opt.char === 'notEmpty') {
-						return false
-					} else {
-						return true
-					}
-				})
-			},
-			...mapGetters({
-				filterOptions: 'getFilterOptions',
-				curFilterTagListCount: 'getCurFilterTagListCount'
-			})
-		},
-		methods: {
-			getNumCol,
-			getCharCol,
-			getOperatorWords,
-			getColArithmeticOperatorWords,
-			getLogicOperatorWords,
-			getFilterWordsPrimitive,
-			getColOperatorWords,
-			changeSelHandler(groupId) {
-				this.groupId = groupId
-			},
-			showColSelectDialog() {
-				this.setColSelectType(1)
-				this.setColSelectDialogStatus(true)
-			},
-			addFilterHandler() {
-				let filterObj = {},
-					filterWords = '',
-					curCols = this.operatorCol,
-					operator = this.operator,
-					operatorWords = this.getOperatorWords(this.filterOptions, operator),
-					opVal = this.operatorVal.trim(),
-					colOperatorSelect = this.colOperatorSelect,
-					colOperatorWords = this.getColOperatorWords(colOperator, colOperatorSelect)
+export default {
+  components: {
+    GroupSelect
+  },
+  data () {
+    return {
+      operatorVal: '',
+      operatorCol: [], // 最终会转为数组
+      operator: '>',
+      colOperatorSelect: '+',
+      logicOperator: 'and',
+      colOperator,
+      groupId: -1
+    }
+  },
+  mounted () {
+    window.eventBus.$on('colSelVal4Multi', colSelectGroup => {
+      this.operatorCol = colSelectGroup
+    })
+  },
+  watch: {
+    curFilterTagListCount () {
+      if (this.curFilterTagListCount === 0) {
+        this.logicOperator = 'and'
+      }
+    }
+  },
+  computed: {
+    formatColGroup () {
+      console.log(this.operatorCol)
+      return this.operatorCol.map((col, index) =>
+        this.getCharCol(col)
+      ).join(',')
+    },
+    filteredOpt () {
+      return this.filterOptions.filter((opt, index) => {
+        if (opt.char === 'empty' || opt.char === 'notEmpty') {
+          return false
+        }
+        return true
+      })
+    },
+    ...mapGetters({
+      filterOptions: 'getFilterOptions',
+      curFilterTagListCount: 'getCurFilterTagListCount'
+    })
+  },
+  methods: {
+    getNumCol,
+    getCharCol,
+    getOperatorWords,
+    getColArithmeticOperatorWords,
+    getLogicOperatorWords,
+    getFilterWordsPrimitive,
+    getColOperatorWords,
+    changeSelHandler (groupId) {
+      this.groupId = groupId
+    },
+    showColSelectDialog () {
+      this.setColSelectType(1)
+      this.setColSelectDialogStatus(true)
+    },
+    addFilterHandler () {
+      let filterWords = ''
+      let filterObj = {}
+      const curCols = this.operatorCol
+      const operator = this.operator
+      const operatorWords = this.getOperatorWords(this.filterOptions, operator)
+      const opVal = this.operatorVal.trim()
+      const colOperatorSelect = this.colOperatorSelect
+      const colOperatorWords = this.getColOperatorWords(colOperator, colOperatorSelect)
 
-				if (!this.validateForm({ curCols, opVal, colOperatorSelect })) {
-					return
-				}
+      if (!this.validateForm({ curCols, opVal, colOperatorSelect })) {
+        return
+      }
 
-				let colText = ''
-				curCols.forEach((col, index) => {
-					colText += `, ${getCharCol(col)}`
-				})
-				let preStr = `第${colText.slice(2)}列的值${colOperatorWords}`
+      let colText = ''
+      curCols.forEach((col, index) => {
+        colText += `, ${getCharCol(col)}`
+      })
+      const preStr = `第${colText.slice(2)}列的值${colOperatorWords}`
 
-				filterWords = preStr + this.getFilterWordsPrimitive({
-					operator,
-					colOperatorWords,
-					operatorWords,
-					val: opVal,
-					colOperatorSelect
-				})
+      filterWords = preStr + this.getFilterWordsPrimitive({
+        operator,
+        colOperatorWords,
+        operatorWords,
+        val: opVal,
+        colOperatorSelect
+      })
 
-				filterObj = {
-					filterType: 1,
-					groupId: this.groupId,
-					logicOperator: this.logicOperator,
-					col: curCols.map((col, index) => {
-						return col
-					}),
-					operator: this.operator,
-					value: opVal,
-					filterWords: filterWords,
-					colOperator: this.colOperatorSelect
-				}
+      filterObj = {
+        filterType: 1,
+        groupId: this.groupId,
+        logicOperator: this.logicOperator,
+        col: curCols.map((col, index) => col),
+        operator: this.operator,
+        value: opVal,
+        filterWords,
+        colOperator: this.colOperatorSelect
+      }
 
-				this.addFilter(filterObj)
-				this.operatorCol = []
-				this.operatorVal = ''
-				this.groupId = -1
-				this.operator = '>'
-			},
-			validateForm(args) {
-				let { curCols, opVal, colOperatorSelect } = args,
-					isValidated = false,
-					tipWords = '多列运算逻辑：'
+      this.addFilter(filterObj)
+      this.operatorCol = []
+      this.operatorVal = ''
+      this.groupId = -1
+      this.operator = '>'
+    },
+    validateForm ({ curCols, opVal, colOperatorSelect }) {
+      let isValidated = false
+      let tipWords = '多列运算逻辑：'
 
-				if (curCols.length === 0) {
-					tipWords += '请填写列'
-				} else if (curCols.length < 2) {
-					tipWords += '至少填写两列'
-				} else if (opVal.length === 0) {
-					tipWords += '请填写运算符'
-				} else if (colOperatorSelect.includes('time') && curCols.length > 2) {
-					tipWords += '中的时间相关操作只能选择两列'
-				} else {
-					isValidated = true
-				}
+      if (curCols.length === 0) {
+        tipWords += '请填写列'
+      } else if (curCols.length < 2) {
+        tipWords += '至少填写两列'
+      } else if (opVal.length === 0) {
+        tipWords += '请填写运算符'
+      } else if (colOperatorSelect.includes('time') && curCols.length > 2) {
+        tipWords += '中的时间相关操作只能选择两列'
+      } else {
+        isValidated = true
+      }
 
-				if (!isValidated) {
-					ipcRenderer.send('sync-alert-dialog', {
-						content: tipWords
-					})
-					return false
-				} else {
-					return true
-				}
-			},
-			...mapActions([
-				'setColSelectDialogStatus',
-				'setColSelectType',
-				'addFilter'
-			])
-		}
-	}
+      if (!isValidated) {
+        ipcRenderer.send('sync-alert-dialog', {
+          content: tipWords
+        })
+        return false
+      }
+      return true
+    },
+    ...mapActions([
+      'setColSelectDialogStatus',
+      'setColSelectType',
+      'addFilter'
+    ])
+  }
+}
 </script>

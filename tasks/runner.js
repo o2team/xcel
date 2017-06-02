@@ -7,27 +7,27 @@ const config = require('../config')
 const exec = require('child_process').exec
 const treeKill = require('tree-kill')
 
-let YELLOW = '\x1b[33m'
-let BLUE = '\x1b[34m'
-let END = '\x1b[0m'
+const YELLOW = '\x1b[33m'
+const BLUE = '\x1b[34m'
+const END = '\x1b[0m'
 
 let isElectronOpen = false
 
 function format (command, data, color) {
-  return color + command + END +
-    '  ' + // Two space offset
-    data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2)) +
-    '\n'
+  return `${color + command + END}
+    ${  // Two space offset
+    data.toString().trim().replace(/\n/g, `\n${repeat(' ', command.length + 2)}`)
+    }\n`
 }
 
 function repeat (str, times) {
   return (new Array(times + 1)).join(str)
 }
 
-let children = []
+const children = []
 
 function run (command, color, name) {
-  let child = exec(command)
+  const child = exec(command)
 
   child.stdout.on('data', data => {
     console.log(format(name, data, color))
@@ -38,12 +38,12 @@ function run (command, color, name) {
      *
      * NOTE: needs more testing for stability
      */
-    /*if (/VALID/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
+    /* if (/VALID/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
       console.log(`${BLUE}Starting electron...\n${END}`)
       run('cross-env NODE_ENV=development electron app/electron.js', BLUE, 'electron')
       isElectronOpen = true
-    }*/
-    if (/Compiled/g.test(data.toString().trim().replace(/\n/g, '\n' + repeat(' ', command.length + 2))) && !isElectronOpen) {
+    } */
+    if (/Compiled/g.test(data.toString().trim().replace(/\n/g, `\n${repeat(' ', command.length + 2)}`)) && !isElectronOpen) {
       console.log(`${BLUE}Starting electron...\n${END}`)
       run('cross-env NODE_ENV=development electron app/electron.js', BLUE, 'electron')
       isElectronOpen = true

@@ -1,0 +1,6 @@
+{
+  "extends": "eslint-config-o2team",
+  "rules": {
+    "no-multiple-empty-lines": [ 1,{ "max": 1 } ]
+  }
+}

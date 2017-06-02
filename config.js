@@ -2,7 +2,7 @@
 
 const path = require('path')
 const pkg = require('./app/package.json')
-let config = {
+const config = {
   // Name of electron app
   // Will be used in production builds
   name: pkg.product,
@@ -11,12 +11,12 @@ let config = {
   port: 9080,
 
   // electron-packager options
-  // Docs: https://simulatedgreg.gitbooks.io/electron-vue/content/docs/building_your_app.html
+  // Docs: https://github.com/electron-userland/electron-packager/blob/master/docs/api.md
   building: {
-    'app-version': pkg.version,
+    appVersion: pkg.version,
     arch: ['x64', 'ia32'], // ia32, x64, armv7l, all
     asar: true,
-    dir: path.join(__dirname, 'app'),
+    dir: path.join(__dirname, 'app'), // Directory of the app
     icon: path.join(__dirname, 'app/icons/icon'),
     ignore: /src|main.ejs|icons/,
     out: path.join(__dirname, 'builds'),
@@ -29,7 +29,7 @@ let config = {
   backUrl: `file://${__dirname}/app/dist/background/index.html`
 }
 
-config.mainUrl = `http://localhost:${config.port}`;
+config.mainUrl = `http://localhost:${config.port}`
 
 if (!config.isDev) {
   config.devtron = false

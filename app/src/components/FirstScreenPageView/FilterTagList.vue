@@ -3,56 +3,55 @@
 		<div class="filter_tag_palceholder" v-show="isShowPlaceholder">
 			<img src="../assets/svg/filter_tag_list_warm.svg" alt="[警告]">暂无任何筛选条件.
 		</div>
-		<unique-tag 
-			:unique-cols="uniqueCols[activeSheetName]" 
-			:cur-filter-tag-list="filterTagList[activeSheetName]" 
+		<unique-tag
+			:unique-cols="uniqueCols[activeSheetName]"
+			:cur-filter-tag-list="filterTagList[activeSheetName]"
 			v-if="uniqueCols[activeSheetName] && uniqueCols[activeSheetName].length > 0">
 		</unique-tag>
-		<filter-tag v-for="(filterTag, index) in filterTagList[activeSheetName]" 
-			:filter-tag="filterTag" 
+		<filter-tag v-for="(filterTag, index) in filterTagList[activeSheetName]"
+			:filter-tag="filterTag"
 			:tag-index="index">
 		</filter-tag>
 	</div>
 </template>
 
 <script>
-	import FilterTag from './FilterTag'
-	import UniqueTag from './UniqueTag'
-	import { mapGetters } from 'vuex'
+import FilterTag from './FilterTag'
+import UniqueTag from './UniqueTag'
+import { mapGetters } from 'vuex'
 
-	export default {
-		components: {
-			FilterTag,
-			UniqueTag
-		},
-		data() {
-			return {
-				curFilterTagList: []
-			}
-		},
-		computed: {
-			isShowPlaceholder() {
-				let activeSheetName = this.activeSheetName
-				let curTagList = this.filterTagList[activeSheetName]
-				let curUniqueCols = this.uniqueCols[activeSheetName]
-				
-				if (!curTagList || curTagList.length === 0) {
-					if (curUniqueCols === undefined) return true
-					else {
-						if (curUniqueCols.length === 0) return true
-						else return false
-					}
-				} else {
-					return false
-				}
-			},
-			...mapGetters({
-				filterTagList: 'getFilterTagList',
-				activeSheetName: 'getActiveSheetName',
-				uniqueCols: 'getUniqueCols'
-			})
-		}
-	}
+export default {
+  components: {
+    FilterTag,
+    UniqueTag
+  },
+  data () {
+    return {
+      curFilterTagList: []
+    }
+  },
+  computed: {
+    isShowPlaceholder () {
+      const activeSheetName = this.activeSheetName
+      const curTagList = this.filterTagList[activeSheetName]
+      const curUniqueCols = this.uniqueCols[activeSheetName]
+
+      if (!curTagList || curTagList.length === 0) {
+        if (typeof curUniqueCols === 'undefined') return true
+        if (curUniqueCols.length === 0) {
+          return true
+        }
+        return false
+      }
+      return false
+    },
+    ...mapGetters({
+      filterTagList: 'getFilterTagList',
+      activeSheetName: 'getActiveSheetName',
+      uniqueCols: 'getUniqueCols'
+    })
+  }
+}
 </script>
 
 <style lang="scss">

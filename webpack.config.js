@@ -1,8 +1,6 @@
 'use strict'
 
-const fs = require('fs')
 const path = require('path')
-const pkg = require('./app/package.json')
 const settings = require('./config.js')
 const webpack = require('webpack')
 
@@ -10,12 +8,23 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-let config = {
+const config = {
   devtool: '#eval-source-map',
   entry: {
     build: path.join(__dirname, 'app/src/main.js')
   },
+  eslint: {
+    formatter: require('eslint-friendly-formatter'),
+    configFile: './.eslintrc'
+  },
   module: {
+    preloaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel!eslint',
+        exclude: /node_modules/
+      }
+    ],
     loaders: [
       {
         test: /\.css$/,
@@ -68,8 +77,8 @@ let config = {
     }),
     new webpack.NoErrorsPlugin(),
     new CopyWebpackPlugin([
-      {from: path.join(__dirname, 'app/src/background'), to: path.join(__dirname, "app/dist/background")},
-      {from: path.join(__dirname, 'app/src/update'), to: path.join(__dirname, "app/dist/update")}
+      { from: path.join(__dirname, 'app/src/background'), to: path.join(__dirname, 'app/dist/background') },
+      { from: path.join(__dirname, 'app/src/update'), to: path.join(__dirname, 'app/dist/update') }
     ])
   ],
   output: {
@@ -94,7 +103,8 @@ let config = {
     },
     loaders: {
       sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-      scss: 'vue-style-loader!css-loader!sass-loader'
+      scss: 'vue-style-loader!css-loader!sass-loader',
+      js: 'babel!eslint'
     }
   },
   node: {
