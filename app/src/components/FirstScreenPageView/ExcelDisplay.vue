@@ -5,6 +5,7 @@
 			v-show="sheetNameList.length !== 0">
 			<ul>
 				<li v-for = "(sheetName, index) in sheetNameList"
+          :key="index"
 					:class="{'is_active': index == activeSheet.index}"
 					@click = "changeTab(index)">
 					<a href="javascript:;">
@@ -25,6 +26,7 @@
 				</p>
 			</div>
 			<sheet-of-excel v-for="(sheetName, index) in sheetNameList"
+        :key="index"
 				v-show="activeSheet.index === index"
 				:sheetHTML="sheetHTML">
 			</sheet-of-excel>
