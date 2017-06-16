@@ -88,6 +88,10 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 ## 最后
 欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
 
+## License
+
+[GPL](https://github.com/o2team/xcel/blob/master/LICENSE)
+
 ---
 
 ## 一些有助于理解程序的图例
@@ -216,10 +220,6 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 ├── tasks··············································预定义的任务集（如快速新建 Vue 组件等）  
 │   ├── release.js·····································  
 │   ├── runner.js······································  
-│   └── vue············································  
-│       ├── route.js···································  
-│       ├── route.template.txt·························  
-│       └── routes.template.txt························  
 └── webpack.config.js··································webpack 配置文件  
 ```
 
