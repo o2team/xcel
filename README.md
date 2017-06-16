@@ -19,7 +19,7 @@ XCEL 是由京东用户体验设计部 [凹凸实验室][1] 推出的一个 Exce
 4. 去重功能：提供可指定列的方式进行去重，有效避免数据冗余。
 
 
-## 图示
+## 截图
 1. 初始界面  
 ![初始界面][6]
 2. 筛选条件面板
@@ -31,21 +31,35 @@ XCEL 是由京东用户体验设计部 [凹凸实验室][1] 推出的一个 Exce
 5. 应用更新
 ![应用更新][10]
 
-## 模块说明
+## 感谢
 
-- 两个 package.json 的结构
+特别感谢 [@mamboer](https://github.com/mamboer)、[@JChehe](https://github.com/JChehe)、[@hankaibo](https://github.com/hankaibo) 对此项目作出贡献💯。
+
+欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
+
+## 开源许可证
+
+[GPL](https://github.com/o2team/xcel/blob/master/LICENSE)
+
+---
+
+## 开发者
+
+### 模块说明
+
+#### 两个 package.json 的结构
  
- 1. 对于开发（./package.json）
+ 1. 对于开发（./package.json）  
 该 `package.json` 存在于项目的根目录。它描述了开发环境和构建命令（build scripts），即 `devDependencies`。
 
- 2. 对于应用
+ 2. 对于应用  
 该 `package.json` 存在于 `app` 目录下。它描述了应用的依赖（即 `depencencies`）。只有该目录是最终会被打包生成程序。
 
-## 运行环境
+### 运行环境
 
 XCEL 推荐使用 node v6.x 作为编译运行环境。另外，构建工具使用了 Webpack。
 
-## 构建步骤
+### 构建步骤
 该项目是基于 [electron-vue][11] 开发，该模板的更多信息可以 [点击这里][12] 查看。
 ```
 # install dependencies
@@ -63,7 +77,7 @@ npm run pack
 
 更多构建信息可点击 [这里][13] 查看。
 
-## 初始化项目时可能会遇到的问题
+### 初始化项目时可能会遇到的问题
 
 - 安装 electron 包过慢（国内情况）的解决方法：
  - 临时方式：
@@ -85,20 +99,7 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 
 如果你还遇到其他构建问题，欢迎反馈，我会及时更新到此处。
 
-## 感谢
-
-特别感谢 [@mamboer](https://github.com/mamboer)、[@hankaibo](https://github.com/hankaibo) 对此项目作出贡献💯。
-
-## 最后
-欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
-
-## License
-
-[GPL](https://github.com/o2team/xcel/blob/master/LICENSE)
-
----
-
-## 一些有助于理解程序的图例
+### 一些有助于理解程序的图例
 
 1. Vue 组件结构  
   ![Vue 组件结构][14]  
