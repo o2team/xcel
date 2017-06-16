@@ -85,6 +85,10 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
 
 如果你还遇到其他构建问题，欢迎反馈，我会及时更新到此处。
 
+## 感谢
+
+特别感谢 [@mamboer](https://github.com/mamboer)、[@hankaibo](https://github.com/hankaibo) 对此项目作出贡献💯。
+
 ## 最后
 欢迎大家下载试用，当然更希望你们推荐给有需要的人。如果该工具没涵盖到你的筛选需求，可以进行反馈，我们会根据情况适时增加进来。   
 
