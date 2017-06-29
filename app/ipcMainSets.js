@@ -222,13 +222,15 @@ module.exports = function (mainWindow, backgroundWindow) {
   ipcMain.on('sync-close', (event, arg) => {
     mainWindow.close()
   })
+
+  // 默认窗口大小，当不指定 x,y 时，则为居中。
+  let windowBounds = {
+    width: 1280,
+    height: 850
+  }
   ipcMain.on('sync-maximize', (event, arg) => {
-    let windowBounds = {
-      width: 1280,
-      height: 850
-    }
     if (mainWindow.isMaximized()) {
-      mainWindow.setBounds(windowBounds)
+      mainWindow.setBounds(windowBounds, true)
     } else {
       windowBounds = mainWindow.getBounds()
       mainWindow.maximize()
