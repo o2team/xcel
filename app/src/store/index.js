@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions'
-import * as getters from './getters'
+// import * as getters from './getters'
 import clientUpdate from './modules/clientUpdate'
 import excel from './modules/excel'
 import file from './modules/file'
@@ -16,7 +16,7 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   actions,
-  getters,
+  // getters,
   modules: {
     clientUpdate,
     excel,

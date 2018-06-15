@@ -1,3 +1,5 @@
+// 根级别 action
+
 import { ipcRenderer } from 'electron'
 import * as types from './mutation-types'
 
