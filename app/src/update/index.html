@@ -20,40 +20,6 @@
 				<button type="button" class="cancel_btn">取消</button>
 			</div>
 		</div>
-		<script>
-			const electron = require('electron')
-			const ipcRenderer = electron.ipcRenderer
-			const shell = electron.shell
-
-			let $ = document.querySelector.bind(document)
-			let downloadProgress = $('#download_progress'),
-						cur = $('#cur'),
-						total = $('#total'),
-						dprogressBar = $('.dprogress_bar'),
-						checkoutSourceBtn = $('.checkout_source_btn'),
-						pauseBtn = $('.pause_btn'),
-						cancelBtn = $('.cancel_btn'),
-						willDownloadResponse = function(event, { curReceivedBytes, totalBytes, downloadStatus }) {
-							let percentage = curReceivedBytes / totalBytes * 100 + '%'
-
-							cur.innerText = (curReceivedBytes / 1024 / 1024).toFixed(2)
-							total.innerText = (totalBytes / 1024 / 1024).toFixed(2)
-							dprogressBar.style.width = percentage
-						},
-						cancelBtnHandler = function() {
-							ipcRenderer.send('update-cancel')
-						},
-						pauseBtnHandler = function() {
-							ipcRenderer.send('update-switch')
-						},
-						togglePauseBtn = function(event, { text }) {
-							pauseBtn.innerText = text
-						}
-
-			ipcRenderer.on('will-download-response', willDownloadResponse)
-			ipcRenderer.on('update-switch-response', togglePauseBtn)
-			pauseBtn.addEventListener('click', pauseBtnHandler, false)
-			cancelBtn.addEventListener('click', cancelBtnHandler, false)
-		</script>
+		<script src="./index.js"></script>
 	</body>
 </html>

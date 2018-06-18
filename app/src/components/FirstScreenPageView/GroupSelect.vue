@@ -4,7 +4,8 @@
 			<option value="-1">组别</option>
 			<!-- v-for 整数迭代是从1开始 -->
 			<option
-				v-for="index in groupNum" :value="index - 1">
+				v-for="index in groupNum" :value="index - 1"
+        :key="index">
 				{{ getGroupValue(index - 1) }}
 			</option>
 		</select>

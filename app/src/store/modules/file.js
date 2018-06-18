@@ -19,7 +19,7 @@ const state = {
 }
 
 const getters = {
-    // getters 包含所有模块的getters（扁平化后），rootState 与 actions 相同
+  // getters 包含所有模块的getters（扁平化后），rootState 与 actions 相同
   getUploadFiles: (state, getters, rootState) => state.fileList,
   getSearchVal: (state, getters, rootState) => state.searchVal,
   getFileStatus: (state, getters, rootState) => state.fileStatus,
@@ -83,7 +83,7 @@ const mutations = {
 
     setLocal('uploadFiles', state.fileList)
   },
-    // 去掉复数
+  // 去掉复数
   [types.DEL_UPLOAD_FILES] (state, fileObj) {
     for (let i = 0, len = state.fileList.length; i < len; i++) {
       const file = state.fileList[i]
@@ -94,7 +94,7 @@ const mutations = {
     }
     setLocal('uploadFiles', state.fileList)
   },
-    // 命名要改
+  // 命名要改
   [types.SET_FILE_STATUS] (state, status) {
     state.fileStatus = status
   }

@@ -13,19 +13,19 @@ const state = {
   isShowColSelectDialog: false,
   colSelecType: -1, // 0 单列、1 多列、2 双列范围、3 去重
   filterOptions: [
-        { char: '>', words: '大于' },
-        { char: '<', words: '小于' },
-        { char: '>=', words: '大于或等于' },
-        { char: '<=', words: '小于或等于' },
-        { char: '=', words: '等于' },
-        { char: '!=', words: '不等于' },
-        { char: 'contain', words: '包含' },
-        { char: 'notContain', words: '不包含' },
-        { char: 'startWith', words: '开头字符' },
-        { char: 'endWith', words: '结束字符' },
-        { char: 'regexp', words: '正则表达式' },
-        { char: 'empty', words: '为空' },
-        { char: 'notEmpty', words: '不为空' }
+    { char: '>', words: '大于' },
+    { char: '<', words: '小于' },
+    { char: '>=', words: '大于或等于' },
+    { char: '<=', words: '小于或等于' },
+    { char: '=', words: '等于' },
+    { char: '!=', words: '不等于' },
+    { char: 'contain', words: '包含' },
+    { char: 'notContain', words: '不包含' },
+    { char: 'startWith', words: '开头字符' },
+    { char: 'endWith', words: '结束字符' },
+    { char: 'regexp', words: '正则表达式' },
+    { char: 'empty', words: '为空' },
+    { char: 'notEmpty', words: '不为空' }
   ]
 }
 

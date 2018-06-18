@@ -22,6 +22,7 @@
 						<span class="select">
 							<select v-model="colOperatorSelect">
 								<option v-for="op in colOperator"
+                  :key="op.char"
 									:value="op.char">
 									{{ op.words }}
 								</option>
@@ -35,6 +36,7 @@
 						<span class="select">
 							<select v-model="operator">
 								<option v-for="op in filteredOpt"
+                  :key="op.char"
 									:value="op.char">
 									{{ op.words }}
 								</option>

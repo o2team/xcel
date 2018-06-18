@@ -24,6 +24,7 @@
 				</p>
 				<ul v-else>
 					<li v-for="(item, index) in curColKeys"
+            :key="index"
 						@click="toggleSelect(index)"
 						:class="{'active': selectedGroup.includes(index)}">
 						<div>

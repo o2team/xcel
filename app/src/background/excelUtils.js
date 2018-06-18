@@ -42,23 +42,23 @@ Excel.prototype = {
     return {}
   },
   readByData (data) {
-        // 用于前端上传文件，如：上传按钮和拖拽上传
+    // 用于前端上传文件，如：上传按钮和拖拽上传
     this.workbook = xlsx.read(data, { type: 'binary' })
   },
   readByPath (filename) {
-        // 用于 Node 直接通过路径读取文件
+    // 用于 Node 直接通过路径读取文件
     this.workbook = xlsx.readFile(filename)
   },
   initData () {
-        // 表名列表
+    // 表名列表
     this.sheetNameList = this.workbook.SheetNames
 
-        // 插入每个sheet的数据（json格式）
+    // 插入每个sheet的数据（json格式）
     this.sheetNameList.forEach((curSheetName, index) => {
       this[curSheetName] = xlsx.utils.sheet_to_json(this.workbook.Sheets[curSheetName])
     })
 
-        // 获取表头
+    // 获取表头
     this.sheetNameList.forEach((curSheetName, index) => {
       const curSheetData = this.workbook.Sheets[curSheetName]
       const scope = this.workbook.Sheets[curSheetName]['!ref'].split(':') // A1 F5
@@ -87,14 +87,14 @@ Excel.prototype = {
       wbTem = null
     })
     sheetNameList = null
-        // console.log(finalWB)
+    // console.log(finalWB)
     ipcRenderer.send('sync-saveFile-dialog', {
       filename: '过滤后的文件.xlsx',
       data: finalWB
     })
-        // console.log(xlsx.writeFile(finalWB, fileName)) // Node导出
-        // let wbout = XLSX.write(finalWB, {bookType:'xlsx', bookSST:false, type: 'binary'});
-        // saveAs(new Blob([s2ab(wbout)],{type:'application/octet-stream'}), fileName)
+    // console.log(xlsx.writeFile(finalWB, fileName)) // Node导出
+    // let wbout = XLSX.write(finalWB, {bookType:'xlsx', bookSST:false, type: 'binary'});
+    // saveAs(new Blob([s2ab(wbout)],{type:'application/octet-stream'}), fileName)
   },
 
   jsonToWBForOneSheet (json, colkeys, sheetName) {

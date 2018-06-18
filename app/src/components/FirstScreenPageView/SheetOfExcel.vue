@@ -6,7 +6,8 @@
 				<tr>
 					<th></th>
 					<!-- v-for 整数迭代是从1开始 -->
-					<th v-for="col in curColCount" :title="'即第' + col + '行'">
+					<th v-for="col in curColCount" :title="'即第' + col + '行'"
+            :key="col">
 						{{ getCharCol(col - 1) }}
 					</th>
 				</tr>
@@ -50,7 +51,6 @@ export default {
     getNumCol
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

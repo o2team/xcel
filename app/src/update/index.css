@@ -171,14 +171,13 @@ a:hover {
   text-align: right;
 }
 
-
 .btn_group {
   display: flex;
 }
 .btn_group button {
   flex-basis: 50%;
   height: 50px;
-  flex-group: 1;
+  flex-grow: 1;
   -webkit-appearance: normal;
   appearance: normal;
   font-size: 14px;

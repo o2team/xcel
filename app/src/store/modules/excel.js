@@ -38,7 +38,7 @@ const actions = {
   setActiveSheet ({ state, commit, rootState }, index) {
     commit(types.SET_ACTIVE_SHEET, index)
   },
-    // 筛选后的数据，目前只有 行数
+  // 筛选后的数据，目前只有 行数
   setFilteredData ({ state, commit, rootState }, filRow) {
     commit(types.SET_FILTERED_DATA, filRow)
   }

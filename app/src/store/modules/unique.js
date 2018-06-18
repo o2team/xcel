@@ -5,7 +5,7 @@ const state = {
 }
 
 const getters = {
-    // getters 包含所有模块的getters（扁平化后），rootState 与 actions 相同
+  // getters 包含所有模块的getters（扁平化后），rootState 与 actions 相同
   getUniqueCols: (state, getters, rootState) => state.cols,
   getCurUniqueColsCount: (state, getters, rootState) => {
     const activeSheetName = getters.getActiveSheetName

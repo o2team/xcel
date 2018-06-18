@@ -14,14 +14,14 @@ let filRow = {}
 
 window.addEventListener('load', event => {
   ipcRenderer.on('readFile-start', (event, { data, activeSheetIndex }) => {
-        /* excelData 的数据结构
-        {
-          sheetNameN: [] 所有行
-          sheetNameN_headers: [] 所有列标题
-          sheetNameList: []
-          workbook: {} Excel 相关
-        }
-        */
+    /* excelData 的数据结构
+      {
+        sheetNameN: [] 所有行
+        sheetNameN_headers: [] 所有列标题
+        sheetNameList: []
+        workbook: {} Excel 相关
+      }
+    */
     excelData = new Excel().init(data)
     oriRow = {}
     filRow = {}
@@ -124,7 +124,7 @@ function filterHandler ({ filterTagList, filterWay, uniqueCols }) {
           const tagLogicChar = cTag.logicOperator === 'and' ? '&&' : '||'
           let groupExpStr = ''
 
-                    // 遍历当前组的 filters
+          // 遍历当前组的 filters
           cFilters.forEach((cF, index) => {
             const filterLogicChar = cF.logicOperator === 'and' ? '&&' : '||'
             const filterType = cF.filterType

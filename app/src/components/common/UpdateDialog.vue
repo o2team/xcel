@@ -1,5 +1,5 @@
 <template>
-  <div class="update_modal" @keyup :class="{'active': updateDialogStatus}">
+  <div class="update_modal" @keyup.prevent :class="{'active': updateDialogStatus}">
     <div class="update_dialog" :class="isHasNewVersion ? 'has_new' : 'no_new'">
       <template v-if="isHasNewVersion">
         <div class="update_dialog_header">
@@ -172,7 +172,7 @@ export default {
     flex-shrink: 0;
     >div {
       display: flex;
-      align-item: stretch;
+      align-items: stretch;
       height: 50px;
     }
     button {

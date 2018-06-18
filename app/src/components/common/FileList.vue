@@ -3,7 +3,8 @@
 		<div class="file_list">
 			<ul>
 				<li title="双击文件名即可导入"
-					v-for="(file, index) in fileListByQuery"
+					v-for="(file) in fileListByQuery"
+          :key="file.path"
 					:class="{cur_file: file.path === fileList[0].path}"
 					@dblclick="confirmRead(file.path ,file)">
 					<span>{{ file.extname.replace(/^./, "") }}</span>

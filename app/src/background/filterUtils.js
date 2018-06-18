@@ -17,11 +17,11 @@ const filterUtils = {
     }
     return this.filterUnit({ operator, curVal, target })
   },
-    // 双列范围逻辑的【非or、and】，即表单3.1
+  // 双列范围逻辑的【非or、and】，即表单3.1
   filterByDoubleColsRange ({ row, colKeys, filterCol, operator, target, needConformColIndex }) {
     let passCounter = 0
 
-        // 判断每列中是否有一列符合单一逻辑，即3.1
+    // 判断每列中是否有一列符合单一逻辑，即3.1
     for (let i = 0, len = filterCol.length; i < len; i++) {
       const selectKey = filterCol[i]
       const curKey = colKeys[selectKey]
@@ -40,9 +40,9 @@ const filterUtils = {
     }
     return false
   },
-    // 第二个表单：多列运算逻辑
+  // 第二个表单：多列运算逻辑
   filterByMultiColCalc ({ row, colKeys, filterCol, operator, target, colOperator }) {
-        // 此处 filterCol 是数组
+    // 此处 filterCol 是数组
     const rowCalcResult = this.calcMultiCol({
       row,
       colOperator,
@@ -56,7 +56,7 @@ const filterUtils = {
       target
     })
   },
-    // 计算每行是否符合要求
+  // 计算每行是否符合要求
   calcMultiCol ({ row, colOperator, colKeys, filterCol }) {
     let calcResult
 

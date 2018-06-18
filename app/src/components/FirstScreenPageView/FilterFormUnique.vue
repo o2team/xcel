@@ -1,30 +1,29 @@
 <template>
-    <form class="unique_form" @submit.prevent="addUniqueHandler" @keyup.stop>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>多列去重逻辑</td>
-                    <td>
-						<span class="select disabled">
-							<select v-model="logicOperator" disabled>
-								<option value="and">且</option>
-							</select>
-							<p class="val_mask">{{ getLogicOperatorWords(logicOperator)}}</p>
-						</span>
-					</td>
-                    <td>
-                        <p class="col_placeholder" @click="showColSelectDialog">
-                            {{operatorCol.length === 0 ? "请选择列" : formatColGroup}}
-                        </p>
-                    </td>
-
-                    <td>
-                        <button type="submit">添加</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </form>
+  <form class="unique_form" @submit.prevent="addUniqueHandler" @keyup.stop>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>多列去重逻辑</td>
+          <td>
+            <span class="select disabled">
+              <select v-model="logicOperator" disabled>
+                <option value="and">且</option>
+              </select>
+              <p class="val_mask">{{ getLogicOperatorWords(logicOperator)}}</p>
+            </span>
+          </td>
+          <td>
+            <p class="col_placeholder" @click="showColSelectDialog">
+              {{operatorCol.length === 0 ? "请选择列" : formatColGroup}}
+            </p>
+          </td>
+          <td>
+            <button type="submit">添加</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
 </template>
 
 <script>
@@ -104,7 +103,6 @@ export default {
 }
 
 </script>
-
 
 <style lang="scss" soped>
 .unique_form {

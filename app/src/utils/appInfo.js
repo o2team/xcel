@@ -16,9 +16,9 @@ const appVersion = isDev ? packageJSON.version : app.getVersion()
 const name = isDev ? packageJSON.name : app.getName()
 const platform = os.platform()
 const arch = os.arch()
-const updateUrl = isDev ?
-                   `${UPDATE_HOST_DEV}update/${platform}_${arch}/${appVersion}` :
-                   `${UPDATE_HOST}update/${platform}_${arch}/${appVersion}`
+const updateUrl = isDev
+  ? `${UPDATE_HOST_DEV}update/${platform}_${arch}/${appVersion}`
+  : `${UPDATE_HOST}update/${platform}_${arch}/${appVersion}`
 
 export const appInfo = {
   platform,

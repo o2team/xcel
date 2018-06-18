@@ -7,11 +7,11 @@ const state = {
 }
 
 const getters = {
-    // 暂为空
+  // 暂为空
 }
 
 const actions = {
-    // 对于内部 action，context.state 是局部状态，根节点的状态是context.rootState
+  // 对于内部 action，context.state 是局部状态，根节点的状态是context.rootState
   toggleWindowMax ({ state, commit, rootState }) {
     commit(types.TOGGLE_WINDOW_MAX)
   },

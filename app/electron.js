@@ -42,15 +42,15 @@ function createMainWindow () {
     const installExtension = require('electron-devtools-installer')
 
     installExtension.default(installExtension.VUEJS_DEVTOOLS)
-            .then(name => win.webContents.openDevTools())
-            .catch(err => console.log('An error occurred: ', err))
+      .then(name => win.webContents.openDevTools())
+      .catch(err => console.log('An error occurred: ', err))
   }
 
   win.on('closed', () => {
     console.log('触发 closed')
     mainWindow = null
     backgroundWindow = null
-        // 在Mac中完全退出程序，而不会留在dock中
+    // 在Mac中完全退出程序，而不会留在dock中
     app.quit()
   })
 

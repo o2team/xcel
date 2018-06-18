@@ -7,7 +7,8 @@
       {{ getCharCol(filterTag.groupId) }}
     </span>
     <ul>
-      <li v-for="(filter, index) in filterTag.filters">
+      <li v-for="(filter, index) in filterTag.filters"
+        :key="index">
         <span class="logic_char" v-if="index !== 0">
           {{ getLogicOperator(filter.logicOperator) }}
         </span>

@@ -95,7 +95,7 @@ export function getFilterWordsPrimitive ({
     filterType
   }) {
   let primitiveFilterWords = ''
-    // 判断是选择哪个操作符
+  // 判断是选择哪个操作符
   switch (operator) {
     case 'startsWith':
     case 'ends': primitiveFilterWords = `的${operatorWords}为“${val}”`; break
