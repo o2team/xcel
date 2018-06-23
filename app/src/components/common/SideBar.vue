@@ -2,7 +2,8 @@
 	<transition name="slide-fade">
 		<div id="sidebar" v-show="getSideBarStatus">
 			<div class="sidebar_header">
-				<img src="../assets/xcel_logo.png"
+				<img
+          src="../assets/svg/xcel_logo.svg"
 					class="logo"
 					title="XCEL官网"
 					@click="openExternal('xcel')">

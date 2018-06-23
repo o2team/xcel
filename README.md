@@ -236,7 +236,7 @@ ERROR in dlopen(/Users/**/Desktop/XCel/node_modules/node-sass/vendor/darwin-x64-
   [5]: http://jdc.jd.com/lab/xcel/download/1.4.0/xcel-1.4.0-linux-x64.zip
   [6]: https://misc.aotu.io/JChehe/xcel/initial_interface.png
   [7]: https://misc.aotu.io/JChehe/xcel/filter_panel.png
-  [8]: https://misc.aotu.io/JChehe/xcel/sidebar.png
+  [8]: https://img20.360buyimg.com/ling/jfs/t22597/14/386141808/20464/fd4ff229/5b2e352dN367d79d8.png
   [9]: https://misc.aotu.io/JChehe/xcel/instructions_for_use.png
   [10]: https://misc.aotu.io/JChehe/xcel/app_update.png
   [11]: https://github.com/SimulatedGREG/electron-vue
